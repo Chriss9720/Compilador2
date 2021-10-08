@@ -233,8 +233,8 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_true"));
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_false"));
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_exponencial")); //21312e+45
-        producciones.add(new Producciones("ARREGLO", "ISARR [ +LVL EXP_PASCAL ] G1 FSARR"));
-        producciones.add(new Producciones("G1", "[ +LVL EXP_PASCAL ] G1"));
+        producciones.add(new Producciones("ARREGLO", "ISARR [ +LVL EXP_PASCAL -LVL ] G1 FSARR"));
+        producciones.add(new Producciones("G1", "[ +LVL EXP_PASCAL -LVL ] G1"));
         producciones.add(new Producciones("SIMPLE_EXP_PASCAL", "H1 TERMINO_PASCAL H2"));
         producciones.add(new Producciones("H1", "+"));
         producciones.add(new Producciones("H1", "-"));
@@ -501,6 +501,7 @@ public class Compilador implements ActionListener {
                     boolean paraBool = false;
                     boolean paraBoolAux = false;
                     boolean LVLPlus = false;
+                    boolean ArryAdd = false;
                     int clave = 1010;
                     setSemanticaE_1();
                     setSemanticaE_2();
@@ -813,13 +814,15 @@ public class Compilador implements ActionListener {
                                 break;
                             case "ISARR":
                                 pila.removeLast();
+                                if (!ISARR)
+                                    ArryAdd = true;
                                 ISARR = true;
                                 break;
                             case "FSARR":
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
-                                    sE_2.Mostrar();
+                                    sE_2.resolver();
                                 }
                                 pila.removeLast();
                                 break;
@@ -868,11 +871,11 @@ public class Compilador implements ActionListener {
                                 break;
                             case "+LVL":
                                 pila.removeLast();
-                                sE_2.addLvl();
                                 LVLPlus = true;
                                 break;
                             case "-LVL":
                                 pila.removeLast();
+                                sE_2.resolver();
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -1159,9 +1162,13 @@ public class Compilador implements ActionListener {
                                 } else {
                                     if (LVLPlus) {
                                         LVLPlus = false;
-                                        sE_2.addLvl(varAux);
+                                        if (ArryAdd) {
+                                            ArryAdd = false;
+                                            sE_2.empezar(sE_1.getIds().getLast());
+                                        }
+                                        sE_2.addNodo(varAux);
                                     } else {
-                                        sE_2.addVar(varAux);
+                                        sE_2.addItem(varAux);
                                     }
                                 }
                                 if (paraBoolAux) {
