@@ -1,6 +1,7 @@
 package Controller;
 
 import Controller.Semantica.Etapa_1;
+import Controller.Semantica.Etapa_2;
 import Model.*;
 import Vista.Pantalla;
 import java.awt.event.ActionEvent;
@@ -232,8 +233,8 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_true"));
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_false"));
         producciones.add(new Producciones("CONSTANTE_S/SIGNO", "Cont_exponencial")); //21312e+45
-        producciones.add(new Producciones("ARREGLO", "ISARR [ EXP_PASCAL ] G1 FSARR"));
-        producciones.add(new Producciones("G1", "[ EXP_PASCAL ] G1"));
+        producciones.add(new Producciones("ARREGLO", "ISARR [ +LVL EXP_PASCAL ] G1 FSARR"));
+        producciones.add(new Producciones("G1", "[ +LVL EXP_PASCAL ] G1"));
         producciones.add(new Producciones("SIMPLE_EXP_PASCAL", "H1 TERMINO_PASCAL H2"));
         producciones.add(new Producciones("H1", "+"));
         producciones.add(new Producciones("H1", "-"));
@@ -499,10 +500,12 @@ public class Compilador implements ActionListener {
                     boolean ISARR = false;
                     boolean paraBool = false;
                     boolean paraBoolAux = false;
+                    boolean LVLPlus = false;
                     int clave = 1010;
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
+                    Etapa_2 sE_2 = new Etapa_2();
                     sE_1.Reiniciar();
                     Variable auxSe2;
                     ObjTemp temp = new ObjTemp();
@@ -816,6 +819,7 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
+                                    sE_2.Mostrar();
                                 }
                                 pila.removeLast();
                                 break;
@@ -861,6 +865,14 @@ public class Compilador implements ActionListener {
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "ERROR", auxSe2.getAmb()));
                                 }
+                                break;
+                            case "+LVL":
+                                pila.removeLast();
+                                sE_2.addLvl();
+                                LVLPlus = true;
+                                break;
+                            case "-LVL":
+                                pila.removeLast();
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -1145,7 +1157,12 @@ public class Compilador implements ActionListener {
                                 if (!ISARR) {
                                     sE_1.getIds().add(varAux);
                                 } else {
-                                    
+                                    if (LVLPlus) {
+                                        LVLPlus = false;
+                                        sE_2.addLvl(varAux);
+                                    } else {
+                                        sE_2.addVar(varAux);
+                                    }
                                 }
                                 if (paraBoolAux) {
                                     paraBoolAux = false;
