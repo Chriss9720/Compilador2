@@ -19,6 +19,24 @@ public class Arreglo {
         this.next = null;
         this.resuelto = false;
     }
+    
+    public void addVar(Variable var) {
+        this.getVars().add(var);
+        this.getLast().setVariable();
+    }
+    
+    public void addOper(Variable oper) {
+        this.getVars().add(oper);
+        this.getLast().setOperador();
+    }
+    
+    public Variable getLast() {
+        return this.getVars().getLast();
+    }
+    
+    public int getTarr() {
+        return this.getLast().gettArr();
+    }
 
     public boolean next() {
         return next != null;

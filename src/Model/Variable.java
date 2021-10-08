@@ -14,7 +14,6 @@ public class Variable extends Ids {
     private int TE;
     private int clave;
     private String tope;
-    private int dim;
     private boolean variable;
     private boolean operador;
 
@@ -31,7 +30,6 @@ public class Variable extends Ids {
         this.TE = 800;
         this.clave = 0;
         this.tope = "";
-        this.dim = 0;
         this.operador = false;
         this.variable = false;
     }
@@ -52,12 +50,8 @@ public class Variable extends Ids {
         this.operador = true;
     }
 
-    public int getDim() {
-        return dim;
-    }
-
-    public void setDim() {
-        this.dim += 1;
+    public void remDim() {
+        this.tArr -= 1;
     }
 
     public String getTope() {
