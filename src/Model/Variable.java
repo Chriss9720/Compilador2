@@ -15,6 +15,8 @@ public class Variable extends Ids {
     private int clave;
     private String tope;
     private int dim;
+    private boolean variable;
+    private boolean operador;
 
     public Variable() {
         this.id = new LinkedList();
@@ -30,6 +32,24 @@ public class Variable extends Ids {
         this.clave = 0;
         this.tope = "";
         this.dim = 0;
+        this.operador = false;
+        this.variable = false;
+    }
+
+    public boolean isVariable() {
+        return variable;
+    }
+
+    public void setVariable() {
+        this.variable = true;
+    }
+
+    public boolean isOperador() {
+        return operador;
+    }
+
+    public void setOperador() {
+        this.operador = true;
     }
 
     public int getDim() {

@@ -500,8 +500,7 @@ public class Compilador implements ActionListener {
                     boolean ISARR = false;
                     boolean paraBool = false;
                     boolean paraBoolAux = false;
-                    boolean LVLPlus = false;
-                    boolean ArryAdd = false;
+                    boolean ArryAdd = true;
                     int clave = 1010;
                     setSemanticaE_1();
                     setSemanticaE_2();
@@ -688,8 +687,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_real");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "Cont_exponencial":
@@ -702,8 +702,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_exponencial");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "Cont_cadena":
@@ -718,8 +719,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_cadena");
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_cadena");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "Cont_caracter":
@@ -732,8 +734,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_caracter");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "Cont_entero":
@@ -746,8 +749,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_entero");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "Cont_true":
@@ -770,8 +774,9 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
                                     }
-                                } else {
+                                } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("topeAux");
+                                    sE_2.addItem(varAuxSe2);
                                 }
                                 break;
                             case "INIAS":
@@ -814,8 +819,10 @@ public class Compilador implements ActionListener {
                                 break;
                             case "ISARR":
                                 pila.removeLast();
-                                if (!ISARR)
-                                    ArryAdd = true;
+                                if (!ISARR) {
+                                    ArryAdd = false;
+                                    sE_2.empezar(sE_1.getIds().getLast());
+                                }
                                 ISARR = true;
                                 break;
                             case "FSARR":
@@ -871,7 +878,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "+LVL":
                                 pila.removeLast();
-                                LVLPlus = true;
+                                sE_2.addNodo();
                                 break;
                             case "-LVL":
                                 pila.removeLast();
@@ -913,7 +920,10 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("+");
-                                    } else if (ISARR) {
+                                    } else if (ISARR && !ArryAdd) {
+                                        sE_2.addItem("=");
+                                        sE_2.addItem(sE_1.getIds().getLast());
+                                        sE_2.addItem("+");
                                     }
                                     break;
                                 case "/=":
@@ -922,7 +932,10 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("/");
-                                    } else if (ISARR) {
+                                    } else if (ISARR && !ArryAdd) {
+                                        sE_2.addItem("=");
+                                        sE_2.addItem(sE_1.getIds().getLast());
+                                        sE_2.addItem("/");
                                     }
                                     break;
                                 case "*=":
@@ -931,7 +944,10 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("*");
-                                    } else if (ISARR) {
+                                    } else if (ISARR && !ArryAdd) {
+                                        sE_2.addItem("=");
+                                        sE_2.addItem(sE_1.getIds().getLast());
+                                        sE_2.addItem("*");
                                     }
                                     break;
                                 case "-=":
@@ -940,7 +956,10 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("-");
-                                    } else if (ISARR) {
+                                    } else if (ISARR && !ArryAdd) {
+                                        sE_2.addItem("=");
+                                        sE_2.addItem(sE_1.getIds().getLast());
+                                        sE_2.addItem("-");
                                     }
                                     break;
                                 case "=":
@@ -948,6 +967,7 @@ public class Compilador implements ActionListener {
                                         clave = 1020;
                                         sE_1.getOperadores().add(pila.getLast());
                                     } else if (ISARR) {
+                                        sE_2.addItem(pila.getLast());
                                     }
                                     break;
                                 case "+":
@@ -968,7 +988,8 @@ public class Compilador implements ActionListener {
                                 case "&&":
                                     if ((INIAS || paraBool) && !ISARR) {
                                         sE_1.getOperadores().add(pila.getLast());
-                                    } else if (ISARR) {
+                                    } else if (ISARR && !ArryAdd) {
+                                        sE_2.addItem(pila.getLast());
                                     }
                                     break;
                             }
@@ -1160,16 +1181,7 @@ public class Compilador implements ActionListener {
                                 if (!ISARR) {
                                     sE_1.getIds().add(varAux);
                                 } else {
-                                    if (LVLPlus) {
-                                        LVLPlus = false;
-                                        if (ArryAdd) {
-                                            ArryAdd = false;
-                                            sE_2.empezar(sE_1.getIds().getLast());
-                                        }
-                                        sE_2.addNodo(varAux);
-                                    } else {
-                                        sE_2.addItem(varAux);
-                                    }
+                                    sE_2.addItem(varAux);
                                 }
                                 if (paraBoolAux) {
                                     paraBoolAux = false;
