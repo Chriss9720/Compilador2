@@ -505,7 +505,7 @@ public class Compilador implements ActionListener {
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
-                    Etapa_2 sE_2 = new Etapa_2();
+                    Etapa_2 sE_2 = new Etapa_2(pantalla);
                     sE_1.Reiniciar();
                     Variable auxSe2;
                     ObjTemp temp = new ObjTemp();

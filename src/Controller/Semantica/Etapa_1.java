@@ -367,7 +367,7 @@ public class Etapa_1 {
                 v.setTE(807);
                 break;
         }
-        if (clave != 1010 && clave != 1011 && clave != 1012) {
+        if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
             this.getSemanticaE_1().calcularTipo(v.getTipo());
         }
     }
