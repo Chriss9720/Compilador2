@@ -65,8 +65,10 @@ public class Etapa_2 {
                     try {
                         Integer.parseInt(s1.getIds().getFirst().getId().getFirst());
                         tercera = true;
+                    } catch (NumberFormatException e) {
+                        tercera = false; 
                     } catch (Exception e) {
-                        tercera = false;
+                        tercera = false; 
                     }
                 }
                 s1.Resolver();
