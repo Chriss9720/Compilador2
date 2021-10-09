@@ -167,10 +167,11 @@ public class GenerarExcel {
             cell = row.createCell(i);
             cell.setCellValue(head[i]);
         }
-        for (int i = 0, j = 1; i < sE_2.size(); i++) {
+        System.out.println(sE_2.size());
+        for (int i = 0, j = 1; i < sE_2.size(); i++, j++) {
             row = hoja6.createRow(j);
             cell = row.createCell(0);
-            cell.setCellValue(sE_2.get(i).getLinea());
+            cell.setCellValue(sE_2.get(i).getRegla());
             cell = row.createCell(1);
             cell.setCellValue(sE_2.get(i).getTopePila());
             cell = row.createCell(2);

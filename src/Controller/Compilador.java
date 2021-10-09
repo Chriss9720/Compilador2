@@ -851,11 +851,21 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 paraBool = true;
                                 sE_1.Reiniciar();
-                                setSemanticaE_2();
                                 break;
                             case "1010F":
                             case "1011F":
                             case "1012F":
+                                switch (pila.getLast()) {
+                                    case "1010F":
+                                        clave = 1010;
+                                        break;
+                                    case "1011F":
+                                        clave = 1011;
+                                        break;
+                                    case "1012F":
+                                        clave = 1012;
+                                        break;
+                                }
                                 pila.removeLast();
                                 sE_1.mostrarEcuacion();
                                 sE_1.Resolver().forEach(e -> {
@@ -864,10 +874,12 @@ public class Compilador implements ActionListener {
                                 });
                                 auxSe2 = sE_1.getIds().getFirst();
                                 if (auxSe2.getTipo().equals("BOOL")) {
+                                    System.out.println(clave + " ok");
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
                                 } else {
+                                    System.out.println(clave + " No");
                                     err.add(new Errores(auxSe2.getLinea(), clave,
                                             auxSe2.getTope(), "Debe de ser un BOOL lo que este entre ()",
                                             "Semantica Etapa 2", auxSe2.getAmb()));
