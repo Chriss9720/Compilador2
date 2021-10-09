@@ -3,6 +3,7 @@ package Controller;
 import Model.Ambito;
 import Model.Gestor;
 import Model.Semantica_E_1;
+import Model.Semantica_E_2;
 import Vista.Pantalla;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +27,7 @@ public class GenerarExcel {
     private final LinkedList<Ambito> ambitos;
     private final Gestor gestor = new Gestor();
     private final LinkedList<Semantica_E_1> sE_1;
+    private final LinkedList<Semantica_E_2> sE_2;
 
     public GenerarExcel(Pantalla p) {
         this.contadores = p.getContadores();
@@ -33,6 +35,7 @@ public class GenerarExcel {
         this.tokens = p.getTokens();
         this.ambitos = p.getAmb();
         this.sE_1 = p.getsE_1();
+        this.sE_2 = p.getsE_2();
     }
 
     public void ejecutar() {
@@ -156,6 +159,30 @@ public class GenerarExcel {
             cell = row.createCell(12);
             cell.setCellValue(sE_1.get(i).getErr());
         }
+        
+        XSSFSheet hoja6 = libro.createSheet("Semtica_Etapa_2");
+        head = new String[]{"Regla", "Tope Pila", "Valor Real", "Linea", "Edo", "Ambito"};
+        row = hoja6.createRow(0);
+        for (int i = 0; i < head.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(head[i]);
+        }
+        System.out.println(sE_2.size());
+        for (int i = 0, j = 1; i < sE_2.size(); i++, j++) {
+            row = hoja6.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(sE_2.get(i).getRegla());
+            cell = row.createCell(1);
+            cell.setCellValue(sE_2.get(i).getTopePila());
+            cell = row.createCell(2);
+            cell.setCellValue(sE_2.get(i).getValorReal());
+            cell = row.createCell(3);
+            cell.setCellValue(sE_2.get(i).getLinea());
+            cell = row.createCell(4);
+            cell.setCellValue(sE_2.get(i).getEstado());
+            cell = row.createCell(5);
+            cell.setCellValue(sE_2.get(i).getAmb());
+        }
 
         File file = new File(nombreArchivo);
         try (FileOutputStream fileOuS = new FileOutputStream(file)) {
@@ -170,7 +197,7 @@ public class GenerarExcel {
             JOptionPane.showMessageDialog(null, "Error al crear el excel:\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     private String evaluar(String ext, int c, XSSFCell cell, String l) {
         cell.setCellValue(c);
         if (c > 0) {

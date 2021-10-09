@@ -8,13 +8,15 @@ import java.util.LinkedList;
  * @author Gonza
  */
 public class Variable extends Ids {
-    
+
     private final LinkedList<String> id;
     private String op;
     private int TE;
     private int clave;
     private String tope;
-    
+    private boolean variable;
+    private boolean operador;
+
     public Variable() {
         this.id = new LinkedList();
         this.tipo = "";
@@ -27,7 +29,29 @@ public class Variable extends Ids {
         this.op = "";
         this.TE = 800;
         this.clave = 0;
-        tope = "";
+        this.tope = "";
+        this.operador = false;
+        this.variable = false;
+    }
+
+    public boolean isVariable() {
+        return variable;
+    }
+
+    public void setVariable() {
+        this.variable = true;
+    }
+
+    public boolean isOperador() {
+        return operador;
+    }
+
+    public void setOperador() {
+        this.operador = true;
+    }
+
+    public void remDim() {
+        this.tArr -= 1;
     }
 
     public String getTope() {
@@ -61,18 +85,18 @@ public class Variable extends Ids {
     public void setTE(int TE) {
         this.TE = TE;
     }
-    
+
     public Variable(LinkedList<String> id) {
         this.id = id;
     }
-    
+
     public Variable(Variable v) {
         super(v.getClase(), v.getTipo(), v.getDimArr(), v.getAmb(),
                 v.getLinea(), v.gettArr(), v.getNoPar(), v.gettPar(),
                 v.isError(), v.isVariant());
         this.id = v.getId();
     }
-    
+
     public Variable Cargar(ResultSet rs) {
         try {
             this.id.add(rs.getString("id"));
@@ -89,18 +113,18 @@ public class Variable extends Ids {
         } catch (Exception e) {
             System.out.println("Error al cargar: " + e);
         }
-        
+
         return this;
     }
-    
+
     public LinkedList<String> getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id.add(id);
     }
-    
+
     @Override
     public String toString() {
         String ids = "";
@@ -111,9 +135,9 @@ public class Variable extends Ids {
                 + "\nNoPar: " + this.getNoPar() + "\nTParr: " + this.gettPar()
                 + "\n-----------------------------------------------------";
     }
-    
+
     public String Semantica() {
         return "ID: " + id.getFirst() + "\tTipo: " + tipo + "\tVariante: " + variant;
     }
-    
+
 }
