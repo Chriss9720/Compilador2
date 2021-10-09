@@ -833,7 +833,6 @@ public class Compilador implements ActionListener {
                                     INIAS = false;
                                     boolean acept = true;
                                     for (Errores i : sE_1.Resolver()) {
-                                        System.out.println(i.getNumero());
                                         if (i.getNumero() == 807 && acept) {
                                             acept = false;
                                         }

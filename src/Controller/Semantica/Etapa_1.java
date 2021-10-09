@@ -133,7 +133,6 @@ public class Etapa_1 {
     public LinkedList<Errores> Resolver() {
         LinkedList<Errores> err = new LinkedList();
         ResolverEcuacion(err);
-        operadores.forEach(o -> System.out.print(o + "\t"));
         return err;
     }
 
@@ -388,7 +387,6 @@ public class Etapa_1 {
     }
 
     public Semantica_E_1 getSemanticaE_1() {
-        System.out.println(this.pantalla.getsE_1().size());
         return pantalla.getsE_1().getLast();
     }
 

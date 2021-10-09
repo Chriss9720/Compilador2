@@ -2,6 +2,7 @@ package Controller.Semantica;
 
 import Model.Arreglo;
 import Model.Errores;
+import Model.Semantica_E_1;
 import Model.Semantica_E_2;
 import Model.Variable;
 import Vista.Pantalla;
@@ -63,13 +64,14 @@ public class Etapa_2 {
             boolean tercera = true;
             Variable var = ultimo.getLast();
             if (ultimo.getTarr() > -1) {
+                int v = 0;
                 p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
                         var.getLinea(), "Acept", var.getAmb()));
                 if (s1.getIds().size() > 1) {
                     tercera = false;
                 } else if (s1.getIds().size() == 1) {
                     try {
-                        Integer.parseInt(s1.getIds().getFirst().getId().getFirst());
+                        v = Integer.parseInt(s1.getIds().getFirst().getId().getFirst());
                         tercera = true;
                     } catch (NumberFormatException e) {
                         tercera = false;
@@ -77,16 +79,33 @@ public class Etapa_2 {
                         tercera = false;
                     }
                 }
+                p.getsE_1().add(new Semantica_E_1());
+                p.getsE_1().getLast().setLinea(var.getLinea());
+                p.getsE_1().getLast().setAsig(var.getId().getLast());
                 s1.Resolver();
                 if (s1.getIds().getFirst().getTipo().equals("INT")) {
-                    System.out.println("Valor OK");
+                    p.getsE_2().add(new Semantica_E_2(1040, "Const_entero", s1.getIds().getFirst().getId().getLast(),
+                            var.getLinea(), "Acept", var.getAmb()));
                     if (tercera) {
-                        System.out.println("Revisar");
+                        String[] dim = invertirDimensiones(var.getDimArr());
+                        if (v < Integer.parseInt(dim[ultimo.getTarr()])) {
+                            p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
+                                    var.getLinea(), "Acept", var.getAmb()));
+                        } else {
+                            err.add(new Errores(var.getLinea(), 1050, String.valueOf(v), "Fuera del rango",
+                                    "Semantica 2", var.getAmb()));
+                            p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
+                                    var.getLinea(), "ERROR", var.getAmb()));
+                        }
                     } else {
-                        System.out.println("Ranfo og");
+                        p.getsE_2().add(new Semantica_E_2(1050, var.getTope(), String.valueOf(v),
+                                var.getLinea(), "Acept", var.getAmb()));
                     }
                 } else {
-                    System.out.println("Tipo nel");
+                    err.add(new Errores(var.getLinea(), 1040, "[ ... ]", "Debe de ser un valor INT",
+                            "Semantica 2", var.getAmb()));
+                    p.getsE_2().add(new Semantica_E_2(1040, var.getTope(), var.getId().getFirst(),
+                            var.getLinea(), "ERROR", var.getAmb()));
                 }
             } else {
                 err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango",
@@ -96,6 +115,15 @@ public class Etapa_2 {
             }
         }
         return err;
+    }
+
+    private String[] invertirDimensiones(String dim) {
+        String[] arr = dim.split(",");
+        String[] r = new String[arr.length];
+        for (int i = arr.length - 1, j = 0; i > -1; i--, j++) {
+            r[j] = arr[i];
+        }
+        return r;
     }
 
     public Arreglo getRaiz() {
