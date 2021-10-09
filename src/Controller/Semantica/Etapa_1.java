@@ -375,9 +375,7 @@ public class Etapa_1 {
                 v.setTE(807);
                 break;
         }
-        if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
-            this.getSemanticaE_1().calcularTipo(v.getTipo());
-        }
+        this.getSemanticaE_1().calcularTipo(v.getTipo());
     }
 
     private int sacarFilaColumaMD(String in) {
@@ -398,6 +396,7 @@ public class Etapa_1 {
     }
 
     public Semantica_E_1 getSemanticaE_1() {
+        System.out.println(this.pantalla.getsE_1().size());
         return pantalla.getsE_1().getLast();
     }
 
