@@ -1,8 +1,11 @@
 package Controller.Semantica;
 
 import Model.Arreglo;
+import Model.Errores;
+import Model.Semantica_E_2;
 import Model.Variable;
 import Vista.Pantalla;
+import java.util.LinkedList;
 
 /**
  *
@@ -41,7 +44,8 @@ public class Etapa_2 {
     }
 
     @SuppressWarnings("empty-statement")
-    public void resolver() {
+    public LinkedList<Errores> resolver() {
+        LinkedList<Errores> err = new LinkedList();
         Etapa_1 s1 = new Etapa_1(p);
         ultimo.getVars().forEach(i -> {
             i.getId().forEach(j -> {
@@ -57,8 +61,10 @@ public class Etapa_2 {
             ultimo.getLast().remDim();
             ultimo.setNext(null);
             boolean tercera = true;
+            Variable var = ultimo.getLast();
             if (ultimo.getTarr() > -1) {
-                System.out.println("Dimension aceptada");
+                p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
+                        var.getLinea(), "Acept", var.getAmb()));
                 if (s1.getIds().size() > 1) {
                     tercera = false;
                 } else if (s1.getIds().size() == 1) {
@@ -66,9 +72,9 @@ public class Etapa_2 {
                         Integer.parseInt(s1.getIds().getFirst().getId().getFirst());
                         tercera = true;
                     } catch (NumberFormatException e) {
-                        tercera = false; 
+                        tercera = false;
                     } catch (Exception e) {
-                        tercera = false; 
+                        tercera = false;
                     }
                 }
                 s1.Resolver();
@@ -83,10 +89,13 @@ public class Etapa_2 {
                     System.out.println("Tipo nel");
                 }
             } else {
-                System.out.println("Dimension dengeada");
+                err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango",
+                        "Semantica 2", var.getAmb()));
+                p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
+                        var.getLinea(), "ERROR", var.getAmb()));
             }
         }
-        System.out.println("*********");
+        return err;
     }
 
     public Arreglo getRaiz() {

@@ -929,7 +929,10 @@ public class Compilador implements ActionListener {
                                 break;
                             case "-LVL":
                                 pila.removeLast();
-                                sE_2.resolver();
+                                sE_2.resolver().forEach(e -> {
+                                    err.add(new Errores(e));
+                                    contar(509);
+                                });
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());

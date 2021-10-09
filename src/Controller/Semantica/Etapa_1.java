@@ -227,9 +227,7 @@ public class Etapa_1 {
                 if (error) {
                     v.setVariant(true);
                     err.add(new Errores(l, 807, lex, msj, "Semantica:Etapa 1", amb));
-                    if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
                     this.getSemanticaE_1().setErr();
-                    }
                 } else {
                     v.setVariant(false);
                     v.setTipo(t1);
@@ -278,9 +276,7 @@ public class Etapa_1 {
                 v = tipo(tipo, v, c);
             } else {
                 v.setVariant(true);
-                if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
                 this.getSemanticaE_1().settV();
-                }
             }
         } else {
             v = tipo(t1, t2, v, c);
@@ -290,13 +286,9 @@ public class Etapa_1 {
             int amb = ids.get(p).getAmb();
             String msj = "No se puede desarrollar una " + v.getOp() + " de " + tipo;
             err.add(new Errores(l, v.getTE(), id1 + c + id2, msj, "Semantica:Etapa 1", amb));
-            if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
-                this.getSemanticaE_1().setErr();
-            }
+            this.getSemanticaE_1().setErr();
             v.setVariant(true);
-            if (clave != 1010 && clave != 1011 && clave != 1012 && clave != 0) {
-                this.getSemanticaE_1().settV();
-            }
+            this.getSemanticaE_1().settV();
         }
         ids.remove(aux);
         ids.remove(p);
