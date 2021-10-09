@@ -910,11 +910,7 @@ public class Compilador implements ActionListener {
                                     contar(509);
                                 });
                                 auxSe2 = sE_1.getIds().getFirst();
-<<<<<<< HEAD
-                                if (auxSe2.getTipo().equals("BOOL") || auxSe2.isVariant()) {
-=======
                                 if (auxSe2.getTipo().equals("BOOL")) {
->>>>>>> Regla2
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
