@@ -797,6 +797,7 @@ public class Compilador implements ActionListener {
                                     INIAS = false;
                                     boolean acept = true;
                                     for (Errores i : sE_1.Resolver()) {
+                                        System.out.println(i.getNumero());
                                         if (i.getNumero() == 807 && acept) {
                                             acept = false;
                                         }
@@ -873,13 +874,11 @@ public class Compilador implements ActionListener {
                                     contar(509);
                                 });
                                 auxSe2 = sE_1.getIds().getFirst();
-                                if (auxSe2.getTipo().equals("BOOL")) {
-                                    System.out.println(clave + " ok");
+                                if (auxSe2.getTipo().equals("BOOL") || auxSe2.isVariant()) {
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
                                 } else {
-                                    System.out.println(clave + " No");
                                     err.add(new Errores(auxSe2.getLinea(), clave,
                                             auxSe2.getTope(), "Debe de ser un BOOL lo que este entre ()",
                                             "Semantica Etapa 2", auxSe2.getAmb()));
