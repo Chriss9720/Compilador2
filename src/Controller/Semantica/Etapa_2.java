@@ -79,11 +79,8 @@ public class Etapa_2 {
                         tercera = false;
                     }
                 }
-                p.getsE_1().add(new Semantica_E_1());
-                p.getsE_1().getLast().setLinea(var.getLinea());
-                p.getsE_1().getLast().setAsig(var.getId().getLast());
                 s1.Resolver(false).forEach(e -> err.add(new Errores(e)));
-                if (s1.getIds().getFirst().getTipo().equals("INT")) {
+                if (s1.getIds().getFirst().getTipo().equals("INT") || s1.getIds().getFirst().isVariant()) {
                     p.getsE_2().add(new Semantica_E_2(1040, "Const_entero", s1.getIds().getFirst().getId().getLast(),
                             var.getLinea(), "Acept", var.getAmb()));
                     if (tercera) {
