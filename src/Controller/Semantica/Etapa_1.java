@@ -130,34 +130,34 @@ public class Etapa_1 {
         System.out.println(e + " ->  SE_1");
     }
 
-    public LinkedList<Errores> Resolver() {
+    public LinkedList<Errores> Resolver(boolean s1) {
         LinkedList<Errores> err = new LinkedList();
-        ResolverEcuacion(err);
+        ResolverEcuacion(err, s1);
         return err;
     }
 
-    private void ResolverEcuacion(LinkedList<Errores> err) {
+    private void ResolverEcuacion(LinkedList<Errores> err, boolean s1) {
         String[] oprs = new String[]{"/", "*", "#", "&", "%", "&&"};
         int p = BuscarOp(oprs);
         while (p != -1) {
-            ejecutar(p, err, operadores.get(p));
+            ejecutar(p, err, operadores.get(p), s1);
             p = BuscarOp(oprs);
         }
         oprs = new String[]{"+", "-", "|", "||"};
         p = BuscarOp(oprs);
         while (p != -1) {
-            ejecutar(p, err, operadores.get(p));
+            ejecutar(p, err, operadores.get(p), s1);
             p = BuscarOp(oprs);
         }
         oprs = new String[]{"<", ">=", "=>", "<=", "=<", "!=", "==", ">"};
         p = BuscarOp(oprs);
         while (p != -1) {
-            ejecutar(p, err, operadores.get(p));
+            ejecutar(p, err, operadores.get(p), s1);
             p = BuscarOp(oprs);
         }
         p = BuscarIguales();
         while (p != -1) {
-            igualar(err, p);
+            igualar(err, p, s1);
             p = BuscarIguales();
         }
     }
@@ -192,7 +192,7 @@ public class Etapa_1 {
         return -1;
     }
 
-    private void igualar(LinkedList<Errores> err, int p) {
+    private void igualar(LinkedList<Errores> err, int p, boolean s1) {
         operadores.remove(p);
         Variable v = new Variable();
         int aux = p + 1;
@@ -226,7 +226,9 @@ public class Etapa_1 {
                 if (error) {
                     v.setVariant(true);
                     err.add(new Errores(l, 807, lex, msj, "Semantica:Etapa 1", amb));
-                    this.getSemanticaE_1().setErr();
+                    if (s1) {
+                        this.getSemanticaE_1().setErr();
+                    }
                 } else {
                     v.setVariant(false);
                     v.setTipo(t1);
@@ -253,7 +255,7 @@ public class Etapa_1 {
         ids.add(v);
     }
 
-    private void ejecutar(int p, LinkedList<Errores> err, String c) {
+    private void ejecutar(int p, LinkedList<Errores> err, String c, boolean s1) {
         Variable v = new Variable();
         int aux = p + 1;
         boolean v1 = ids.get(p).isVariant();
@@ -269,25 +271,31 @@ public class Etapa_1 {
         if (v1 || v2) {
             if (!v1 && v2) {
                 tipo = t1;
-                v = tipo(tipo, v, c);
+                v = tipo(tipo, v, c, s1);
             } else if (v1 && !v2) {
                 tipo = t2;
-                v = tipo(tipo, v, c);
+                v = tipo(tipo, v, c, s1);
             } else {
                 v.setVariant(true);
-                this.getSemanticaE_1().settV();
+                if (s1) {
+                    this.getSemanticaE_1().settV();
+                }
             }
         } else {
-            v = tipo(t1, t2, v, c);
+            v = tipo(t1, t2, v, c, s1);
         }
         if (v.getTipo().equals("ERROR")) {
             int l = ids.get(p).getLinea();
             int amb = ids.get(p).getAmb();
             String msj = "No se puede desarrollar una " + v.getOp() + " de " + tipo;
             err.add(new Errores(l, v.getTE(), id1 + c + id2, msj, "Semantica:Etapa 1", amb));
-            this.getSemanticaE_1().setErr();
+            if (s1) {
+                this.getSemanticaE_1().setErr();
+            }
             v.setVariant(true);
-            this.getSemanticaE_1().settV();
+            if (s1) {
+                this.getSemanticaE_1().settV();
+            }
         }
         ids.remove(aux);
         ids.remove(p);
@@ -298,21 +306,21 @@ public class Etapa_1 {
         operadores.remove(p);
     }
 
-    private Variable tipo(String t1, String t2, Variable v, String c) {
+    private Variable tipo(String t1, String t2, Variable v, String c, boolean s1) {
         int fila = sacarFilaColumaMD(t1);
         int col = sacarFilaColumaMD(t2);
-        ponerTipo(v, c, fila, col);
+        ponerTipo(v, c, fila, col, s1);
         return v;
     }
 
-    private Variable tipo(String t1, Variable v, String c) {
+    private Variable tipo(String t1, Variable v, String c, boolean s1) {
         int fila = sacarFilaColumaMD(t1);
         int col = sacarFilaColumaMD(t1);
-        ponerTipo(v, c, fila, col);
+        ponerTipo(v, c, fila, col, s1);
         return v;
     }
 
-    private void ponerTipo(Variable v, String c, int fila, int col) {
+    private void ponerTipo(Variable v, String c, int fila, int col, boolean s1) {
         switch (c) {
             case "/":
                 v.setTipo(matrizDiv[fila][col]);
@@ -366,7 +374,9 @@ public class Etapa_1 {
                 v.setTE(807);
                 break;
         }
-        this.getSemanticaE_1().calcularTipo(v.getTipo());
+        if (s1) {
+            this.getSemanticaE_1().calcularTipo(v.getTipo());
+        }
     }
 
     private int sacarFilaColumaMD(String in) {

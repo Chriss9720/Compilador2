@@ -686,12 +686,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_real");
@@ -707,12 +701,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_exponencial");
@@ -730,12 +718,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClase("Arr");
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_cadena");
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_cadena");
@@ -751,12 +733,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_caracter");
@@ -772,12 +748,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_entero");
@@ -803,12 +773,6 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
-                                        if (paraBoolAux) {
-                                            paraBoolAux = false;
-                                            getSemanticaE_1().add(new Semantica_E_1());
-                                            getSemanticaE_1().getLast().setLinea(varAuxSe2.getLinea());
-                                            getSemanticaE_1().getLast().setAsig(varAuxSe2.getId().getLast());
-                                        }
                                     }
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("topeAux");
@@ -832,7 +796,7 @@ public class Compilador implements ActionListener {
                                 if (Buscar(pila, "FINAS") == 0) {
                                     INIAS = false;
                                     boolean acept = true;
-                                    for (Errores i : sE_1.Resolver()) {
+                                    for (Errores i : sE_1.Resolver(true)) {
                                         if (i.getNumero() == 807 && acept) {
                                             acept = false;
                                         }
@@ -904,12 +868,12 @@ public class Compilador implements ActionListener {
                                 }
                                 pila.removeLast();
                                 sE_1.mostrarEcuacion();
-                                sE_1.Resolver().forEach(e -> {
+                                sE_1.Resolver(false).forEach(e -> {
                                     err.add(new Errores(e));
                                     contar(509);
                                 });
                                 auxSe2 = sE_1.getIds().getFirst();
-                                if (auxSe2.getTipo().equals("BOOL")) {
+                                if (auxSe2.getTipo().equals("BOOL") || auxSe2.isVariable()) {
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
@@ -1239,10 +1203,6 @@ public class Compilador implements ActionListener {
                                     sE_1.Reiniciar();
                                     sE_1.getIds().add(auxVar);
                                     sE_1.getIds().getLast().setClave(clave);
-
-                                    getSemanticaE_1().add(new Semantica_E_1());
-                                    getSemanticaE_1().getLast().setLinea(auxVar.getLinea());
-                                    getSemanticaE_1().getLast().setAsig(auxVar.getId().getLast());
 
                                 }
                             }
