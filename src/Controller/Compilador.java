@@ -1263,8 +1263,7 @@ public class Compilador implements ActionListener {
                             System.err.println("MMM");
                         }
                     }
-                    if (!pila.isEmpty()
-                            && EFB && err.isEmpty()) {
+                    if (!pila.isEmpty() && EFB && err.isEmpty()) {
                         int linea = tI(tS(pantalla.getTokens().getValueAt(pantalla.getTokens().getModel().getRowCount() - 1, 2)));
                         String v = tS(pantalla.getTokens().getValueAt(pantalla.getTokens().getModel().getRowCount() - 1, 1));
                         String m1 = "Falta: ";
