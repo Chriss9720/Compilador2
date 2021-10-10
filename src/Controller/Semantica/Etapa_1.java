@@ -14,8 +14,7 @@ public class Etapa_1 {
 
     private LinkedList<Variable> ids = new LinkedList();
     private LinkedList<String> operadores = new LinkedList();
-    private int clave;
-
+    
     private final String[] entradas = new String[]{
         "INT", "REAL", "EXP", "CHAR", "CHAR[]", "BOOL", "REG", "VOID", "FILE"};
     //Para la suma
@@ -267,7 +266,6 @@ public class Etapa_1 {
         String tipo = "";
         String tope = ids.get(p).getTope();
         int linea = ids.get(p).getLinea();
-        clave = ids.get(p).getClave();
         if (v1 || v2) {
             if (!v1 && v2) {
                 tipo = t1;

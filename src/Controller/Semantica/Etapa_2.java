@@ -2,7 +2,6 @@ package Controller.Semantica;
 
 import Model.Arreglo;
 import Model.Errores;
-import Model.Semantica_E_1;
 import Model.Semantica_E_2;
 import Model.Variable;
 import Vista.Pantalla;
@@ -44,7 +43,6 @@ public class Etapa_2 {
         ultimo.addOper(var);
     }
 
-    @SuppressWarnings("empty-statement")
     public LinkedList<Errores> resolver() {
         LinkedList<Errores> err = new LinkedList();
         Etapa_1 s1 = new Etapa_1(p);
