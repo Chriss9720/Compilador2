@@ -14,7 +14,7 @@ public class Etapa_1 {
 
     private LinkedList<Variable> ids = new LinkedList();
     private LinkedList<String> operadores = new LinkedList();
-    
+
     private final String[] entradas = new String[]{
         "INT", "REAL", "EXP", "CHAR", "CHAR[]", "BOOL", "REG", "VOID", "FILE"};
     //Para la suma
@@ -392,12 +392,17 @@ public class Etapa_1 {
 
     public int contieneIguales() {
         for (String o : this.operadores) {
-            if (o.equals("="))
+            if (o.equals("=")) {
                 return 2;
+            }
         }
         return 0;
     }
-    
+
+    public boolean contieneDecOInc() {
+        return this.operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") || o.equals("*") || o.equals("/")));
+    }
+
     public LinkedList<String> getOperadores() {
         return operadores;
     }

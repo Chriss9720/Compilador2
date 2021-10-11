@@ -156,7 +156,7 @@ public class Compilador implements ActionListener {
         {612, 91, 612, 612, 612, 612, 612, 612, 612, 612, 612, 11, 612, 612, 612, 612, 91, 612, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 91},
         {604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 11, 92, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604},
         {612, 93, 612, 612, 612, 612, 612, 612, 612, 612, 612, 11, 612, 612, 612, 612, 93, 612, 91, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 93, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 612, 93},
-        {625, 94, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 94, 625, 625, 625, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 94, 625, 94, 94, 94, 94, 94, 94, 94, 94, 625, 625, 625, 625, 625, 94},
+        {625, 94, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 94, 625, 625, 625, 94, 11, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 94, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 625, 94, 625, 94, 94, 94, 94, 94, 94, 94, 94, 625, 625, 625, 625, 625, 94},
         {604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 95, 604, 604, 604, 604, 11, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604},
         {626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 11, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 626, 97, 98, 626, 626, 626, 626},
         {604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 99, 11, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604, 604},
@@ -214,9 +214,9 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FACTOR_PASCAL", "( EXP_PASCAL )"));
         producciones.add(new Producciones("FACTOR_PASCAL", "! EXP_PASCAL"));
         producciones.add(new Producciones("FACTOR_PASCAL", "FUNCIONES"));
-        producciones.add(new Producciones("FACTOR_PASCAL", "++ REVISAR id F1"));
-        producciones.add(new Producciones("FACTOR_PASCAL", "-- REVISAR id F1"));
-        producciones.add(new Producciones("FACTOR_PASCAL", "** REVISAR id F1"));
+        producciones.add(new Producciones("FACTOR_PASCAL", "2algo ++ REVISAR id F1"));
+        producciones.add(new Producciones("FACTOR_PASCAL", "2algo -- REVISAR id F1"));
+        producciones.add(new Producciones("FACTOR_PASCAL", "2algo ** REVISAR id F1"));
         producciones.add(new Producciones("FACTOR_PASCAL", "REVISAR id F1"));
         producciones.add(new Producciones("F1", "( F2"));
         producciones.add(new Producciones("F1", ". FACTOR_PASCAL"));
@@ -261,12 +261,12 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ESTATUTOS", "{ ESTATUTOS I6 }"));
         producciones.add(new Producciones("I6", "; ESTATUTOS I6"));
         producciones.add(new Producciones("ESTATUTOS", "repeat ESTATUTOS until ( 1012I EXP_PASCAL 1012F )"));
-        producciones.add(new Producciones("ESTATUTOS", "for ( for1I I7 for1F ; for2I I9 for2F ; I10 ) ESTATUTOS"));
+        producciones.add(new Producciones("ESTATUTOS", "for ( for1I I7 for1F ; for2I I9 for2F ; for3I I10 for3F ) ESTATUTOS"));
         producciones.add(new Producciones("I7", "EXP_PASCAL for1O I8"));
         producciones.add(new Producciones("I8", ", EXP_PASCAL for1O I8"));
         producciones.add(new Producciones("I9", "for2O EXP_PASCAL"));
-        producciones.add(new Producciones("I10", "ESTATUTOS I11"));
-        producciones.add(new Producciones("I11", ", ESTATUTOS I11"));
+        producciones.add(new Producciones("I10", "for3O ESTATUTOS I11"));
+        producciones.add(new Producciones("I11", ", for3O ESTATUTOS I11"));
         producciones.add(new Producciones("ESTATUTOS", "while ( 1011I EXP_PASCAL 1011F ) ESTATUTOS , CONSTANTE_S/SIGNO ∶ ESTATUTOS I12 }"));
         producciones.add(new Producciones("I12", "default ∶ ESTATUTOS"));
         producciones.add(new Producciones("I12", "break ; case CONSTANTE_S/SIGNO I13 ∶ ESTATUTOS I12"));
@@ -683,7 +683,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "REAL");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
@@ -698,7 +698,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "EXP");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
@@ -714,7 +714,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR[]");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClase("Arr");
                                         sE_1.getIds().getLast().setClave(clave);
@@ -730,7 +730,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
@@ -745,7 +745,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "INT");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
@@ -770,7 +770,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "BOOL");
                                 if (!ISARR) {
-                                    if (INIAS || paraBool || paraFor == 11) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
@@ -799,6 +799,8 @@ public class Compilador implements ActionListener {
                                     boolean acept = true;
                                     if (paraFor == 0) {
                                         paraFor = sE_1.contieneIguales();
+                                    } else if (paraFor == 21) {
+                                        paraFor = (sE_1.contieneDecOInc()) ? 22 : 21;
                                     }
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     for (Errores i : sE_1.Resolver(true)) {
@@ -814,11 +816,11 @@ public class Compilador implements ActionListener {
                                     if (acept) {
                                         getSemanticaE_2().add(new Semantica_E_2(
                                                 clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
-                                                auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
+                                                auxSe2.getLinea(), "Acept", amb.getLast()));
                                     } else {
                                         getSemanticaE_2().add(new Semantica_E_2(
                                                 clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
-                                                auxSe2.getLinea(), "ERROR", auxSe2.getAmb()));
+                                                auxSe2.getLinea(), "ERROR", amb.getLast()));
                                     }
                                 }
                                 break;
@@ -912,7 +914,7 @@ public class Compilador implements ActionListener {
                                             "=", varAuxSe2.getId().getFirst(),
                                             varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                 } else {
-                                    err.add(new Errores(varAuxSe2.getLinea(), clave,
+                                    err.add(new Errores(varAuxSe2.getLinea(), 1080,
                                             varAuxSe2.getId().getLast(), "Debe de ser una asignacion",
                                             "Semantica Etapa 2", varAuxSe2.getAmb()));
                                     getSemanticaE_2().add(new Semantica_E_2(
@@ -938,8 +940,6 @@ public class Compilador implements ActionListener {
                                 break;
                             case "for2F":
                                 pila.removeLast();
-                                System.out.println(sE_1.getIds().size());
-                                System.out.println(sE_1.getOperadores().size());
                                 sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
                                 if (paraFor == 10) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ";", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
@@ -950,7 +950,7 @@ public class Compilador implements ActionListener {
                                                 varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     } else {
-                                        err.add(new Errores(varAuxSe2.getLinea(), clave,
+                                        err.add(new Errores(varAuxSe2.getLinea(), 1081,
                                                 varAuxSe2.getId().getLast(), "Debe de ser una condicion BOOL",
                                                 "Semantica Etapa 2", varAuxSe2.getAmb()));
                                         getSemanticaE_2().add(new Semantica_E_2(
@@ -959,6 +959,49 @@ public class Compilador implements ActionListener {
                                     }
                                 }
                                 sE_1.Reiniciar();
+                                break;
+                            case "for3I":
+                                pila.removeLast();
+                                paraFor = 20;
+                                break;
+                            case "for3O":
+                                pila.removeLast();
+                                paraFor = 21;
+                                break;
+                            case "for3F":
+                                pila.removeLast();
+                                boolean cont = sE_1.contieneDecOInc();
+                                sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+                                if (paraFor == 20) {
+                                    getSemanticaE_2().add(new Semantica_E_2(1083, ")", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
+                                } else {
+                                    varAuxSe2 = sE_1.getIds().getFirst();
+                                    if (paraFor == 22) {
+                                        getSemanticaE_2().add(new Semantica_E_2(1082,
+                                                varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                varAuxSe2.getLinea(), "Acept", amb.getLast()));
+                                    } else {
+                                        if (cont) {
+                                            getSemanticaE_2().add(new Semantica_E_2(1082,
+                                                    varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                    varAuxSe2.getLinea(), "Acept", amb.getLast()));
+                                        } else {
+                                            err.add(new Errores(varAuxSe2.getLinea(), 1082,
+                                                    varAuxSe2.getId().getLast(), "Debe de incrementar o decrementar el valor",
+                                                    "Semantica Etapa 2", varAuxSe2.getAmb()));
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    1082, "id", varAuxSe2.getId().getFirst(),
+                                                    varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                        }
+                                    }
+                                }
+                                sE_1.Reiniciar();
+                                break;
+                            case "2algo":
+                                pila.removeLast();
+                                if (paraFor == 20 || paraFor == 21) {
+                                    paraFor = 22;
+                                }
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -991,7 +1034,7 @@ public class Compilador implements ActionListener {
                                 && entradaDePila == entradaDeTokens) {
                             switch (pila.getLast()) {
                                 case "+=":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1021;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1003,7 +1046,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "/=":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1015,7 +1058,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "*=":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1027,7 +1070,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "-=":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1039,7 +1082,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "=":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1020;
                                         sE_1.getOperadores().add(pila.getLast());
                                     } else if (ISARR) {
@@ -1062,7 +1105,7 @@ public class Compilador implements ActionListener {
                                 case "%":
                                 case "&":
                                 case "&&":
-                                    if ((INIAS || paraBool || paraFor == 11) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1;
                                         sE_1.getOperadores().add(pila.getLast());
                                     } else if (ISARR && !ArryAdd) {
