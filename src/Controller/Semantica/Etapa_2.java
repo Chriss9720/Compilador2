@@ -43,7 +43,7 @@ public class Etapa_2 {
         ultimo.addOper(var);
     }
 
-    public LinkedList<Errores> resolver(LinkedList <Integer> amb) {
+    public LinkedList<Errores> resolver(LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         Etapa_1 s1 = new Etapa_1(p);
         ultimo.getVars().forEach(i -> {
@@ -120,6 +120,21 @@ public class Etapa_2 {
             r[j] = arr[i];
         }
         return r;
+    }
+
+    public LinkedList<Errores> revisarFunciones(LinkedList<Variable> vars, LinkedList<Integer> amb) {
+        LinkedList<Errores> err = new LinkedList();
+        vars.stream().filter(i -> i.getClase().contains("funcion")).forEachOrdered(i -> {
+            if (!i.getTipo().equals("VOID")) {
+                p.getsE_2().add(new Semantica_E_2(1120, "id", i.getId().getFirst(), i.getLinea(), "Acept", amb.getLast()));
+            } else {
+                err.add(new Errores(i.getLinea(), 1120, i.getId().getFirst(), "Debe de ser una funcion valida",
+                        "Semantica 2", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1120, i.getTope(), i.getId().getFirst(),
+                        i.getLinea(), "ERROR", amb.getLast()));
+            }
+        });
+        return err;
     }
 
     public Arreglo getRaiz() {

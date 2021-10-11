@@ -685,7 +685,7 @@ public class Compilador implements ActionListener {
                                 var.setTipo("REAL");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "REAL");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
@@ -703,7 +703,7 @@ public class Compilador implements ActionListener {
                                 var.setTipo("EXP");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "EXP");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
@@ -722,7 +722,7 @@ public class Compilador implements ActionListener {
                                 var.setClase("Constante/Arr");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR[]");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClase("Arr");
@@ -741,7 +741,7 @@ public class Compilador implements ActionListener {
                                 var.setTipo("CHAR");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
@@ -759,7 +759,7 @@ public class Compilador implements ActionListener {
                                 var.setTipo("INT");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "INT");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
@@ -787,7 +787,7 @@ public class Compilador implements ActionListener {
                                 var.setTipo("BOOL");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "BOOL");
-                                if (!ISARR) {
+                                if (!ISARR && !isFunc) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
@@ -823,6 +823,7 @@ public class Compilador implements ActionListener {
                                     } else if (paraFor == 21) {
                                         paraFor = (sE_1.contieneDecOInc()) ? 22 : 21;
                                     }
+                                    sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> err.addFirst(new Errores(e)));
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion")) {
                                         String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
@@ -1039,6 +1040,21 @@ public class Compilador implements ActionListener {
                                 break;
                             case "InitF":
                                 pila.removeLast();
+                                if (!INIAS) {
+                                    if (auxFunc.getClase().contains("funcion")) {
+                                        getSemanticaE_2().add(new Semantica_E_2(1110, "id",
+                                                auxFunc.getId().getFirst(),
+                                                auxFunc.getLinea(), "Acept", amb.getLast()));
+                                    } else {
+                                        err.add(new Errores(auxFunc.getLinea(), 1110, 
+                                                auxFunc.getId().getFirst(), 
+                                                "Debe de ser un procedimiento",
+                                                "Semantica 2", amb.getLast()));
+                                        getSemanticaE_2().add(new Semantica_E_2(1110, 
+                                                auxFunc.getTope(), auxFunc.getId().getFirst(),
+                                                auxFunc.getLinea(), "ERROR", amb.getLast()));
+                                    }
+                                }
                                 isFunc = true;
                                 totalPar++;
                                 break;
