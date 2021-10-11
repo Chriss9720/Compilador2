@@ -109,6 +109,7 @@ public class Etapa_2 {
                         var.getLinea(), "ERROR", var.getAmb()));
             }
         }
+        s1.Reiniciar();
         return err;
     }
 
