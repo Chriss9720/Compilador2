@@ -261,9 +261,9 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ESTATUTOS", "{ ESTATUTOS I6 }"));
         producciones.add(new Producciones("I6", "; ESTATUTOS I6"));
         producciones.add(new Producciones("ESTATUTOS", "repeat ESTATUTOS until ( 1012I EXP_PASCAL 1012F )"));
-        producciones.add(new Producciones("ESTATUTOS", "for ( I7 ; I9 ; I10 ) ESTATUTOS"));
-        producciones.add(new Producciones("I7", "EXP_PASCAL I8"));
-        producciones.add(new Producciones("I8", ", EXP_PASCAL I8"));
+        producciones.add(new Producciones("ESTATUTOS", "for ( for1I I7 for1F ; I9 ; I10 ) ESTATUTOS"));
+        producciones.add(new Producciones("I7", "EXP_PASCAL for1O I8"));
+        producciones.add(new Producciones("I8", ", EXP_PASCAL for1O I8"));
         producciones.add(new Producciones("I9", "EXP_PASCAL"));
         producciones.add(new Producciones("I10", "ESTATUTOS I11"));
         producciones.add(new Producciones("I11", ", ESTATUTOS I11"));
@@ -476,7 +476,6 @@ public class Compilador implements ActionListener {
                         System.out.print(p + " ");
                     }
                     System.out.println();*/
-                    int valor;
                     boolean EFB = true;
                     boolean VR = true;
                     boolean IDREG = false;
@@ -502,6 +501,8 @@ public class Compilador implements ActionListener {
                     boolean paraBoolAux = false;
                     boolean ArryAdd = true;
                     int clave = 1010;
+                    int valor;
+                    int paraFor = 0;
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
@@ -896,6 +897,22 @@ public class Compilador implements ActionListener {
                                     err.add(new Errores(e));
                                     contar(509);
                                 });
+                                break;
+                            case "for1I":
+                                pila.removeLast();
+                                paraFor = 0;
+                                break;
+                            case "for1O":
+                                pila.removeLast();
+                                paraFor = 1;
+                                break;
+                            case "for1F":
+                                pila.removeLast();
+                                if (paraFor > 0) {
+                                    System.out.println("No es vacio");
+                                } else {
+                                    System.out.println("No es vacio");
+                                }
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
