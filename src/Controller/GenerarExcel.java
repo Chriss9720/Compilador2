@@ -167,7 +167,6 @@ public class GenerarExcel {
             cell = row.createCell(i);
             cell.setCellValue(head[i]);
         }
-        System.out.println(sE_2.size());
         for (int i = 0, j = 1; i < sE_2.size(); i++, j++) {
             row = hoja6.createRow(j);
             cell = row.createCell(0);

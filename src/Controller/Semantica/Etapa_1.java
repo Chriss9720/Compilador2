@@ -390,6 +390,14 @@ public class Etapa_1 {
         return ids;
     }
 
+    public int contieneIguales() {
+        for (String o : this.operadores) {
+            if (o.equals("="))
+                return 2;
+        }
+        return 0;
+    }
+    
     public LinkedList<String> getOperadores() {
         return operadores;
     }

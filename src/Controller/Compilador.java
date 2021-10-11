@@ -502,7 +502,7 @@ public class Compilador implements ActionListener {
                     boolean ArryAdd = true;
                     int clave = 1010;
                     int valor;
-                    int paraFor = 0;
+                    int paraFor = -1;
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
@@ -513,7 +513,7 @@ public class Compilador implements ActionListener {
                     Registro reg = new Registro();
                     Variable var = new Variable();
                     Variable simple = new Variable();
-                    Variable varAuxSe2;
+                    Variable varAuxSe2 = new Variable();
                     Funcion func = new Funcion();
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
@@ -797,6 +797,8 @@ public class Compilador implements ActionListener {
                                 if (Buscar(pila, "FINAS") == 0) {
                                     INIAS = false;
                                     boolean acept = true;
+                                    paraFor = sE_1.contieneIguales();
+                                    varAuxSe2 = sE_1.getIds().getFirst();
                                     for (Errores i : sE_1.Resolver(true)) {
                                         if (i.getNumero() == 807 && acept) {
                                             acept = false;
@@ -868,7 +870,6 @@ public class Compilador implements ActionListener {
                                         break;
                                 }
                                 pila.removeLast();
-                                sE_1.mostrarEcuacion();
                                 sE_1.Resolver(false).forEach(e -> {
                                     err.add(new Errores(e));
                                     contar(509);
@@ -904,15 +905,28 @@ public class Compilador implements ActionListener {
                                 break;
                             case "for1O":
                                 pila.removeLast();
+                                if (paraFor > 1) {
+                                    getSemanticaE_2().add(new Semantica_E_2(1080,
+                                            "=", varAuxSe2.getId().getFirst(),
+                                            varAuxSe2.getLinea(), "Acept", varAuxSe2.getAmb()));
+                                } else {
+                                    err.add(new Errores(varAuxSe2.getLinea(), clave,
+                                            varAuxSe2.getId().getLast(), "Debe de ser una asignacion",
+                                            "Semantica Etapa 2", varAuxSe2.getAmb()));
+                                    getSemanticaE_2().add(new Semantica_E_2(
+                                            1080, "id", varAuxSe2.getId().getFirst(),
+                                            varAuxSe2.getLinea(), "ERROR", varAuxSe2.getAmb()));
+                                }
                                 paraFor = 1;
                                 break;
                             case "for1F":
                                 pila.removeLast();
-                                if (paraFor > 0) {
-                                    System.out.println("No es vacio");
-                                } else {
-                                    System.out.println("No es vacio");
+                                switch (paraFor) {
+                                    case 0:
+                                        getSemanticaE_2().add(new Semantica_E_2(1083, ";", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
+                                        break;
                                 }
+                                paraFor = -1;
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -1209,6 +1223,7 @@ public class Compilador implements ActionListener {
                                 }
                                 varAux.setTope("id");
                                 varAux.setLinea(linea);
+                                varAuxSe2 = varAux;
                                 if (!ISARR) {
                                     sE_1.getIds().add(varAux);
                                 } else {
