@@ -1072,9 +1072,19 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 if (!INIAS) {
                                     if (auxFunc.getClase().contains("funcion")) {
-                                        getSemanticaE_2().add(new Semantica_E_2(1110, "id",
-                                                auxFunc.getId().getFirst(),
-                                                auxFunc.getLinea(), "Acept", amb.getLast()));
+                                        if (auxFunc.getTipo().equals("VOID")) {
+                                            getSemanticaE_2().add(new Semantica_E_2(1110, "id",
+                                                    auxFunc.getId().getFirst(),
+                                                    auxFunc.getLinea(), "Acept", amb.getLast()));
+                                        } else {
+                                            err.add(new Errores(auxFunc.getLinea(), 1120,
+                                                    auxFunc.getId().getFirst(),
+                                                    "Debe de ser un procedimiento",
+                                                    "Semantica 2", amb.getLast()));
+                                            getSemanticaE_2().add(new Semantica_E_2(1120,
+                                                    auxFunc.getTope(), auxFunc.getId().getFirst(),
+                                                    auxFunc.getLinea(), "ERROR", amb.getLast()));
+                                        }
                                     } else {
                                         err.add(new Errores(auxFunc.getLinea(), 1110,
                                                 auxFunc.getId().getFirst(),
