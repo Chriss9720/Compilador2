@@ -378,6 +378,21 @@ public class Gestor {
         return 0;
     }
 
+    public boolean getReturn(int amb) {
+        abrir();
+        try {
+            sql = "select tipo from ids where tPar = ?;";
+            pst = con.prepareCall(sql);
+            pst.setString(1, tS(amb));
+            rs = pst.executeQuery();
+            return (rs.next()) ? !rs.getString("tipo").equals("VOID") : false;
+        } catch (Exception e) {
+            System.out.println("Fallo al sacar el total de datos: " + e);
+        }
+        cerrar();
+        return false;
+    }
+
     private void abrir() {
         con = Connect.abrir();
     }

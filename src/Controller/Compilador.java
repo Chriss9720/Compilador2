@@ -273,7 +273,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("I13", ", CONSTANTE_S/SIGNO I13"));
         producciones.add(new Producciones("ESTATUTOS", "switch EXP_PASCAL { case CONSTANTE_S/SIGNO I13 ∶ ESTATUTOS I12 }"));
         producciones.add(new Producciones("ESTATUTOS", "EXP_PASCAL"));
-        producciones.add(new Producciones("ESTATUTOS", "return EXP_PASCAL"));
+        producciones.add(new Producciones("ESTATUTOS", "Ret return EXP_PASCAL"));
         producciones.add(new Producciones("ASIGNACION", "="));
         producciones.add(new Producciones("ASIGNACION", "+="));
         producciones.add(new Producciones("ASIGNACION", "/="));
@@ -500,6 +500,7 @@ public class Compilador implements ActionListener {
                     boolean paraBoolAux = false;
                     boolean ArryAdd = true;
                     boolean isFunc = false;
+                    boolean isRet = false;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -631,6 +632,35 @@ public class Compilador implements ActionListener {
                                 break;
                             case "finFunc":
                                 pila.removeLast();
+                                if (gestor.getReturn(amb.getLast())) {
+                                    if (isRet) {
+                                        getSemanticaE_2().add(new Semantica_E_2(
+                                                1140, "return", "return",
+                                                tonk.getFirst().getLiena(), "Acept",
+                                                amb.getLast()));
+                                    } else {
+                                        getSemanticaE_2().add(new Semantica_E_2(
+                                                1140, pila.getLast(), tonk.getFirst().getLexema(),
+                                                tonk.getFirst().getLiena(), "ERROR",
+                                                amb.getLast()));
+                                        err.add(new Errores(tonk.getFirst().getLiena(), 1140,
+                                                tonk.getFirst().getLexema(), "Se esperaba un return",
+                                                "Semantica Etapa 2", amb.getLast()));
+                                    }
+                                } else if (!isRet) {
+                                    getSemanticaE_2().add(new Semantica_E_2(
+                                            1150, pila.getLast(), tonk.getFirst().getLexema(),
+                                            tonk.getFirst().getLiena(), "Acept",
+                                            amb.getLast()));
+                                } else if (isRet) {
+                                    getSemanticaE_2().add(new Semantica_E_2(
+                                            1150, "return", "return", tonk.getFirst().getLiena(),
+                                            "ERROR", amb.getLast()));
+                                    err.add(new Errores(tonk.getFirst().getLiena(), 1140,
+                                            "return", "los procedimientos no llevan return",
+                                            "Semantica Etapa 2", amb.getLast()));
+                                }
+                                isRet = false;
                                 amb.removeLast();
                                 break;
                             case "ParamsFunc":
@@ -1067,6 +1097,19 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 totalPar++;
                                 break;
+                            case "Ret":
+                                pila.removeLast();
+                                if (amb.getLast() > 0) {
+                                    isRet = true;
+                                } else {
+                                    err.add(new Errores(tonk.getFirst().getLiena(), 1150,
+                                            "return", "No se puede poner un return en el main",
+                                            "Semantica 2", amb.getLast()));
+                                    getSemanticaE_2().add(new Semantica_E_2(1150,
+                                            "return", "return", tonk.getFirst().getLiena(),
+                                            "ERROR", amb.getLast()));
+                                }
+                                break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
                         entradaDePila = entrada(pila.getLast());
@@ -1366,7 +1409,7 @@ public class Compilador implements ActionListener {
                                 varAux.setTope("id");
                                 varAux.setLinea(linea);
                                 getSemanticaE_2().add(new Semantica_E_2(1130, "id",
-                                        varAux.getId().getFirst(), varAux.getLinea(), 
+                                        varAux.getId().getFirst(), varAux.getLinea(),
                                         estadoAux, amb.getLast()));
                                 varAuxSe2 = varAux;
                                 if (isFunc) {
