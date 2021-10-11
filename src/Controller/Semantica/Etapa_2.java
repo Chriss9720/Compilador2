@@ -43,7 +43,7 @@ public class Etapa_2 {
         ultimo.addOper(var);
     }
 
-    public LinkedList<Errores> resolver() {
+    public LinkedList<Errores> resolver(LinkedList <Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         Etapa_1 s1 = new Etapa_1(p);
         ultimo.getVars().forEach(i -> {
@@ -64,7 +64,7 @@ public class Etapa_2 {
             if (ultimo.getTarr() > -1) {
                 int v = 0;
                 p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
-                        var.getLinea(), "Acept", var.getAmb()));
+                        var.getLinea(), "Acept", amb.getLast()));
                 if (s1.getIds().size() > 1) {
                     tercera = false;
                 } else if (s1.getIds().size() == 1) {
@@ -80,33 +80,33 @@ public class Etapa_2 {
                 s1.Resolver(false).forEach(e -> err.add(new Errores(e)));
                 if (s1.getIds().getFirst().getTipo().equals("INT") || s1.getIds().getFirst().isVariant()) {
                     p.getsE_2().add(new Semantica_E_2(1040, "Const_entero", s1.getIds().getFirst().getId().getLast(),
-                            var.getLinea(), "Acept", var.getAmb()));
+                            var.getLinea(), "Acept", amb.getLast()));
                     if (tercera) {
                         String[] dim = invertirDimensiones(var.getDimArr());
                         if (v < Integer.parseInt(dim[ultimo.getTarr()])) {
                             p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
-                                    var.getLinea(), "Acept", var.getAmb()));
+                                    var.getLinea(), "Acept", amb.getLast()));
                         } else {
                             err.add(new Errores(var.getLinea(), 1050, String.valueOf(v), "Fuera del rango",
                                     "Semantica 2", var.getAmb()));
                             p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
-                                    var.getLinea(), "ERROR", var.getAmb()));
+                                    var.getLinea(), "ERROR", amb.getLast()));
                         }
                     } else {
                         p.getsE_2().add(new Semantica_E_2(1050, var.getTope(), String.valueOf(v),
-                                var.getLinea(), "Acept", var.getAmb()));
+                                var.getLinea(), "Acept", amb.getLast()));
                     }
                 } else {
                     err.add(new Errores(var.getLinea(), 1040, "[ ... ]", "Debe de ser un valor INT",
                             "Semantica 2", var.getAmb()));
                     p.getsE_2().add(new Semantica_E_2(1040, var.getTope(), var.getId().getFirst(),
-                            var.getLinea(), "ERROR", var.getAmb()));
+                            var.getLinea(), "ERROR", amb.getLast()));
                 }
             } else {
                 err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango",
                         "Semantica 2", var.getAmb()));
                 p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
-                        var.getLinea(), "ERROR", var.getAmb()));
+                        var.getLinea(), "ERROR", amb.getLast()));
             }
         }
         s1.Reiniciar();

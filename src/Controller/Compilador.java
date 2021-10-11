@@ -803,6 +803,19 @@ public class Compilador implements ActionListener {
                                         paraFor = (sE_1.contieneDecOInc()) ? 22 : 21;
                                     }
                                     varAuxSe2 = sE_1.getIds().getFirst();
+                                    if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion")) {
+                                        String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
+                                        err.add(new Errores(varAuxSe2.getLinea(), 1090,
+                                                varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
+                                                "Semantica Etapa 2", amb.getLast()));
+                                        getSemanticaE_2().add(new Semantica_E_2(1090,
+                                                "id", varAuxSe2.getId().getFirst(),
+                                                varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                    } else {
+                                        getSemanticaE_2().add(new Semantica_E_2(
+                                                1090, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                varAuxSe2.getLinea(), "Acept", amb.getLast()));
+                                    }
                                     for (Errores i : sE_1.Resolver(true)) {
                                         if (i.getNumero() == 807 && acept) {
                                             acept = false;
@@ -836,7 +849,7 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
-                                    sE_2.resolver();
+                                    sE_2.resolver(amb);
                                 }
                                 pila.removeLast();
                                 break;
@@ -898,7 +911,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "-LVL":
                                 pila.removeLast();
-                                sE_2.resolver().forEach(e -> {
+                                sE_2.resolver(amb).forEach(e -> {
                                     err.add(new Errores(e));
                                     contar(509);
                                 });
