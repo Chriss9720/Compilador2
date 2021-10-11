@@ -221,8 +221,8 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("F1", "( F2"));
         producciones.add(new Producciones("F1", ". FACTOR_PASCAL"));
         producciones.add(new Producciones("F2", ")"));
-        producciones.add(new Producciones("F2", "EXP_PASCAL F3 )"));
-        producciones.add(new Producciones("F3", ", EXP_PASCAL F3"));
+        producciones.add(new Producciones("F2", "InitF EXP_PASCAL F3 FinF )"));
+        producciones.add(new Producciones("F3", ", +1P EXP_PASCAL F3"));
         producciones.add(new Producciones("F1", "ARREGLO F4"));
         producciones.add(new Producciones("F1", "F4"));
         producciones.add(new Producciones("F4", "INIAS ASIGNACION EXP_PASCAL FINAS"));
@@ -469,7 +469,6 @@ public class Compilador implements ActionListener {
                     //String prod = "";
                     //prod = tonk.stream().map(t -> t.getSintaxis() + " ").reduce(prod, String::concat);
                     //System.out.println("La produccion final es: " + prod);
-                    int entradaDePila, entradaDeTokens;
                     remover();
                     LinkedList<String> pila = voltear(producciones.get(0).getProduce());
                     /*for (String p : pila) {
@@ -500,9 +499,12 @@ public class Compilador implements ActionListener {
                     boolean paraBool = false;
                     boolean paraBoolAux = false;
                     boolean ArryAdd = true;
+                    boolean isFunc = false;
+                    int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
                     int paraFor = -1;
+                    int totalPar = 0;
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
@@ -514,6 +516,7 @@ public class Compilador implements ActionListener {
                     Variable var = new Variable();
                     Variable simple = new Variable();
                     Variable varAuxSe2 = new Variable();
+                    Variable auxFunc = new Variable();
                     Funcion func = new Funcion();
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
@@ -692,6 +695,9 @@ public class Compilador implements ActionListener {
                                     varAuxSe2.setTope("Cont_real");
                                     sE_2.addItem(varAuxSe2);
                                 }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_real");
+                                }
                                 break;
                             case "Cont_exponencial":
                                 var.setTipo("EXP");
@@ -706,6 +712,9 @@ public class Compilador implements ActionListener {
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_exponencial");
                                     sE_2.addItem(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_exponencial");
                                 }
                                 break;
                             case "Cont_cadena":
@@ -724,6 +733,9 @@ public class Compilador implements ActionListener {
                                     varAuxSe2.setTope("Cont_cadena");
                                     sE_2.addItem(varAuxSe2);
                                 }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_cadena");
+                                }
                                 break;
                             case "Cont_caracter":
                                 var.setTipo("CHAR");
@@ -739,6 +751,9 @@ public class Compilador implements ActionListener {
                                     varAuxSe2.setTope("Cont_caracter");
                                     sE_2.addItem(varAuxSe2);
                                 }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_caracter");
+                                }
                                 break;
                             case "Cont_entero":
                                 var.setTipo("INT");
@@ -753,6 +768,9 @@ public class Compilador implements ActionListener {
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("Cont_entero");
                                     sE_2.addItem(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_entero");
                                 }
                                 break;
                             case "Cont_true":
@@ -778,6 +796,9 @@ public class Compilador implements ActionListener {
                                 } else if (!ArryAdd && ISARR) {
                                     varAuxSe2.setTope("topeAux");
                                     sE_2.addItem(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, topeAux);
                                 }
                                 break;
                             case "INIAS":
@@ -1015,6 +1036,20 @@ public class Compilador implements ActionListener {
                                 if (paraFor == 20 || paraFor == 21) {
                                     paraFor = 22;
                                 }
+                                break;
+                            case "InitF":
+                                pila.removeLast();
+                                isFunc = true;
+                                totalPar++;
+                                break;
+                            case "FinF":
+                                pila.removeLast();
+                                isFunc = false;
+                                totalPar = 0;
+                                break;
+                            case "+1P":
+                                pila.removeLast();
+                                totalPar++;
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -1312,6 +1347,11 @@ public class Compilador implements ActionListener {
                                 varAux.setTope("id");
                                 varAux.setLinea(linea);
                                 varAuxSe2 = varAux;
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "id");
+                                } else {
+                                    auxFunc = varAuxSe2;
+                                }
                                 if (!ISARR) {
                                     sE_1.getIds().add(varAux);
                                 } else {
@@ -1368,6 +1408,19 @@ public class Compilador implements ActionListener {
             }
         };
         e.start();
+    }
+
+    private void regla9(Variable var, int totalPar, LinkedList<Integer> amb, String tope) {
+        if (totalPar <= var.getNoPar()) {
+            getSemanticaE_2().add(new Semantica_E_2(1100, var.getTope(), var.getId().getFirst(),
+                    var.getLinea(), "Acept", amb.getLast()));
+        } else {
+            err.add(new Errores(var.getLinea(), 1100, var.getId().getLast(),
+                    "El parametro: " + totalPar + " esta fuera de rango",
+                    "Semantica Etapa 2", amb.getLast()));
+            getSemanticaE_2().add(new Semantica_E_2(1100, tope, var.getId().getFirst(),
+                    var.getLinea(), "ERROR", amb.getLast()));
+        }
     }
 
     private int Buscar(LinkedList<String> p, String cadena) {
