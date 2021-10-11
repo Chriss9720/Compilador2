@@ -1046,11 +1046,11 @@ public class Compilador implements ActionListener {
                                                 auxFunc.getId().getFirst(),
                                                 auxFunc.getLinea(), "Acept", amb.getLast()));
                                     } else {
-                                        err.add(new Errores(auxFunc.getLinea(), 1110, 
-                                                auxFunc.getId().getFirst(), 
+                                        err.add(new Errores(auxFunc.getLinea(), 1110,
+                                                auxFunc.getId().getFirst(),
                                                 "Debe de ser un procedimiento",
                                                 "Semantica 2", amb.getLast()));
-                                        getSemanticaE_2().add(new Semantica_E_2(1110, 
+                                        getSemanticaE_2().add(new Semantica_E_2(1110,
                                                 auxFunc.getTope(), auxFunc.getId().getFirst(),
                                                 auxFunc.getLinea(), "ERROR", amb.getLast()));
                                     }
@@ -1347,9 +1347,12 @@ public class Compilador implements ActionListener {
                                 LinkedList<Integer> auxAmb = new LinkedList();
                                 amb.forEach(i -> auxAmb.add(i));
                                 Variable varAux = gestor.existe(aux, auxAmb);
+                                String estadoAux;
                                 if (varAux != null) {
                                     varAux.setVariant(false);
+                                    estadoAux = "Acept";
                                 } else {
+                                    estadoAux = "ERROR";
                                     varAux = new Variable();
                                     varAux.setId(aux);
                                     varAux.setVariant(true);
@@ -1362,6 +1365,9 @@ public class Compilador implements ActionListener {
                                 }
                                 varAux.setTope("id");
                                 varAux.setLinea(linea);
+                                getSemanticaE_2().add(new Semantica_E_2(1130, "id",
+                                        varAux.getId().getFirst(), varAux.getLinea(), 
+                                        estadoAux, amb.getLast()));
                                 varAuxSe2 = varAux;
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "id");
