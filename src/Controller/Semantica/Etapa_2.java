@@ -12,37 +12,37 @@ import java.util.LinkedList;
  * @author Gonza
  */
 public class Etapa_2 {
-
+    
     private Arreglo raiz = new Arreglo();
     private Arreglo ultimo = new Arreglo();
     private final Pantalla p;
-
+    
     public Etapa_2(Pantalla p) {
         this.p = p;
     }
-
+    
     public void empezar(Variable var) {
         raiz.addVar(var);
         ultimo = raiz;
     }
-
+    
     public void addItem(Variable var) {
         ultimo.addVar(var);
     }
-
+    
     public void addNodo() {
         Arreglo nuevo = new Arreglo();
         nuevo.setPrevio(ultimo);
         ultimo.setNext(nuevo);
         ultimo = nuevo;
     }
-
+    
     public void addItem(String op) {
         Variable var = new Variable();
         var.getId().add(op);
         ultimo.addOper(var);
     }
-
+    
     public LinkedList<Errores> resolver(LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         Etapa_1 s1 = new Etapa_1(p);
@@ -112,7 +112,7 @@ public class Etapa_2 {
         s1.Reiniciar();
         return err;
     }
-
+    
     private String[] invertirDimensiones(String dim) {
         String[] arr = dim.split(",");
         String[] r = new String[arr.length];
@@ -121,7 +121,7 @@ public class Etapa_2 {
         }
         return r;
     }
-
+    
     public LinkedList<Errores> revisarFunciones(LinkedList<Variable> vars, LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         vars.stream().filter(i -> i.getClase().contains("funcion")).forEachOrdered(i -> {
@@ -136,7 +136,7 @@ public class Etapa_2 {
         });
         return err;
     }
-
+    
     public LinkedList<Errores> revisarREG(LinkedList<Variable> vars, LinkedList<String> op, LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         if (op.getFirst().equals("=") && op.size() == 1) {
@@ -166,13 +166,18 @@ public class Etapa_2 {
         }
         return err;
     }
-
+    
+    public void removeLast() {
+        ultimo = ultimo.getPrevio();
+        ultimo.setNext(null);
+    }
+    
     public Arreglo getRaiz() {
         return raiz;
     }
-
+    
     public void setRaiz(Arreglo raiz) {
         this.raiz = raiz;
     }
-
+    
 }

@@ -502,7 +502,9 @@ public class Compilador implements ActionListener {
                     boolean isFunc = false;
                     boolean isRet = false;
                     boolean isReg = false;
+                    boolean isReg2 = false;
                     boolean isItem = false;
+                    boolean isItem2 = false;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -731,6 +733,9 @@ public class Compilador implements ActionListener {
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_real");
                                 }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_real");
+                                }
                                 break;
                             case "Cont_exponencial":
                                 var.setTipo("EXP");
@@ -748,6 +753,9 @@ public class Compilador implements ActionListener {
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_exponencial");
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_exponencial");
                                 }
                                 break;
                             case "Cont_cadena":
@@ -769,6 +777,9 @@ public class Compilador implements ActionListener {
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_cadena");
                                 }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_cadena");
+                                }
                                 break;
                             case "Cont_caracter":
                                 var.setTipo("CHAR");
@@ -787,6 +798,9 @@ public class Compilador implements ActionListener {
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_caracter");
                                 }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_caracter");
+                                }
                                 break;
                             case "Cont_entero":
                                 var.setTipo("INT");
@@ -804,6 +818,9 @@ public class Compilador implements ActionListener {
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_entero");
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_entero");
                                 }
                                 break;
                             case "Cont_true":
@@ -827,11 +844,14 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setTope(topeAux);
                                     }
                                 } else if (!ArryAdd && ISARR) {
-                                    varAuxSe2.setTope("topeAux");
+                                    varAuxSe2.setTope(topeAux);
                                     sE_2.addItem(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, topeAux);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, topeAux);
                                 }
                                 break;
                             case "INIAS":
@@ -864,23 +884,29 @@ public class Compilador implements ActionListener {
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     }
                                     boolean resolver = true;
-                                    if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion") || varAuxSe2.getClase().contains("REG")) {
-                                        if (varAuxSe2.getClase().contains("REG")) {
-                                            resolver = false;
-                                            sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb).forEach(e -> err.add(new Errores(e)));
-                                            sE_1.Reiniciar();
+                                    if (!isItem) {
+                                        if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion") || varAuxSe2.getClase().contains("REG")) {
+                                            if (varAuxSe2.getClase().contains("REG")) {
+                                                resolver = false;
+                                                sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb).forEach(e -> err.add(new Errores(e)));
+                                                sE_1.Reiniciar();
+                                            } else {
+                                                String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
+                                                err.add(new Errores(varAuxSe2.getLinea(), 1090,
+                                                        varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
+                                                        "Semantica Etapa 2", amb.getLast()));
+                                                getSemanticaE_2().add(new Semantica_E_2(1090,
+                                                        "id", varAuxSe2.getId().getFirst(),
+                                                        varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                            }
                                         } else {
-                                            String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
-                                            err.add(new Errores(varAuxSe2.getLinea(), 1090,
-                                                    varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
-                                                    "Semantica Etapa 2", amb.getLast()));
-                                            getSemanticaE_2().add(new Semantica_E_2(1090,
-                                                    "id", varAuxSe2.getId().getFirst(),
-                                                    varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    1090, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                    varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                         }
                                     } else {
                                         getSemanticaE_2().add(new Semantica_E_2(
-                                                1090, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                1170, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     }
                                     if (resolver) {
@@ -1142,7 +1168,9 @@ public class Compilador implements ActionListener {
                                 auxReg = varAuxSe2;
                                 if (!INIAS) {
                                     isReg = true;
+                                    isItem = true;
                                 }
+                                isItem2 = true;
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -1450,8 +1478,9 @@ public class Compilador implements ActionListener {
                                             estadoAux, amb.getLast()));
                                 }
                                 varAuxSe2 = varAux;
-                                if (isReg) {
+                                if (isReg || isItem2) {
                                     isReg = false;
+                                    isReg2 = true;
                                     varAux = gestor.existe(auxReg, varAuxSe2.getId().getFirst());
                                     if (varAux != null) {
                                         varAux.setVariant(false);
@@ -1480,8 +1509,18 @@ public class Compilador implements ActionListener {
                                     auxFunc = varAuxSe2;
                                 }
                                 if (!ISARR) {
+                                    if (isReg2 || isItem2) {
+                                        isReg2 = false;
+                                        isItem2 = false;
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(varAux);
                                 } else {
+                                    if (isReg2 || isItem2) {
+                                        sE_2.removeLast();
+                                        isReg2 = false;
+                                        isItem2 = false;
+                                    }
                                     sE_2.addItem(varAux);
                                 }
                                 if (paraBoolAux) {
@@ -1534,6 +1573,15 @@ public class Compilador implements ActionListener {
             }
         };
         e.start();
+    }
+
+    private void Error19(Variable var, LinkedList<Integer> amb, String tope) {
+        getSemanticaE_2().add(new Semantica_E_2(1190, "id",
+                var.getId().getFirst(), var.getLinea(),
+                "ERROR", amb.getLast()));
+        err.add(new Errores(var.getLinea(), 1190,
+                tope, "No esta declarado el item",
+                "Semantica 2", amb.getLast()));
     }
 
     private void regla9(Variable var, int totalPar, LinkedList<Integer> amb, String tope) {
