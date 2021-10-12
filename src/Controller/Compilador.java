@@ -516,7 +516,6 @@ public class Compilador implements ActionListener {
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
                     Etapa_2 sE_2 = new Etapa_2(pantalla);
                     sE_1.Reiniciar();
-                    Variable auxSe2;
                     ObjTemp temp = new ObjTemp();
                     Registro reg = new Registro();
                     Variable var = new Variable();
@@ -524,6 +523,7 @@ public class Compilador implements ActionListener {
                     Variable varAuxSe2 = new Variable();
                     Variable auxFunc = new Variable();
                     Variable auxReg = new Variable();
+                    Variable auxSe2 = new Variable();
                     Funcion func = new Funcion();
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
@@ -890,8 +890,12 @@ public class Compilador implements ActionListener {
                                             if (varAuxSe2.getClase().contains("REG")) {
                                                 resolver = false;
                                                 sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb).forEach(e -> err.add(new Errores(e)));
+                                                auxSe2 = sE_1.getIds().getFirst();
+                                                auxSe2.setTope("id");
                                                 sE_1.Reiniciar();
                                             } else {
+                                                auxSe2 = sE_1.getIds().getFirst();
+                                                auxSe2.setTope("id");
                                                 String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
                                                 err.add(new Errores(varAuxSe2.getLinea(), 1090,
                                                         varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
@@ -921,15 +925,23 @@ public class Compilador implements ActionListener {
                                         }
                                         auxSe2 = sE_1.getIds().getFirst();
                                         auxSe2.setTope("id");
-                                        if (acept) {
+                                    }
+                                    switch (clave) {
+                                        case 1020:
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                                     auxSe2.getLinea(), "Acept", amb.getLast()));
-                                        } else {
+                                            break;
+                                        case 1021:
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
-                                                    auxSe2.getLinea(), "ERROR", amb.getLast()));
-                                        }
+                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                            break;
+                                        case 1022:
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                            break;
                                     }
                                 }
                                 break;
