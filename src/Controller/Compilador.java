@@ -505,6 +505,7 @@ public class Compilador implements ActionListener {
                     boolean isReg2 = false;
                     boolean isItem = false;
                     boolean isItem2 = false;
+                    boolean isDoble = false;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -1107,6 +1108,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "2algo":
                                 pila.removeLast();
+                                isDoble = true;
                                 if (paraFor == 20 || paraFor == 21) {
                                     paraFor = 22;
                                 }
@@ -1502,6 +1504,28 @@ public class Compilador implements ActionListener {
                                     varAux.setTope("id");
                                     varAux.setLinea(linea);
                                     varAuxSe2 = varAux;
+                                }
+                                if (isDoble) {
+                                    if (varAuxSe2.isVariant()) {
+                                        getSemanticaE_2().add(new Semantica_E_2(1180, "id",
+                                                varAux.getId().getFirst(), linea,
+                                                "Acept", amb.getLast()));
+                                    } else {
+                                        if (varAuxSe2.getTipo().equals("INT")
+                                                || varAuxSe2.getTipo().equals("REAL")
+                                                || varAuxSe2.getTipo().equals("EXP")) {
+                                            getSemanticaE_2().add(new Semantica_E_2(1180, "id",
+                                                    varAux.getId().getFirst(), linea,
+                                                    "Acept", amb.getLast()));
+                                        } else {
+                                            getSemanticaE_2().add(new Semantica_E_2(1180, "id",
+                                                    varAux.getId().getFirst(), linea,
+                                                    "ERROR", amb.getLast()));
+                                            err.add(new Errores(linea, 1190, aux,
+                                                    "Los operadores unarios solo puede ser aplicados a valores numericos",
+                                                    "Semantica 2", amb.getLast()));
+                                        }
+                                    }
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "id");
