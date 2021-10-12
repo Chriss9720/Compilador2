@@ -511,6 +511,7 @@ public class Compilador implements ActionListener {
                     int valor;
                     int paraFor = -1;
                     int totalPar = 0;
+                    String igual = "";
                     setSemanticaE_1();
                     setSemanticaE_2();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
@@ -929,17 +930,17 @@ public class Compilador implements ActionListener {
                                     switch (clave) {
                                         case 1020:
                                             getSemanticaE_2().add(new Semantica_E_2(
-                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    clave, "=", "=",
                                                     auxSe2.getLinea(), "Acept", amb.getLast()));
                                             break;
                                         case 1021:
                                             getSemanticaE_2().add(new Semantica_E_2(
-                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    clave, "+=", "+=",
                                                     auxSe2.getLinea(), "Acept", amb.getLast()));
                                             break;
                                         case 1022:
                                             getSemanticaE_2().add(new Semantica_E_2(
-                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    clave, igual, igual,
                                                     auxSe2.getLinea(), "Acept", amb.getLast()));
                                             break;
                                     }
@@ -1229,6 +1230,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "/=":
+                                    igual = "/=";
                                     if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
@@ -1241,6 +1243,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "*=":
+                                    igual = "*=";
                                     if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
@@ -1253,6 +1256,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "-=":
+                                    igual = "-=";
                                     if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
