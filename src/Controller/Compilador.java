@@ -219,7 +219,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FACTOR_PASCAL", "2algo ** REVISAR id F1"));
         producciones.add(new Producciones("FACTOR_PASCAL", "REVISAR id F1"));
         producciones.add(new Producciones("F1", "( F2"));
-        producciones.add(new Producciones("F1", ". FACTOR_PASCAL"));
+        producciones.add(new Producciones("F1", ". item FACTOR_PASCAL"));
         producciones.add(new Producciones("F2", ")"));
         producciones.add(new Producciones("F2", "InitF EXP_PASCAL F3 FinF )"));
         producciones.add(new Producciones("F3", ", +1P EXP_PASCAL F3"));
@@ -501,6 +501,8 @@ public class Compilador implements ActionListener {
                     boolean ArryAdd = true;
                     boolean isFunc = false;
                     boolean isRet = false;
+                    boolean isReg = false;
+                    boolean isItem = false;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -518,6 +520,7 @@ public class Compilador implements ActionListener {
                     Variable simple = new Variable();
                     Variable varAuxSe2 = new Variable();
                     Variable auxFunc = new Variable();
+                    Variable auxReg = new Variable();
                     Funcion func = new Funcion();
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
@@ -855,6 +858,11 @@ public class Compilador implements ActionListener {
                                     }
                                     sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> err.add(new Errores(e)));
                                     varAuxSe2 = sE_1.getIds().getFirst();
+                                    if (isReg) {
+                                        getSemanticaE_2().add(new Semantica_E_2(
+                                                1170, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
+                                                varAuxSe2.getLinea(), "Acept", amb.getLast()));
+                                    }
                                     boolean resolver = true;
                                     if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion") || varAuxSe2.getClase().contains("REG")) {
                                         if (varAuxSe2.getClase().contains("REG")) {
@@ -1127,6 +1135,13 @@ public class Compilador implements ActionListener {
                                     getSemanticaE_2().add(new Semantica_E_2(1150,
                                             "return", "return", tonk.getFirst().getLiena(),
                                             "ERROR", amb.getLast()));
+                                }
+                                break;
+                            case "item":
+                                pila.removeLast();
+                                auxReg = varAuxSe2;
+                                if (!INIAS) {
+                                    isReg = true;
                                 }
                                 break;
                         }
@@ -1419,18 +1434,46 @@ public class Compilador implements ActionListener {
                                     varAux.setId(aux);
                                     varAux.setVariant(true);
                                     varAux.setAmb(amb.getLast());
-                                    err.add(new Errores(linea, 706,
-                                            aux, "No esta declarada la variable",
-                                            "Ambito", amb.getLast()));
-                                    contar(512);
-                                    ambitosTotales.getLast().setErrores();
+                                    if (!isReg) {
+                                        err.add(new Errores(linea, 706,
+                                                aux, "No esta declarada la variable",
+                                                "Ambito", amb.getLast()));
+                                        contar(512);
+                                        ambitosTotales.getLast().setErrores();
+                                    }
                                 }
                                 varAux.setTope("id");
                                 varAux.setLinea(linea);
-                                getSemanticaE_2().add(new Semantica_E_2(1130, "id",
-                                        varAux.getId().getFirst(), varAux.getLinea(),
-                                        estadoAux, amb.getLast()));
+                                if (!isReg) {
+                                    getSemanticaE_2().add(new Semantica_E_2(1130, "id",
+                                            varAux.getId().getFirst(), varAux.getLinea(),
+                                            estadoAux, amb.getLast()));
+                                }
                                 varAuxSe2 = varAux;
+                                if (isReg) {
+                                    isReg = false;
+                                    varAux = gestor.existe(auxReg, varAuxSe2.getId().getFirst());
+                                    if (varAux != null) {
+                                        varAux.setVariant(false);
+                                        getSemanticaE_2().add(new Semantica_E_2(1190, "id",
+                                                varAux.getId().getFirst(), linea,
+                                                "Acept", amb.getLast()));
+                                    } else {
+                                        varAux = new Variable();
+                                        varAux.setId(aux);
+                                        varAux.setVariant(true);
+                                        varAux.setAmb(amb.getLast());
+                                        getSemanticaE_2().add(new Semantica_E_2(1190, "id",
+                                                varAux.getId().getFirst(), linea,
+                                                "ERROR", amb.getLast()));
+                                        err.add(new Errores(linea, 1190,
+                                                aux, "No esta declarado el item",
+                                                "Semantica 2", amb.getLast()));
+                                    }
+                                    varAux.setTope("id");
+                                    varAux.setLinea(linea);
+                                    varAuxSe2 = varAux;
+                                }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "id");
                                 } else {
@@ -1447,7 +1490,6 @@ public class Compilador implements ActionListener {
                                     sE_1.Reiniciar();
                                     sE_1.getIds().add(auxVar);
                                     sE_1.getIds().getLast().setClave(clave);
-
                                 }
                             }
                             pila.removeLast();

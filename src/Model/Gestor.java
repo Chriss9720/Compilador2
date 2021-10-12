@@ -378,6 +378,34 @@ public class Gestor {
         return 0;
     }
 
+    public Variable existe(Variable reg, String id) {
+        abrir();
+        Variable v;
+        try {
+            sql = "select * from ids where amb = ("
+                    + "select tpar from ids where id = "
+                    + "(select tipo from ids where id = ? and amb = ?) "
+                    + "and amb = ?"
+                    + ") and id = ?;";
+            pst = con.prepareCall(sql);
+            pst.setString(1, reg.getId().getFirst());
+            pst.setString(2, tS(reg.getAmb()));
+            pst.setString(3, tS(reg.getAmb()));
+            pst.setString(4, id);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                v = new Variable();
+                v.Cargar(rs);
+                cerrar();
+                return v;
+            }
+        } catch (Exception e) {
+            System.out.println("Fallo al sacar el total de datos: " + e);
+        }
+        cerrar();
+        return null;
+    }
+
     public boolean getReturn(int amb) {
         abrir();
         try {
