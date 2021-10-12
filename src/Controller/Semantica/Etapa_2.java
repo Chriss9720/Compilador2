@@ -137,6 +137,36 @@ public class Etapa_2 {
         return err;
     }
 
+    public LinkedList<Errores> revisarREG(LinkedList<Variable> vars, LinkedList<String> op, LinkedList<Integer> amb) {
+        LinkedList<Errores> err = new LinkedList();
+        if (op.getFirst().equals("=") && op.size() == 1) {
+            Variable v1 = vars.getFirst();
+            Variable v2 = vars.getLast();
+            if (v2.getClase().contains("REG")) {
+                if (v1.getTipo().equals(v2.getTipo())) {
+                    p.getsE_2().add(new Semantica_E_2(1161, v2.getTope(), vars.get(0).getId().getFirst(),
+                            vars.get(0).getLinea(), "Acept", amb.getLast()));
+                } else {
+                    err.add(new Errores(vars.get(0).getLinea(), 1161, vars.get(0).getId().getFirst(),
+                            "Para asignar debe de ser del mismo registro", "Semantica 2", amb.getLast()));
+                    p.getsE_2().add(new Semantica_E_2(1161, v2.getTope(), vars.get(0).getId().getFirst(),
+                            vars.get(0).getLinea(), "ERROR", amb.getLast()));
+                }
+            } else {
+                err.add(new Errores(vars.get(0).getLinea(), 1170, vars.get(0).getId().getFirst(),
+                        "Este valor solo puede ser asginado a un elemento", "Semantica 2", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1170, v2.getTope(), vars.get(0).getId().getFirst(),
+                        vars.get(0).getLinea(), "ERROR", amb.getLast()));
+            }
+        } else {
+            err.add(new Errores(vars.get(0).getLinea(), 1161, vars.get(0).getId().getFirst(),
+                    "Para asignar debe de ser del mismo registro", "Semantica 2", amb.getLast()));
+            p.getsE_2().add(new Semantica_E_2(1161, vars.get(0).getTope(), vars.get(0).getId().getFirst(),
+                    vars.get(0).getLinea(), "ERROR", amb.getLast()));
+        }
+        return err;
+    }
+
     public Arreglo getRaiz() {
         return raiz;
     }

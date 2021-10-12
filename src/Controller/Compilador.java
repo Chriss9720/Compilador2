@@ -853,39 +853,48 @@ public class Compilador implements ActionListener {
                                     } else if (paraFor == 21) {
                                         paraFor = (sE_1.contieneDecOInc()) ? 22 : 21;
                                     }
-                                    sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> err.addFirst(new Errores(e)));
+                                    sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> err.add(new Errores(e)));
                                     varAuxSe2 = sE_1.getIds().getFirst();
-                                    if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion")) {
-                                        String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
-                                        err.add(new Errores(varAuxSe2.getLinea(), 1090,
-                                                varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
-                                                "Semantica Etapa 2", amb.getLast()));
-                                        getSemanticaE_2().add(new Semantica_E_2(1090,
-                                                "id", varAuxSe2.getId().getFirst(),
-                                                varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                    boolean resolver = true;
+                                    if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion") || varAuxSe2.getClase().contains("REG")) {
+                                        if (varAuxSe2.getClase().contains("REG")) {
+                                            resolver = false;
+                                            sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb).forEach(e -> err.add(new Errores(e)));
+                                            sE_1.Reiniciar();
+                                        } else {
+                                            String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
+                                            err.add(new Errores(varAuxSe2.getLinea(), 1090,
+                                                    varAuxSe2.getId().getLast(), "No se puede asingnar a una " + es,
+                                                    "Semantica Etapa 2", amb.getLast()));
+                                            getSemanticaE_2().add(new Semantica_E_2(1090,
+                                                    "id", varAuxSe2.getId().getFirst(),
+                                                    varAuxSe2.getLinea(), "ERROR", amb.getLast()));
+                                        }
                                     } else {
                                         getSemanticaE_2().add(new Semantica_E_2(
                                                 1090, varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     }
-                                    for (Errores i : sE_1.Resolver(true)) {
-                                        if (i.getNumero() == 807 && acept) {
-                                            acept = false;
+                                    if (resolver) {
+                                        for (Errores i : sE_1.Resolver(true)) {
+                                            if (i.getNumero() == 807 && acept) {
+                                                acept = false;
+                                            }
+                                            i.setNumero(clave);
+                                            err.add(new Errores(i));
+                                            contar(509);
                                         }
-                                        i.setNumero(clave);
-                                        err.add(new Errores(i));
-                                        contar(509);
-                                    }
-                                    auxSe2 = sE_1.getIds().getFirst();
-                                    auxSe2.setTope("id");
-                                    if (acept) {
-                                        getSemanticaE_2().add(new Semantica_E_2(
-                                                clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
-                                                auxSe2.getLinea(), "Acept", amb.getLast()));
-                                    } else {
-                                        getSemanticaE_2().add(new Semantica_E_2(
-                                                clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
-                                                auxSe2.getLinea(), "ERROR", amb.getLast()));
+                                        auxSe2 = sE_1.getIds().getFirst();
+                                        auxSe2.setTope("id");
+                                        if (acept) {
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                        } else {
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
+                                                    auxSe2.getLinea(), "ERROR", amb.getLast()));
+                                        }
                                     }
                                 }
                                 break;
