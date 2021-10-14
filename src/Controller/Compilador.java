@@ -958,7 +958,10 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
-                                    sE_2.resolver(amb);
+                                    sE_2.resolver(amb).forEach(e -> {
+                                        err.add(new Errores(e));
+                                    contar(509);
+                                    });
                                 }
                                 pila.removeLast();
                                 break;

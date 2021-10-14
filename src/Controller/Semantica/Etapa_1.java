@@ -319,6 +319,9 @@ public class Etapa_1 {
     }
 
     private void ponerTipo(Variable v, String c, int fila, int col, boolean s1) {
+        if (fila == -1 || col == -1) {
+            c = "ERROR";
+        }
         switch (c) {
             case "/":
                 v.setTipo(matrizDiv[fila][col]);

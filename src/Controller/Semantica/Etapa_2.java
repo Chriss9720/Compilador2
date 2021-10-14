@@ -22,6 +22,7 @@ public class Etapa_2 {
     }
     
     public void empezar(Variable var) {
+        raiz = new Arreglo();
         raiz.addVar(var);
         ultimo = raiz;
     }
@@ -63,8 +64,7 @@ public class Etapa_2 {
             Variable var = ultimo.getLast();
             if (ultimo.getTarr() > -1) {
                 int v = 0;
-                p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
-                        var.getLinea(), "Acept", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "Acept", amb.getLast()));
                 if (s1.getIds().size() > 1) {
                     tercera = false;
                 } else if (s1.getIds().size() == 1) {
@@ -105,8 +105,7 @@ public class Etapa_2 {
             } else {
                 err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango",
                         "Semantica 2", var.getAmb()));
-                p.getsE_2().add(new Semantica_E_2(1030, var.getTope(), var.getId().getFirst(),
-                        var.getLinea(), "ERROR", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "ERROR", amb.getLast()));
             }
         }
         s1.Reiniciar();
