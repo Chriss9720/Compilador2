@@ -74,12 +74,10 @@ public class Etapa_2 {
                 e1.getIds().add(i);
             }
         });
-
         if (ultimo.getPrevio() != null) {
             ultimo = ultimo.getPrevio();
             ultimo.setNext(null);
         }
-
         //Resolver
         e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
         //Validar
