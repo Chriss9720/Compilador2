@@ -1009,10 +1009,25 @@ public class Compilador implements ActionListener {
                                         break;
                                 }
                                 pila.removeLast();
-                                sE_1.Resolver(false).forEach(e -> {
-                                    err.add(new Errores(e));
-                                    contar(509);
-                                });
+                                boolean aux1160 = false;
+                                for (int i = 0; i < sE_1.getIds().size() && !aux1160; i++) {
+                                    aux1160 = (sE_1.getIds().get(i).getClase().contains("REG"));
+                                }
+                                if (!aux1160) {
+                                    sE_1.Resolver(false).forEach(e -> {
+                                        err.add(new Errores(e));
+                                        contar(509);
+                                    });
+                                } else {
+                                    LinkedList<Errores> auxERR = sE_2.ResolverReg(sE_1.getIds(), sE_1.getOperadores(), amb);
+                                    if (auxERR.isEmpty()) {
+                                        sE_1.getIds().getFirst().setTipo("BOOL");
+                                    } else {
+                                        sE_1.getIds().getFirst().setTipo("NONE");
+                                        sE_1.getIds().getFirst().setVariant(true);
+                                        auxERR.forEach(e -> err.add(new Errores(e)));
+                                    }
+                                }
                                 auxSe2 = sE_1.getIds().getFirst();
                                 if (auxSe2.getTipo().equals("BOOL") || auxSe2.isVariant()) {
                                     getSemanticaE_2().add(new Semantica_E_2(

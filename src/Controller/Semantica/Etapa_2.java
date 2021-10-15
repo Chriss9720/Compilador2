@@ -122,6 +122,31 @@ public class Etapa_2 {
         return r;
     }
 
+    public LinkedList<Errores> ResolverReg(LinkedList<Variable> vars, LinkedList<String> op, LinkedList<Integer> amb) {
+        LinkedList<Errores> err = new LinkedList();
+        vars.stream().filter(i -> i.getClase().contains("REG")).forEachOrdered(i -> i.setTipo("REG"));
+        boolean act = true;
+        Variable var = vars.getFirst();
+        for (int i = 0; i < vars.size() && act; i++) {
+            act = vars.get(i).getTipo().contains("REG");
+            if (!act) {
+                err.add(new Errores(var.getLinea(), 1160, "REG", "Solo se puede comparar un registro con otro", "Semantica 2", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1160, vars.get(i).getTipo(), vars.get(i).getTipo(), var.getLinea(), "ERROR", amb.getLast()));
+            }
+        }
+        for (int i = 0; i < op.size() && act; i++) {
+            act = op.get(i).equals("==");
+            if (!act) {
+                err.add(new Errores(var.getLinea(), 1160, "==", "Solo se permite == en la comparacion", "Semantica 2", amb.getLast()));
+                p.getsE_2().add(new Semantica_E_2(1160, op.get(i), op.get(i), var.getLinea(), "ERROR", amb.getLast()));
+            }
+        }
+        if (act) {
+            p.getsE_2().add(new Semantica_E_2(1160, "id", "id", var.getLinea(), "Acept", amb.getLast()));
+        }
+        return err;
+    }
+
     public LinkedList<Errores> revisarFunciones(LinkedList<Variable> vars, LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         vars.stream().filter(i -> i.getClase().contains("funcion")).forEachOrdered(i -> {
