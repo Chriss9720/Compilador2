@@ -74,23 +74,44 @@ public class Etapa_2 {
                 e1.getIds().add(i);
             }
         });
-        //Resolver
-        e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
-        //Validar
-        Variable var = ultimo.getVars().getFirst();
-        if (e1.getIds().getFirst().getTipo().equals("INT")) {
-            System.out.println("OKCAS");
-            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
-        } else {
-            err.add(new Errores(var.getLinea(), 1040, "Temporal", "Se requiere un valor entero", "Semantica 2", amb.getLast()));
-            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "Temporal", var.getLinea(), "ERROR", amb.getLast()));
-        }
-        e1.Reiniciar();
+
         if (ultimo.getPrevio() != null) {
             ultimo = ultimo.getPrevio();
             ultimo.setNext(null);
         }
 
+        //Resolver
+        e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+        //Validar
+        Variable var = ultimo.getVars().getFirst();
+        if (e1.getIds().getFirst().getTipo().equals("INT")) {
+            ultimo.setRegla2(true);
+            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
+        } else {
+            ultimo.setRegla2(false);
+            err.add(new Errores(var.getLinea(), 1040, "Temporal", "Se requiere un valor entero", "Semantica 2", amb.getLast()));
+            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "Temporal", var.getLinea(), "ERROR", amb.getLast()));
+        }
+        //Regla 3
+        if (ultimo.isRegla2()) {
+            try {
+                int v = tI(e1.getIds().getFirst().getId().getFirst());
+                String[] dim = this.invertirDimensiones(var.getDimArr());
+                if (v < tI(dim[ultimo.getTarr()])) {
+                    ultimo.setRegla3(true);
+                    p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
+                } else {
+                    ultimo.setRegla3(false);
+                    err.add(new Errores(var.getLinea(), 1050, "const_entero", "Debe de ser menor a la dimension", "Semantica 2", amb.getLast()));
+                    p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "ERROR", amb.getLast()));
+                }
+            } catch (Exception e) {
+                ultimo.setRegla3(true);
+                ultimo.setRegla3(true);
+                p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
+            }
+        }
+        e1.Reiniciar();
         return err;
     }
 
@@ -175,6 +196,10 @@ public class Etapa_2 {
 
     public Variable last() {
         return this.ultimo.getLast();
+    }
+
+    public int tI(String ob) {
+        return Integer.parseInt(ob);
     }
 
 }
