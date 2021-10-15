@@ -421,6 +421,23 @@ public class Gestor {
         return false;
     }
 
+    public String getTipoFunc(int amb) {
+        abrir();
+        try {
+            sql = "select tipo from ids where tPar = ?;";
+            pst = con.prepareCall(sql);
+            pst.setString(1, tS(amb));
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getString("tipo");
+            }
+        } catch (Exception e) {
+            System.out.println("Fallo al sacar el total de datos: " + e);
+        }
+        cerrar();
+        return "";
+    }
+
     private void abrir() {
         con = Connect.abrir();
     }

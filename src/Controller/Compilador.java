@@ -641,10 +641,24 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 if (gestor.getReturn(amb.getLast())) {
                                     if (isRet) {
-                                        getSemanticaE_2().add(new Semantica_E_2(
-                                                1140, "return", "return",
-                                                tonk.getFirst().getLiena(), "Acept",
-                                                amb.getLast()));
+                                        sE_1.mostrarEcuacion();
+                                        sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+                                        String tF = gestor.getTipoFunc(amb.getLast());
+                                        String rs = sE_1.getIds().getFirst().getTipo();
+                                        if (tF.equals(rs)) {
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    1140, "return", "return",
+                                                    tonk.getFirst().getLiena(), "Acept",
+                                                    amb.getLast()));
+                                        } else {
+                                            getSemanticaE_2().add(new Semantica_E_2(
+                                                    1140, "return", rs,
+                                                    tonk.getFirst().getLiena(), "ERROR",
+                                                    amb.getLast()));
+                                            err.add(new Errores(tonk.getFirst().getLiena(), 1140,
+                                                    rs, "Se esperaba un valor: " + tF,
+                                                    "Semantica Etapa 2", amb.getLast()));
+                                        }
                                     } else {
                                         getSemanticaE_2().add(new Semantica_E_2(
                                                 1140, pila.getLast(), tonk.getFirst().getLexema(),
@@ -723,7 +737,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "REAL");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
@@ -744,7 +758,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "EXP");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
@@ -766,7 +780,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR[]");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClase("Arr");
                                         sE_1.getIds().getLast().setClave(clave);
@@ -788,7 +802,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
@@ -809,7 +823,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "INT");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
@@ -840,7 +854,7 @@ public class Compilador implements ActionListener {
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "BOOL");
                                 if (!ISARR && !isFunc) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
@@ -958,10 +972,6 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
-//                                    sE_2.resolver(amb).forEach(e -> {
-//                                        err.add(new Errores(e));
-//                                        contar(509);
-//                                    });
                                 }
                                 pila.removeLast();
                                 break;
@@ -1228,7 +1238,7 @@ public class Compilador implements ActionListener {
                                 && entradaDePila == entradaDeTokens) {
                             switch (pila.getLast()) {
                                 case "+=":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1021;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1241,7 +1251,7 @@ public class Compilador implements ActionListener {
                                     break;
                                 case "/=":
                                     igual = "/=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1254,7 +1264,7 @@ public class Compilador implements ActionListener {
                                     break;
                                 case "*=":
                                     igual = "*=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1267,7 +1277,7 @@ public class Compilador implements ActionListener {
                                     break;
                                 case "-=":
                                     igual = "-=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
@@ -1279,7 +1289,7 @@ public class Compilador implements ActionListener {
                                     }
                                     break;
                                 case "=":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1020;
                                         sE_1.getOperadores().add(pila.getLast());
                                     } else if (ISARR && sE_2.getUltimo().isRegla1()) {
@@ -1302,7 +1312,7 @@ public class Compilador implements ActionListener {
                                 case "%":
                                 case "&":
                                 case "&&":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                         clave = 1;
                                         sE_1.getOperadores().add(pila.getLast());
                                     } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
