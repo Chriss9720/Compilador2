@@ -12,106 +12,88 @@ import java.util.LinkedList;
  * @author Gonza
  */
 public class Etapa_2 {
-    
+
     private Arreglo raiz = new Arreglo();
     private Arreglo ultimo = new Arreglo();
     private final Pantalla p;
-    
+
     public Etapa_2(Pantalla p) {
         this.p = p;
     }
-    
+
     public void empezar(Variable var) {
         raiz = new Arreglo();
         raiz.addVar(var);
         ultimo = raiz;
     }
-    
+
     public void addItem(Variable var) {
         ultimo.addVar(var);
     }
-    
-    public void addNodo() {
-        Arreglo nuevo = new Arreglo();
-        nuevo.setPrevio(ultimo);
-        ultimo.setNext(nuevo);
-        ultimo = nuevo;
+
+    public LinkedList<Errores> addNodo(LinkedList<Integer> amb) {
+        LinkedList<Errores> err = (ultimo.isRegla1()) ? validarRegla1(amb) : new LinkedList();
+        if (ultimo.isRegla1()) {
+            Arreglo nuevo = new Arreglo();
+            nuevo.setPrevio(ultimo);
+            ultimo.setNext(nuevo);
+            ultimo = nuevo;
+        }
+        return err;
     }
-    
+
+    private LinkedList<Errores> validarRegla1(LinkedList<Integer> amb) {
+        LinkedList<Errores> err = new LinkedList();
+        last().remDim();
+        Variable var = last();
+        if (ultimo.getTarr() > -1) {
+            ultimo.setRegla1(true);
+            p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "Acept", amb.getLast()));
+        } else {
+            ultimo.setRegla1(false);
+            err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango", "Semantica 2", amb.getLast()));
+            p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "ERROR", amb.getLast()));
+        }
+        return err;
+    }
+
     public void addItem(String op) {
         Variable var = new Variable();
         var.getId().add(op);
         ultimo.addOper(var);
     }
-    
+
     public LinkedList<Errores> resolver(LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
-        Etapa_1 s1 = new Etapa_1(p);
+        Etapa_1 e1 = new Etapa_1(p);
+        //LLenar las listas
         ultimo.getVars().forEach(i -> {
-            i.getId().forEach(j -> {
-                if (i.isVariable()) {
-                    s1.getIds().add(i);
-                } else if (i.isOperador()) {
-                    s1.getOperadores().add(i.getId().getLast());
-                }
-            });
+            if (i.isOperador()) {
+                e1.getOperadores().add(i.getId().getLast());
+            } else if (i.isVariable()) {
+                e1.getIds().add(i);
+            }
         });
+        //Resolver
+        e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+        //Validar
+        Variable var = ultimo.getVars().getFirst();
+        if (e1.getIds().getFirst().getTipo().equals("INT")) {
+            System.out.println("OKCAS");
+            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
+        } else {
+            err.add(new Errores(var.getLinea(), 1040, "Temporal", "Se requiere un valor entero", "Semantica 2", amb.getLast()));
+            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "Temporal", var.getLinea(), "ERROR", amb.getLast()));
+        }
+        e1.Reiniciar();
         if (ultimo.getPrevio() != null) {
             ultimo = ultimo.getPrevio();
-            ultimo.getLast().remDim();
             ultimo.setNext(null);
-            boolean tercera = true;
-            Variable var = ultimo.getLast();
-            if (ultimo.getTarr() > -1) {
-                int v = 0;
-                p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "Acept", amb.getLast()));
-                if (s1.getIds().size() > 1) {
-                    tercera = false;
-                } else if (s1.getIds().size() == 1) {
-                    try {
-                        v = Integer.parseInt(s1.getIds().getFirst().getId().getFirst());
-                        tercera = true;
-                    } catch (NumberFormatException e) {
-                        tercera = false;
-                    } catch (Exception e) {
-                        tercera = false;
-                    }
-                }
-                s1.Resolver(false).forEach(e -> err.add(new Errores(e)));
-                if (s1.getIds().getFirst().getTipo().equals("INT") || s1.getIds().getFirst().isVariant()) {
-                    p.getsE_2().add(new Semantica_E_2(1040, "Const_entero", s1.getIds().getFirst().getId().getLast(),
-                            var.getLinea(), "Acept", amb.getLast()));
-                    if (tercera) {
-                        String[] dim = invertirDimensiones(var.getDimArr());
-                        if (v < Integer.parseInt(dim[ultimo.getTarr()])) {
-                            p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
-                                    var.getLinea(), "Acept", amb.getLast()));
-                        } else {
-                            err.add(new Errores(var.getLinea(), 1050, String.valueOf(v), "Fuera del rango",
-                                    "Semantica 2", var.getAmb()));
-                            p.getsE_2().add(new Semantica_E_2(1050, "Const_entero", String.valueOf(v),
-                                    var.getLinea(), "ERROR", amb.getLast()));
-                        }
-                    } else {
-                        p.getsE_2().add(new Semantica_E_2(1050, var.getTope(), String.valueOf(v),
-                                var.getLinea(), "Acept", amb.getLast()));
-                    }
-                } else {
-                    err.add(new Errores(var.getLinea(), 1040, "[ ... ]", "Debe de ser un valor INT",
-                            "Semantica 2", var.getAmb()));
-                    p.getsE_2().add(new Semantica_E_2(1040, var.getTope(), var.getId().getFirst(),
-                            var.getLinea(), "ERROR", amb.getLast()));
-                }
-            } else {
-                err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango",
-                        "Semantica 2", var.getAmb()));
-                p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "ERROR", amb.getLast()));
-            }
         }
-        s1.Reiniciar();
+
         return err;
     }
-    
+
     private String[] invertirDimensiones(String dim) {
         String[] arr = dim.split(",");
         String[] r = new String[arr.length];
@@ -120,7 +102,7 @@ public class Etapa_2 {
         }
         return r;
     }
-    
+
     public LinkedList<Errores> revisarFunciones(LinkedList<Variable> vars, LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         vars.stream().filter(i -> i.getClase().contains("funcion")).forEachOrdered(i -> {
@@ -135,7 +117,7 @@ public class Etapa_2 {
         });
         return err;
     }
-    
+
     public LinkedList<Errores> revisarREG(LinkedList<Variable> vars, LinkedList<String> op, LinkedList<Integer> amb) {
         LinkedList<Errores> err = new LinkedList();
         if (op.getFirst().equals("=") && op.size() == 1) {
@@ -165,18 +147,34 @@ public class Etapa_2 {
         }
         return err;
     }
-    
+
     public void removeLast() {
         ultimo = ultimo.getPrevio();
         ultimo.setNext(null);
     }
-    
+
     public Arreglo getRaiz() {
         return raiz;
     }
-    
+
     public void setRaiz(Arreglo raiz) {
         this.raiz = raiz;
     }
-    
+
+    public boolean pasoRegla1() {
+        return this.ultimo.isRegla1();
+    }
+
+    public Arreglo getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(Arreglo ultimo) {
+        this.ultimo = ultimo;
+    }
+
+    public Variable last() {
+        return this.ultimo.getLast();
+    }
+
 }

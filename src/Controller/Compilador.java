@@ -728,7 +728,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope("Cont_real");
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -749,7 +749,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope("Cont_exponencial");
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -772,7 +772,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_cadena");
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope("Cont_cadena");
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -793,7 +793,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope("Cont_caracter");
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -814,7 +814,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope("Cont_entero");
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -845,7 +845,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
                                     }
-                                } else if (!ArryAdd && ISARR) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
                                     varAuxSe2.setTope(topeAux);
                                     sE_2.addItem(varAuxSe2);
                                 }
@@ -958,10 +958,10 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
-                                    sE_2.resolver(amb).forEach(e -> {
-                                        err.add(new Errores(e));
-                                    contar(509);
-                                    });
+//                                    sE_2.resolver(amb).forEach(e -> {
+//                                        err.add(new Errores(e));
+//                                        contar(509);
+//                                    });
                                 }
                                 pila.removeLast();
                                 break;
@@ -1019,14 +1019,21 @@ public class Compilador implements ActionListener {
                                 break;
                             case "+LVL":
                                 pila.removeLast();
-                                sE_2.addNodo();
-                                break;
-                            case "-LVL":
-                                pila.removeLast();
-                                sE_2.resolver(amb).forEach(e -> {
+                                sE_2.addNodo(amb).forEach(e -> {
                                     err.add(new Errores(e));
                                     contar(509);
                                 });
+                                break;
+                            case "-LVL":
+                                pila.removeLast();
+                                if (sE_2.pasoRegla1()) {
+                                    sE_2.resolver(amb).forEach(e -> {
+                                        err.add(new Errores(e));
+                                        contar(509);
+                                    });
+                                } else {
+                                    sE_2.getUltimo().setRegla1(true);
+                                }
                                 break;
                             case "for1I":
                                 pila.removeLast();
@@ -1226,7 +1233,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("+");
-                                    } else if (ISARR && !ArryAdd) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("+");
@@ -1239,7 +1246,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("/");
-                                    } else if (ISARR && !ArryAdd) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("/");
@@ -1252,7 +1259,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("*");
-                                    } else if (ISARR && !ArryAdd) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("*");
@@ -1265,7 +1272,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("-");
-                                    } else if (ISARR && !ArryAdd) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("-");
@@ -1275,7 +1282,7 @@ public class Compilador implements ActionListener {
                                     if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1020;
                                         sE_1.getOperadores().add(pila.getLast());
-                                    } else if (ISARR) {
+                                    } else if (ISARR && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem(pila.getLast());
                                     }
                                     break;
@@ -1298,7 +1305,7 @@ public class Compilador implements ActionListener {
                                     if ((INIAS || paraBool || paraFor == 11 || paraFor == 21) && !ISARR) {
                                         clave = 1;
                                         sE_1.getOperadores().add(pila.getLast());
-                                    } else if (ISARR && !ArryAdd) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
                                         sE_2.addItem(pila.getLast());
                                     }
                                     break;
@@ -1558,7 +1565,7 @@ public class Compilador implements ActionListener {
                                         sE_1.getIds().removeLast();
                                     }
                                     sE_1.getIds().add(varAux);
-                                } else {
+                                } else if (sE_2.getUltimo().isRegla1()) {
                                     if (isReg2 || isItem2) {
                                         sE_2.removeLast();
                                         isReg2 = false;

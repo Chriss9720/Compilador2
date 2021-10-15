@@ -12,6 +12,9 @@ public class Arreglo {
     private Arreglo next;
     private LinkedList<Variable> vars;
     private boolean resuelto;
+    private boolean regla1 = true;
+    private boolean regla2 = true;
+    private boolean regla3 = true;
 
     public Arreglo() {
         this.vars = new LinkedList();
@@ -72,5 +75,29 @@ public class Arreglo {
 
     public void setNext(Arreglo next) {
         this.next = next;
+    }
+
+    public boolean isRegla1() {
+        return regla1;
+    }
+
+    public void setRegla1(boolean regla1) {
+        this.regla1 = regla1;
+    }
+
+    public boolean isRegla2() {
+        return regla2;
+    }
+
+    public void setRegla2(boolean regla2) {
+        this.regla2 = regla2;
+    }
+
+    public boolean isRegla3() {
+        return regla3;
+    }
+
+    public void setRegla3(boolean regla3) {
+        this.regla3 = regla3;
     }
 }
