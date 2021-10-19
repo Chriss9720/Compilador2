@@ -82,13 +82,13 @@ public class Etapa_2 {
         e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
         //Validar
         Variable var = ultimo.getVars().getFirst();
-        if (e1.getIds().getFirst().getTipo().equals("INT")) {
+        if (e1.getIds().getFirst().getTipo().equals("INT") || e1.getIds().getFirst().isVariant()) {
             ultimo.setRegla2(true);
             p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
         } else {
             ultimo.setRegla2(false);
-            err.add(new Errores(var.getLinea(), 1040, "Temporal", "Se requiere un valor entero", "Semantica 2", amb.getLast()));
-            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "Temporal", var.getLinea(), "ERROR", amb.getLast()));
+            err.add(new Errores(var.getLinea(), 1040, e1.getIds().getFirst().getId().getFirst(), "Se requiere un valor entero", "Semantica 2", amb.getLast()));
+            p.getsE_2().add(new Semantica_E_2(1040, "const_entero", e1.getIds().getFirst().getId().getFirst(), var.getLinea(), "ERROR", amb.getLast()));
         }
         //Regla 3
         if (ultimo.isRegla2()) {

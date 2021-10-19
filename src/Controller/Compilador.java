@@ -677,7 +677,7 @@ public class Compilador implements ActionListener {
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             1150, "return", "return", tonk.getFirst().getLiena(),
                                             "ERROR", amb.getLast()));
-                                    err.add(new Errores(tonk.getFirst().getLiena(), 1140,
+                                    err.add(new Errores(tonk.getFirst().getLiena(), 1150,
                                             "return", "los procedimientos no llevan return",
                                             "Semantica Etapa 2", amb.getLast()));
                                 }
@@ -979,17 +979,6 @@ public class Compilador implements ActionListener {
                             case "1011I":
                             case "1012I":
                                 paraBoolAux = true;
-                                switch (pila.getLast()) {
-                                    case "1010I":
-                                        clave = 1010;
-                                        break;
-                                    case "1011I":
-                                        clave = 1011;
-                                        break;
-                                    case "1012I":
-                                        clave = 1012;
-                                        break;
-                                }
                                 pila.removeLast();
                                 paraBool = true;
                                 sE_1.Reiniciar();
@@ -1041,6 +1030,7 @@ public class Compilador implements ActionListener {
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "ERROR", auxSe2.getAmb()));
                                 }
+                                sE_1.Reiniciar();
                                 break;
                             case "+LVL":
                                 pila.removeLast();
@@ -1083,7 +1073,8 @@ public class Compilador implements ActionListener {
                             case "for1F":
                                 pila.removeLast();
                                 if (paraFor == 0) {
-                                    getSemanticaE_2().add(new Semantica_E_2(1083, ";", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
+                                    getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";",
+                                        tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 }
                                 paraFor = -1;
                                 break;
@@ -1099,7 +1090,7 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
                                 if (paraFor == 10) {
-                                    getSemanticaE_2().add(new Semantica_E_2(1083, ";", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
+                                    getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 } else {
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     if (sE_1.getIds().getFirst().getTipo().equals("BOOL") || sE_1.getIds().getFirst().isVariant()) {
@@ -1130,7 +1121,8 @@ public class Compilador implements ActionListener {
                                 boolean cont = sE_1.contieneDecOInc();
                                 sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
                                 if (paraFor == 20) {
-                                    getSemanticaE_2().add(new Semantica_E_2(1083, ")", "", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
+                                    getSemanticaE_2().add(new Semantica_E_2(1083, ")", ")",
+                                        tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 } else {
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     if (paraFor == 22) {
