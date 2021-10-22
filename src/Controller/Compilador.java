@@ -943,19 +943,20 @@ public class Compilador implements ActionListener {
                                     }
                                     switch (clave) {
                                         case 1020:
+                                            System.out.println(acept);
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, "=", "=",
-                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                                    auxSe2.getLinea(), (acept) ? "Acept" : "Error", amb.getLast()));
                                             break;
                                         case 1021:
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, "+=", "+=",
-                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                                    auxSe2.getLinea(), (acept) ? "Acept" : "Error", amb.getLast()));
                                             break;
                                         case 1022:
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, igual, igual,
-                                                    auxSe2.getLinea(), "Acept", amb.getLast()));
+                                                    auxSe2.getLinea(), (acept) ? "Acept" : "Error", amb.getLast()));
                                             break;
                                     }
                                 }
