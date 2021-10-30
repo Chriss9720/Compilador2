@@ -1214,6 +1214,9 @@ public class Compilador implements ActionListener {
                                 }
                                 isItem2 = true;
                                 break;
+                            case "clean":
+                                
+                                break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
                         entradaDePila = entrada(pila.getLast());
