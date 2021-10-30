@@ -12,6 +12,7 @@ public class Semantica_E_2 {
     private final int linea;
     private final String estado;
     private final int amb;
+    private String funcion;
 
     public Semantica_E_2(int regla, String topePila, String valorReal, 
             int linea, String estado, int amb) {
@@ -21,6 +22,15 @@ public class Semantica_E_2 {
         this.linea = linea;
         this.estado = estado;
         this.amb = amb;
+        this.funcion = "";
+    }
+
+    public String getFuncion() {
+        return funcion;
+    }
+
+    public void setFuncion(String funcion) {
+        this.funcion = funcion;
     }
 
     public int getRegla() {

@@ -9,6 +9,7 @@ import Model.Ambito;
 import Model.Keys;
 import Model.Semantica_E_1;
 import Model.Semantica_E_2;
+import Model.Semantica_E_3;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,6 +41,7 @@ public class Pantalla extends JFrame {
     private LinkedList<Ambito> amb = new LinkedList();
     private LinkedList<Semantica_E_1> sE_1 = new LinkedList();
     private LinkedList<Semantica_E_2> sE_2 = new LinkedList();
+    private LinkedList<Semantica_E_3> sE_3 = new LinkedList();
 
     public Pantalla() {
         init();
@@ -280,6 +282,14 @@ public class Pantalla extends JFrame {
 
     public void setsE_2() {
         this.sE_2 = new LinkedList();
+    }
+
+    public LinkedList<Semantica_E_3> getsE_3() {
+        return sE_3;
+    }
+
+    public void setsE_3() {
+        this.sE_3 = new LinkedList();
     }
 
 }

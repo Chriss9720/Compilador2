@@ -4,6 +4,7 @@ import Model.Ambito;
 import Model.Gestor;
 import Model.Semantica_E_1;
 import Model.Semantica_E_2;
+import Model.Semantica_E_3;
 import Vista.Pantalla;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,6 +29,7 @@ public class GenerarExcel {
     private final Gestor gestor = new Gestor();
     private final LinkedList<Semantica_E_1> sE_1;
     private final LinkedList<Semantica_E_2> sE_2;
+    private final LinkedList<Semantica_E_3> sE_3;
 
     public GenerarExcel(Pantalla p) {
         this.contadores = p.getContadores();
@@ -36,6 +38,7 @@ public class GenerarExcel {
         this.ambitos = p.getAmb();
         this.sE_1 = p.getsE_1();
         this.sE_2 = p.getsE_2();
+        this.sE_3 = p.getsE_3();
     }
 
     public void ejecutar() {
@@ -159,7 +162,7 @@ public class GenerarExcel {
             cell = row.createCell(12);
             cell.setCellValue(sE_1.get(i).getErr());
         }
-        
+
         XSSFSheet hoja6 = libro.createSheet("Semtica_Etapa_2");
         head = new String[]{"Regla", "Tope Pila", "Valor Real", "Linea", "Edo", "Ambito"};
         row = hoja6.createRow(0);
@@ -172,15 +175,38 @@ public class GenerarExcel {
             cell = row.createCell(0);
             cell.setCellValue(sE_2.get(i).getRegla());
             cell = row.createCell(1);
-            cell.setCellValue(sE_2.get(i).getTopePila());
+            cell.setCellValue(sE_2.get(i).getFuncion());
             cell = row.createCell(2);
-            cell.setCellValue(sE_2.get(i).getValorReal());
+            cell.setCellValue(sE_2.get(i).getTopePila());
             cell = row.createCell(3);
-            cell.setCellValue(sE_2.get(i).getLinea());
+            cell.setCellValue(sE_2.get(i).getValorReal());
             cell = row.createCell(4);
-            cell.setCellValue(sE_2.get(i).getEstado());
+            cell.setCellValue(sE_2.get(i).getLinea());
             cell = row.createCell(5);
+            cell.setCellValue(sE_2.get(i).getEstado());
+            cell = row.createCell(6);
             cell.setCellValue(sE_2.get(i).getAmb());
+        }
+
+        XSSFSheet hoja7 = libro.createSheet("Semtica_Etapa_3");
+        head = new String[]{"Funcion", "Entradas", "Salidas", "Aceptados", "Errores"};
+        row = hoja7.createRow(0);
+        for (int i = 0; i < head.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(head[i]);
+        }
+        for (int i = 0, j = 1; i < sE_3.size(); i++, j++) {
+            row = hoja7.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(sE_3.get(j).getFuncion());
+            cell = row.createCell(1);
+            cell.setCellValue(sE_3.get(j).getEntradas());
+            cell = row.createCell(2);
+            cell.setCellValue(sE_3.get(j).getSalida());
+            cell = row.createCell(3);
+            cell.setCellValue(sE_3.get(j).getAceptados());
+            cell = row.createCell(4);
+            cell.setCellValue(sE_3.get(j).getErroes());
         }
 
         File file = new File(nombreArchivo);
@@ -196,7 +222,7 @@ public class GenerarExcel {
             JOptionPane.showMessageDialog(null, "Error al crear el excel:\n" + ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private String evaluar(String ext, int c, XSSFCell cell, String l) {
         cell.setCellValue(c);
         if (c > 0) {

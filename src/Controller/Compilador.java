@@ -280,7 +280,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ASIGNACION", "*="));
         producciones.add(new Producciones("ASIGNACION", "-="));
         producciones.add(new Producciones("FUNCIONES", "clean ( )"));
-        producciones.add(new Producciones("FUNCIONES", "sqrt ( EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "sqrt ( EXP_PASCAL soloINT )"));
         producciones.add(new Producciones("FUNCIONES", "sqr ( EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "pow ( EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "sqrtv ( EXP_PASCAL , EXP_PASCAL )"));
@@ -514,6 +514,7 @@ public class Compilador implements ActionListener {
                     String igual = "";
                     setSemanticaE_1();
                     setSemanticaE_2();
+                    setSemanticaE_3();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
                     Etapa_2 sE_2 = new Etapa_2(pantalla);
                     sE_1.Reiniciar();
@@ -1213,9 +1214,6 @@ public class Compilador implements ActionListener {
                                     isItem = true;
                                 }
                                 isItem2 = true;
-                                break;
-                            case "clean":
-                                
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
@@ -2063,6 +2061,14 @@ public class Compilador implements ActionListener {
 
     public void setSemanticaE_2() {
         this.pantalla.setsE_2();
+    }
+
+    public LinkedList<Semantica_E_3> getsE_3() {
+        return pantalla.getsE_3();
+    }
+
+    public void setSemanticaE_3() {
+        this.pantalla.setsE_3();
     }
 
 }
