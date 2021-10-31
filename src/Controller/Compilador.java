@@ -2,6 +2,7 @@ package Controller;
 
 import Controller.Semantica.Etapa_1;
 import Controller.Semantica.Etapa_2;
+import Controller.Semantica.Etapa_3;
 import Model.*;
 import Vista.Pantalla;
 import java.awt.event.ActionEvent;
@@ -280,8 +281,8 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ASIGNACION", "*="));
         producciones.add(new Producciones("ASIGNACION", "-="));
         producciones.add(new Producciones("FUNCIONES", "clean ( )"));
-        producciones.add(new Producciones("FUNCIONES", "sqrt ( EXP_PASCAL soloINT )"));
-        producciones.add(new Producciones("FUNCIONES", "sqr ( EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "sqrt ( SE3 EXP_PASCAL soloINT )"));
+        producciones.add(new Producciones("FUNCIONES", "sqr ( SE3 EXP_PASCAL soloINT )"));
         producciones.add(new Producciones("FUNCIONES", "pow ( EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "sqrtv ( EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "<+ ( EXP_PASCAL , EXP_PASCAL )"));
@@ -506,6 +507,7 @@ public class Compilador implements ActionListener {
                     boolean isItem = false;
                     boolean isItem2 = false;
                     boolean isDoble = false;
+                    boolean s3 = false;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -517,6 +519,7 @@ public class Compilador implements ActionListener {
                     setSemanticaE_3();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
                     Etapa_2 sE_2 = new Etapa_2(pantalla);
+                    Etapa_3 sE_3 = new Etapa_3(pantalla);
                     sE_1.Reiniciar();
                     ObjTemp temp = new ObjTemp();
                     Registro reg = new Registro();
@@ -736,15 +739,17 @@ public class Compilador implements ActionListener {
                                 var.setTipo("REAL");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "REAL");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_real");
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope("Cont_real");
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_real");
@@ -757,15 +762,17 @@ public class Compilador implements ActionListener {
                                 var.setTipo("EXP");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "EXP");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_exponencial");
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope("Cont_exponencial");
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_exponencial");
@@ -779,16 +786,18 @@ public class Compilador implements ActionListener {
                                 var.setClase("Constante/Arr");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR[]");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClase("Arr");
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_cadena");
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope("Cont_cadena");
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_cadena");
@@ -801,15 +810,17 @@ public class Compilador implements ActionListener {
                                 var.setTipo("CHAR");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "CHAR");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_caracter");
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope("Cont_caracter");
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_caracter");
@@ -822,15 +833,17 @@ public class Compilador implements ActionListener {
                                 var.setTipo("INT");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "INT");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope("Cont_entero");
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope("Cont_entero");
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, "Cont_entero");
@@ -853,15 +866,17 @@ public class Compilador implements ActionListener {
                                 var.setTipo("BOOL");
                                 varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
                                         tonk.getFirst().getLiena(), "BOOL");
-                                if (!ISARR && !isFunc) {
+                                if (!ISARR && !isFunc && !s3) {
                                     if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
                                         sE_1.getIds().add(varAuxSe2);
                                         sE_1.getIds().getLast().setClave(clave);
                                         sE_1.getIds().getLast().setTope(topeAux);
                                     }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1()) {
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
                                     varAuxSe2.setTope(topeAux);
                                     sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
                                     regla9(auxFunc, totalPar, amb, topeAux);
@@ -943,7 +958,6 @@ public class Compilador implements ActionListener {
                                     }
                                     switch (clave) {
                                         case 1020:
-                                            System.out.println(acept);
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     clave, "=", "=",
                                                     auxSe2.getLinea(), (acept) ? "Acept" : "Error", amb.getLast()));
@@ -1215,6 +1229,27 @@ public class Compilador implements ActionListener {
                                 }
                                 isItem2 = true;
                                 break;
+                            case "sqrt":
+                            case "sqr":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2010);
+                                break;
+                            case "SE3":
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "soloINT":
+                                pila.removeLast();
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    sE_1.getIds().add(sE_3.resolverSqrt(amb, tonk.getFirst().getLiena()));
+                                } else if (ISARR) {
+                                    sE_2.getUltimo().addVar(sE_3.resolverSqrt(amb, tonk.getFirst().getLiena()));
+                                } else {
+                                    sE_3.resolverSqrt(amb, tonk.getFirst().getLiena());
+                                }
+                                sE_3.getErr().forEach(e -> err.add(e));
+                                s3 = false;
+                                break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
                         entradaDePila = entrada(pila.getLast());
@@ -1246,62 +1281,80 @@ public class Compilador implements ActionListener {
                                 && entradaDePila == entradaDeTokens) {
                             switch (pila.getLast()) {
                                 case "+=":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1021;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("+");
-                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("+");
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add("=");
+                                        sE_3.getIds().add(sE_3.getIds().getLast());
+                                        sE_3.getOperadores().add("+");
                                     }
                                     break;
                                 case "/=":
                                     igual = "/=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("/");
-                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("/");
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add("=");
+                                        sE_3.getIds().add(sE_3.getIds().getLast());
+                                        sE_3.getOperadores().add("/");
                                     }
                                     break;
                                 case "*=":
                                     igual = "*=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("*");
-                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("*");
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add("=");
+                                        sE_3.getIds().add(sE_3.getIds().getLast());
+                                        sE_3.getOperadores().add("*");
                                     }
                                     break;
                                 case "-=":
                                     igual = "-=";
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1022;
                                         sE_1.getOperadores().add("=");
                                         sE_1.getIds().add(sE_1.getIds().getLast());
                                         sE_1.getOperadores().add("-");
-                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem("=");
                                         sE_2.addItem(sE_1.getIds().getLast());
                                         sE_2.addItem("-");
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add("=");
+                                        sE_3.getIds().add(sE_3.getIds().getLast());
+                                        sE_3.getOperadores().add("-");
                                     }
                                     break;
                                 case "=":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1020;
                                         sE_1.getOperadores().add(pila.getLast());
-                                    } else if (ISARR && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem(pila.getLast());
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add("=");
                                     }
                                     break;
                                 case "+":
@@ -1320,11 +1373,13 @@ public class Compilador implements ActionListener {
                                 case "%":
                                 case "&":
                                 case "&&":
-                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR && !s3) {
                                         clave = 1;
                                         sE_1.getOperadores().add(pila.getLast());
-                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1()) {
+                                    } else if (ISARR && !ArryAdd && sE_2.getUltimo().isRegla1() && !s3) {
                                         sE_2.addItem(pila.getLast());
+                                    } else if (s3) {
+                                        sE_3.getOperadores().add(pila.getLast());
                                     }
                                     break;
                             }
@@ -1577,24 +1632,32 @@ public class Compilador implements ActionListener {
                                 } else {
                                     auxFunc = varAuxSe2;
                                 }
-                                if (!ISARR) {
+                                if (!ISARR && !s3) {
                                     if (isReg2 || isItem2) {
                                         isReg2 = false;
                                         isItem2 = false;
                                         sE_1.getIds().removeLast();
                                     }
                                     sE_1.getIds().add(varAux);
-                                } else if (sE_2.getUltimo().isRegla1()) {
+                                } else if (sE_2.getUltimo().isRegla1() && !s3) {
                                     if (isReg2 || isItem2) {
                                         sE_2.removeLast();
                                         isReg2 = false;
                                         isItem2 = false;
                                     }
                                     sE_2.addItem(varAux);
+                                } else if (s3) {
+                                    if (isReg2 || isItem2) {
+                                        isReg2 = false;
+                                        isItem2 = false;
+                                        sE_3.getIds().removeLast();
+                                    }
+                                    sE_3.getIds().add(varAux);
                                 }
                                 if (paraBoolAux) {
                                     paraBoolAux = false;
-                                    Variable auxVar = sE_1.getIds().getLast();
+                                    Variable auxVar = ((!ISARR && !s3))
+                                            ? sE_1.getIds().getLast() : sE_3.getIds().getLast();
                                     sE_1.getIds().add(auxVar);
                                     sE_1.getIds().getLast().setClave(clave);
                                 }
@@ -2047,6 +2110,49 @@ public class Compilador implements ActionListener {
         }
     }
 
+    public void cargarFunciones() {
+        getsE_3().add(new Semantica_E_3("sqrt_p1"));
+        getsE_3().add(new Semantica_E_3("sqr_p1"));
+        getsE_3().add(new Semantica_E_3("pow_p1"));
+        getsE_3().add(new Semantica_E_3("sqrtv_p1"));
+        getsE_3().add(new Semantica_E_3("pow_p2"));
+        getsE_3().add(new Semantica_E_3("sqrtv_p2"));
+        getsE_3().add(new Semantica_E_3("ins_p3"));
+        getsE_3().add(new Semantica_E_3("conv_p1"));
+        getsE_3().add(new Semantica_E_3("asc_p1"));
+        getsE_3().add(new Semantica_E_3("ins_p1"));
+        getsE_3().add(new Semantica_E_3("ins_p2"));
+        getsE_3().add(new Semantica_E_3("conv_p2"));
+        getsE_3().add(new Semantica_E_3("conv_p3"));
+        getsE_3().add(new Semantica_E_3("up_p1"));
+        getsE_3().add(new Semantica_E_3("low_p1"));
+        getsE_3().add(new Semantica_E_3("len_p1"));
+        getsE_3().add(new Semantica_E_3("$_p3"));
+        getsE_3().add(new Semantica_E_3("<+_p1"));
+        getsE_3().add(new Semantica_E_3(">+_p1"));
+        getsE_3().add(new Semantica_E_3("val_p1"));
+        getsE_3().add(new Semantica_E_3("$_p1"));
+        getsE_3().add(new Semantica_E_3("~_p1"));
+        getsE_3().add(new Semantica_E_3("<+_p2"));
+        getsE_3().add(new Semantica_E_3(">+_p2"));
+        getsE_3().add(new Semantica_E_3("$_p2"));
+        getsE_3().add(new Semantica_E_3("sqrt"));
+        getsE_3().add(new Semantica_E_3("sqr"));
+        getsE_3().add(new Semantica_E_3("pow"));
+        getsE_3().add(new Semantica_E_3("sqrtv"));
+        getsE_3().add(new Semantica_E_3("<+"));
+        getsE_3().add(new Semantica_E_3(">+"));
+        getsE_3().add(new Semantica_E_3("ins"));
+        getsE_3().add(new Semantica_E_3("conv"));
+        getsE_3().add(new Semantica_E_3("up"));
+        getsE_3().add(new Semantica_E_3("low"));
+        getsE_3().add(new Semantica_E_3("len"));
+        getsE_3().add(new Semantica_E_3("asc"));
+        getsE_3().add(new Semantica_E_3("val"));
+        getsE_3().add(new Semantica_E_3("$"));
+        getsE_3().add(new Semantica_E_3("~"));
+    }
+
     public LinkedList<Semantica_E_1> getSemanticaE_1() {
         return pantalla.getsE_1();
     }
@@ -2069,6 +2175,7 @@ public class Compilador implements ActionListener {
 
     public void setSemanticaE_3() {
         this.pantalla.setsE_3();
+        cargarFunciones();
     }
 
 }

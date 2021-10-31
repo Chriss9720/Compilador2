@@ -12,27 +12,27 @@ public class Semantica_E_3 {
     private int aceptados;
     private int erroes;
 
-    public Semantica_E_3() {
-        this.funcion = "";
+    public Semantica_E_3(String funcion) {
+        this.funcion = funcion;
         this.entradas = 0;
         this.salida = 0;
         this.aceptados = 0;
         this.erroes = 0;
     }
 
-    public void setEntradas(int entradas) {
+    public void setEntradas() {
         this.entradas +=1;
     }
 
-    public void setSalida(int salida) {
+    public void setSalida() {
         this.salida +=1;
     }
 
-    public void setAceptados(int aceptados) {
+    public void setAceptados() {
         this.aceptados +=1;
     }
 
-    public void setErroes(int erroes) {
+    public void setErroes() {
         this.erroes +=1;
     }
 

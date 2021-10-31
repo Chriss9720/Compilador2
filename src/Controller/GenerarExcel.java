@@ -164,7 +164,7 @@ public class GenerarExcel {
         }
 
         XSSFSheet hoja6 = libro.createSheet("Semtica_Etapa_2");
-        head = new String[]{"Regla", "Tope Pila", "Valor Real", "Linea", "Edo", "Ambito"};
+        head = new String[]{"Regla", "Funcion", "Tope Pila", "Valor Real", "Linea", "Edo", "Ambito"};
         row = hoja6.createRow(0);
         for (int i = 0; i < head.length; i++) {
             cell = row.createCell(i);
@@ -198,15 +198,15 @@ public class GenerarExcel {
         for (int i = 0, j = 1; i < sE_3.size(); i++, j++) {
             row = hoja7.createRow(j);
             cell = row.createCell(0);
-            cell.setCellValue(sE_3.get(j).getFuncion());
+            cell.setCellValue(sE_3.get(i).getFuncion());
             cell = row.createCell(1);
-            cell.setCellValue(sE_3.get(j).getEntradas());
+            cell.setCellValue(sE_3.get(i).getEntradas());
             cell = row.createCell(2);
-            cell.setCellValue(sE_3.get(j).getSalida());
+            cell.setCellValue(sE_3.get(i).getSalida());
             cell = row.createCell(3);
-            cell.setCellValue(sE_3.get(j).getAceptados());
+            cell.setCellValue(sE_3.get(i).getAceptados());
             cell = row.createCell(4);
-            cell.setCellValue(sE_3.get(j).getErroes());
+            cell.setCellValue(sE_3.get(i).getErroes());
         }
 
         File file = new File(nombreArchivo);
