@@ -231,6 +231,38 @@ public class Etapa_3 {
         return e1.getIds().getFirst();
     }
 
+    public Variable resolver2007(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2006;
+        err = new LinkedList();
+        Etapa_1 e1 = new Etapa_1(p);
+        ids.forEach(v -> e1.getIds().add(v));
+        operadores.forEach(o -> e1.getOperadores().add(o));
+        e1.Resolver(false).forEach(e -> err.add(e));
+        Reiniciar();
+        Variable func = e1.getIds().getFirst();
+        if (func.isVariant()) {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                a.setAceptados();
+                acept(res, linea, amb.getLast(), regla, "Cont_caracter");
+            });
+        } else {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                if (func.getTipo().equals("CHAR")) {
+                    a.setAceptados();
+                    acept(res, linea, amb.getLast(), regla, func.getId().getLast());
+                } else {
+                    a.setErroes();
+                    e1.getIds().getFirst().setVariant(true);
+                    error(res, linea, amb.getLast(), regla, "Debe de ser una cadena", func.getId().getLast());
+                }
+            });
+        }
+        e1.getIds().getFirst().setTipo("INT");
+        return e1.getIds().getFirst();
+    }
+
     public Variable resolver2008(LinkedList<Integer> amb, int linea, String res) {
         int regla = 2008;
         err = new LinkedList();
