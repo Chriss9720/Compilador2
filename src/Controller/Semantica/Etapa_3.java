@@ -158,6 +158,37 @@ public class Etapa_3 {
         return ids.getFirst();
     }
 
+    public Variable resolver2005(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2005;
+        err = new LinkedList();
+        Etapa_1 e1 = new Etapa_1(p);
+        ids.forEach(v -> e1.getIds().add(v));
+        operadores.forEach(o -> e1.getOperadores().add(o));
+        e1.Resolver(false).forEach(e -> err.add(e));
+        Reiniciar();
+        Variable func = e1.getIds().getFirst();
+        if (func.isVariant()) {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                a.setAceptados();
+                acept(res, linea, amb.getLast(), regla, "id");
+            });
+        } else {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                if (func.getTipo().contains("CHAR")) {
+                    a.setAceptados();
+                    acept(res, linea, amb.getLast(), regla, func.getId().getLast());
+                } else {
+                    a.setErroes();
+                    e1.getIds().getFirst().setVariant(true);
+                    error(res, linea, amb.getLast(), regla, "Debe de ser una variable tipo FILE", func.getId().getLast());
+                }
+            });
+        }
+        return e1.getIds().getFirst();
+    }
+
     public Variable resolver2006(LinkedList<Integer> amb, int linea, String res) {
         int regla = 2006;
         err = new LinkedList();

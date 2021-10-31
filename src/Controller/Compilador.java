@@ -289,8 +289,8 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", ">+ ( >+1 EXP_PASCAL SoloCadena , >+2 EXP_PASCAL soloFile )"));
         producciones.add(new Producciones("FUNCIONES", "ins ( ins1 EXP_PASCAL SoloCadena2 , ins2 EXP_PASCAL SoloCadena2 , ins3 EXP_PASCAL SoloINT )"));
         producciones.add(new Producciones("FUNCIONES", "conv ( conv1 EXP_PASCAL SoloINT , conv2 EXP_PASCAL SoloCadena2 , conv3 EXP_PASCAL enteroDET )"));
-        producciones.add(new Producciones("FUNCIONES", "up ( EXP_PASCAL )"));
-        producciones.add(new Producciones("FUNCIONES", "low ( EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "up ( up1 EXP_PASCAL algunCHAR )"));
+        producciones.add(new Producciones("FUNCIONES", "low ( low1 EXP_PASCAL algunCHAR )"));
         producciones.add(new Producciones("FUNCIONES", "len ( EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "asc EXP_PASCAL"));
         producciones.add(new Producciones("FUNCIONES", "val EXP_PASCAL"));
@@ -822,6 +822,7 @@ public class Compilador implements ActionListener {
                                     varAuxSe2.setTope("Cont_caracter");
                                     sE_2.addItem(varAuxSe2);
                                 } else if (s3) {
+                                    System.out.println("addC");
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
@@ -1360,6 +1361,20 @@ public class Compilador implements ActionListener {
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
+                            case "up1":
+                                rem = 0;
+                                resolviendo = "up_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "low1":
+                                rem = 0;
+                                resolviendo = "low_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
                             case "tipoInt":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
@@ -1469,6 +1484,25 @@ public class Compilador implements ActionListener {
                                     sE_2.getUltimo().addVar(sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo);
+                                }
+                                rem = 0;
+                                sE_3.getErr().forEach(e -> err.add(e));
+                                s3 = false;
+                                break;
+                            case "algunCHAR":
+                                pila.removeLast();
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
+                                    sE_1.getIds().add(sE_3.resolver2005(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
+                                    sE_2.getUltimo().addVar(sE_3.resolver2005(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else {
+                                    sE_3.resolver2005(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
                                 rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
