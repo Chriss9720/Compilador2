@@ -291,7 +291,7 @@ public class Etapa_3 {
                 }
             });
         }
-        if (res.contains("<+") || res.contains("$")) {
+        if (res.contains("<+") || res.contains("$") || res.contains("~")) {
             e1.getIds().getFirst().setTipo("BOOL");
         } else if (res.contains(">+")) {
             e1.getIds().getFirst().setTipo("VOID");

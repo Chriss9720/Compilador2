@@ -299,7 +299,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", "getcolorb ( )"));
         producciones.add(new Producciones("FUNCIONES", "getcolorf ( )"));
         producciones.add(new Producciones("FUNCIONES", "$ $p1 id soloFile . $p2 EXP_PASCAL Archivo1 , $p3 Cont_cadena SoloCadena"));
-        producciones.add(new Producciones("FUNCIONES", "~ REVISAR id"));
+        producciones.add(new Producciones("FUNCIONES", "~ ~p1 id soloFile"));
         producciones.add(new Producciones("E2", "<"));
     }
 
@@ -1257,6 +1257,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "<+":
                             case "$":
+                            case "~":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2016);
                                 break;
                             case ">+":
@@ -1429,6 +1430,14 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
+                                break;
+                            case "~p1":
+                                rem = 0;
+                                resolviendo = "~_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                REVISAR = true;
                                 break;
                             case "tipoInt":
                                 pila.removeLast();
