@@ -287,7 +287,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", "sqrtv ( sqrtv1 EXP_PASCAL tipoInt , sqrtv2 EXP_PASCAL tipoInt )"));
         producciones.add(new Producciones("FUNCIONES", "<+ ( <+1 EXP_PASCAL SoloCadena , <+2 EXP_PASCAL soloFile )"));
         producciones.add(new Producciones("FUNCIONES", ">+ ( >+1 EXP_PASCAL SoloCadena , >+2 EXP_PASCAL soloFile )"));
-        producciones.add(new Producciones("FUNCIONES", "ins ( EXP_PASCAL , EXP_PASCAL , EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "ins ( ins1 EXP_PASCAL SoloCadena2 , ins2 EXP_PASCAL SoloCadena2 , ins3 EXP_PASCAL SoloINT )"));
         producciones.add(new Producciones("FUNCIONES", "conv ( EXP_PASCAL , EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "up ( EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "low ( EXP_PASCAL )"));
@@ -1242,6 +1242,9 @@ public class Compilador implements ActionListener {
                             case ">+":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2017);
                                 break;
+                            case "ins":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2011);
+                                break;
                             case "sqrt1":
                                 resolviendo = "sqrt_p1";
                                 pila.removeLast();
@@ -1302,6 +1305,24 @@ public class Compilador implements ActionListener {
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
+                            case "ins1":
+                                resolviendo = "ins_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "ins2":
+                                resolviendo = "ins_p2";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "ins3":
+                                resolviendo = "ins_p3";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
                             case "tipoInt":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
@@ -1346,6 +1367,18 @@ public class Compilador implements ActionListener {
                                     sE_2.getUltimo().addVar(sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo);
+                                }
+                                sE_3.getErr().forEach(e -> err.add(e));
+                                s3 = false;
+                                break;
+                            case "SoloCadena2":
+                                pila.removeLast();
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    sE_1.getIds().add(sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else if (ISARR) {
+                                    sE_2.getUltimo().addVar(sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else {
+                                    sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
