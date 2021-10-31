@@ -513,6 +513,7 @@ public class Compilador implements ActionListener {
                     int valor;
                     int paraFor = -1;
                     int totalPar = 0;
+                    int rem = 0;
                     String igual = "";
                     String resolviendo = "";
                     setSemanticaE_1();
@@ -1249,66 +1250,77 @@ public class Compilador implements ActionListener {
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2012);
                                 break;
                             case "sqrt1":
+                                rem = 0;
                                 resolviendo = "sqrt_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "sqr1":
+                                rem = 0;
                                 resolviendo = "sqr_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "pow1":
+                                rem = 0;
                                 resolviendo = "pow_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "pow2":
+                                rem = 1;
                                 resolviendo = "pow_p2";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "sqrtv1":
+                                rem = 0;
                                 resolviendo = "sqrtv_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "sqrtv2":
+                                rem = 1;
                                 resolviendo = "sqrtv_p2";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "<+1":
+                                rem = 0;
                                 resolviendo = "<+_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "<+2":
+                                rem = 1;
                                 resolviendo = "<+_p2";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case ">+1":
+                                rem = 0;
                                 resolviendo = ">+_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case ">+2":
+                                rem = 1;
                                 resolviendo = ">+_p2";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "ins1":
+                                rem = 0;
                                 resolviendo = "ins_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
@@ -1321,24 +1333,28 @@ public class Compilador implements ActionListener {
                                 s3 = true;
                                 break;
                             case "ins3":
+                                rem = 2;
                                 resolviendo = "ins_p3";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "conv1":
+                                rem = 0;
                                 resolviendo = "conv_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "conv2":
+                                rem = 0;
                                 resolviendo = "conv_p2";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
                             case "conv3":
+                                rem = 2;
                                 resolviendo = "conv_p3";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
@@ -1347,74 +1363,115 @@ public class Compilador implements ActionListener {
                             case "tipoInt":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
                                 break;
                             case "SoloINT":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
                                 break;
                             case "SoloCadena":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2006(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2006(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2006(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
                                 break;
                             case "soloFile":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
                                 break;
                             case "SoloCadena2":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;
                                 break;
                             case "enteroDET":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
                                     sE_1.getIds().add(sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
                                     sE_2.getUltimo().addVar(sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
+                                rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));
-                                sE_1.getIds().forEach(i -> System.out.println(i.getTipo()));
                                 s3 = false;
                                 break;
                         }
