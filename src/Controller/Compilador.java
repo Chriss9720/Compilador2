@@ -298,7 +298,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", "setcolorf ( EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "getcolorb ( )"));
         producciones.add(new Producciones("FUNCIONES", "getcolorf ( )"));
-        producciones.add(new Producciones("FUNCIONES", "$ REVISAR id . EXP_PASCAL , Cont_cadena"));
+        producciones.add(new Producciones("FUNCIONES", "$ $p1 id soloFile . $p2 EXP_PASCAL Archivo1 , $p3 Cont_cadena SoloCadena"));
         producciones.add(new Producciones("FUNCIONES", "~ REVISAR id"));
         producciones.add(new Producciones("E2", "<"));
     }
@@ -1256,6 +1256,7 @@ public class Compilador implements ActionListener {
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2015);
                                 break;
                             case "<+":
+                            case "$"
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2016);
                                 break;
                             case ">+":
@@ -1407,6 +1408,28 @@ public class Compilador implements ActionListener {
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
+                            case "$p1":
+                                rem = 0;
+                                resolviendo = "$_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                REVISAR = true;
+                                break;
+                            case "$p2":
+                                rem = 0;
+                                resolviendo = "$_p2";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "$p3":
+                                rem = 2;
+                                resolviendo = "$_p3";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
                             case "tipoInt":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
@@ -1554,6 +1577,25 @@ public class Compilador implements ActionListener {
                                     sE_2.getUltimo().addVar(sE_3.resolver2007(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
                                     sE_3.resolver2007(amb, tonk.getFirst().getLiena(), resolviendo);
+                                }
+                                rem = 0;
+                                sE_3.getErr().forEach(e -> err.add(e));
+                                s3 = false;
+                                break;
+                            case "Archivo1":
+                                pila.removeLast();
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_1.getIds().removeLast();
+                                    }
+                                    sE_1.getIds().add(sE_3.resolver2009(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else if (ISARR) {
+                                    for (int i = 0; i < rem; i++) {
+                                        sE_2.removeLast();
+                                    }
+                                    sE_2.getUltimo().addVar(sE_3.resolver2009(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else {
+                                    sE_3.resolver2009(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
                                 rem = 0;
                                 sE_3.getErr().forEach(e -> err.add(e));

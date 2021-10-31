@@ -291,11 +291,57 @@ public class Etapa_3 {
                 }
             });
         }
-        if (res.contains("<+")) {
+        if (res.contains("<+") || res.contains("$")) {
             e1.getIds().getFirst().setTipo("BOOL");
         } else if (res.contains(">+")) {
             e1.getIds().getFirst().setTipo("VOID");
         }
+        return e1.getIds().getFirst();
+    }
+
+    public Variable resolver2009(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2009;
+        err = new LinkedList();
+        Etapa_1 e1 = new Etapa_1(p);
+        ids.forEach(v -> e1.getIds().add(v));
+        operadores.forEach(o -> e1.getOperadores().add(o));
+        System.out.println(ids.getFirst().toString());
+        e1.Resolver(false).forEach(e -> err.add(e));
+        Reiniciar();
+        Variable func = e1.getIds().getFirst();
+        if (func.isVariant()) {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                a.setAceptados();
+                acept(res, linea, amb.getLast(), regla, "Cont_cadena");
+            });
+        } else {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                if (func.getTipo().equals("CHAR[]")) {
+                    if (func.getClase().isEmpty()) {
+                        String cons = func.getId().getFirst();
+                        if (cons.equals("w") || cons.equals("r")
+                                || cons.equals("w+") || cons.equals("r+")) {
+                            a.setAceptados();
+                            acept(res, linea, amb.getLast(), regla, cons);
+                        } else {
+                            a.setErroes();
+                            e1.getIds().getFirst().setVariant(true);
+                            error(res, linea, amb.getLast(), regla, "Debe de ser una cadena", func.getId().getLast());
+                        }
+                    } else {
+                        a.setAceptados();
+                        acept(res, linea, amb.getLast(), regla, func.getId().getLast());
+                    }
+                } else {
+                    a.setErroes();
+                    e1.getIds().getFirst().setVariant(true);
+                    error(res, linea, amb.getLast(), regla, "Debe de ser una cadena", func.getId().getLast());
+                }
+            });
+        }
+        e1.getIds().getFirst().setTipo("BOOL");
         return e1.getIds().getFirst();
     }
 
