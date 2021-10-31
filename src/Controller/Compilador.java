@@ -291,7 +291,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", "conv ( conv1 EXP_PASCAL SoloINT , conv2 EXP_PASCAL SoloCadena2 , conv3 EXP_PASCAL enteroDET )"));
         producciones.add(new Producciones("FUNCIONES", "up ( up1 EXP_PASCAL algunCHAR )"));
         producciones.add(new Producciones("FUNCIONES", "low ( low1 EXP_PASCAL algunCHAR )"));
-        producciones.add(new Producciones("FUNCIONES", "len ( EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "len ( len1 EXP_PASCAL SoloCadena )"));
         producciones.add(new Producciones("FUNCIONES", "asc EXP_PASCAL"));
         producciones.add(new Producciones("FUNCIONES", "val EXP_PASCAL"));
         producciones.add(new Producciones("FUNCIONES", "setcolorb ( EXP_PASCAL )"));
@@ -1371,6 +1371,13 @@ public class Compilador implements ActionListener {
                             case "low1":
                                 rem = 0;
                                 resolviendo = "low_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "len1":
+                                rem = 0;
+                                resolviendo = "len_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;

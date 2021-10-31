@@ -221,6 +221,8 @@ public class Etapa_3 {
             e1.getIds().getFirst().setTipo("BOOL");
         } else if (res.contains(">+")) {
             e1.getIds().getFirst().setTipo("VOID");
+        } else if (res.contains("len")) {
+            e1.getIds().getFirst().setTipo("INT");
         }
         return e1.getIds().getFirst();
     }
