@@ -37,6 +37,7 @@ public class Etapa_3 {
     }
 
     public Variable resolver2001(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2001;
         err = new LinkedList();
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
@@ -48,7 +49,7 @@ public class Etapa_3 {
             getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
                 a.setEntradas();
                 a.setAceptados();
-                acept(res, linea, amb.getLast(), 2001, "Cont_Entero");
+                acept(res, linea, amb.getLast(), regla, "Cont_Entero");
             });
         } else {
             getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
@@ -56,11 +57,11 @@ public class Etapa_3 {
                 if (funcion.getTipo().equals("CHAR") || funcion.getTipo().equals("INT")
                         || funcion.getTipo().equals("REAL") || funcion.getTipo().equals("EXP")) {
                     a.setAceptados();
-                    acept(res, linea, amb.getLast(), 2001, funcion.getId().getLast());
+                    acept(res, linea, amb.getLast(), regla, funcion.getId().getLast());
                 } else {
                     a.setErroes();
                     e1.getIds().getFirst().setVariant(true);
-                    error(res, linea, amb.getLast(), 2001, "Debe de ser entero/char/real/exp", funcion.getId().getLast());
+                    error(res, linea, amb.getLast(), regla, "Debe de ser entero/char/real/exp", funcion.getId().getLast());
                 }
             });
         }
@@ -69,6 +70,7 @@ public class Etapa_3 {
     }
 
     public Variable resolver2002(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2002;
         err = new LinkedList();
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
@@ -80,22 +82,94 @@ public class Etapa_3 {
             getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
                 a.setEntradas();
                 a.setAceptados();
-                acept(res, linea, amb.getLast(), 2002, "Cont_Entero");
+                acept(res, linea, amb.getLast(), regla, "Cont_Entero");
             });
         } else {
             getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
                 a.setEntradas();
                 if (func.getTipo().equals("INT")) {
                     a.setAceptados();
-                    acept(res, linea, amb.getLast(), 2002, func.getId().getLast());
+                    acept(res, linea, amb.getLast(), regla, func.getId().getLast());
                 } else {
                     a.setErroes();
                     e1.getIds().getFirst().setVariant(true);
-                    error(res, linea, amb.getLast(), 2002, "Debe de ser entero", func.getId().getLast());
+                    error(res, linea, amb.getLast(), regla, "Debe de ser entero", func.getId().getLast());
                 }
             });
         }
         e1.getIds().getFirst().setTipo("EXP");
+        return e1.getIds().getFirst();
+    }
+
+    public Variable resolver2006(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2006;
+        err = new LinkedList();
+        Etapa_1 e1 = new Etapa_1(p);
+        ids.forEach(v -> e1.getIds().add(v));
+        operadores.forEach(o -> e1.getOperadores().add(o));
+        e1.Resolver(false).forEach(e -> err.add(e));
+        Reiniciar();
+        Variable func = e1.getIds().getFirst();
+        if (func.isVariant()) {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                a.setAceptados();
+                acept(res, linea, amb.getLast(), regla, "Cont_cadena");
+            });
+        } else {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                if (func.getTipo().equals("CHAR[]")) {
+                    a.setAceptados();
+                    acept(res, linea, amb.getLast(), regla, func.getId().getLast());
+                } else {
+                    a.setErroes();
+                    e1.getIds().getFirst().setVariant(true);
+                    error(res, linea, amb.getLast(), regla, "Debe de ser una cadena", func.getId().getLast());
+                }
+            });
+        }
+        if (res.contains("<+")) {
+            e1.getIds().getFirst().setTipo("BOOL");
+        } else if (res.contains(">+")) {
+            e1.getIds().getFirst().setTipo("VOID");
+        }
+        return e1.getIds().getFirst();
+    }
+
+    public Variable resolver2008(LinkedList<Integer> amb, int linea, String res) {
+        int regla = 2008;
+        err = new LinkedList();
+        Etapa_1 e1 = new Etapa_1(p);
+        ids.forEach(v -> e1.getIds().add(v));
+        operadores.forEach(o -> e1.getOperadores().add(o));
+        e1.Resolver(false).forEach(e -> err.add(e));
+        Reiniciar();
+        Variable func = e1.getIds().getFirst();
+        if (func.isVariant()) {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                a.setAceptados();
+                acept(res, linea, amb.getLast(), regla, "id");
+            });
+        } else {
+            getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
+                a.setEntradas();
+                if (func.getTipo().equals("FILE")) {
+                    a.setAceptados();
+                    acept(res, linea, amb.getLast(), regla, func.getId().getLast());
+                } else {
+                    a.setErroes();
+                    e1.getIds().getFirst().setVariant(true);
+                    error(res, linea, amb.getLast(), regla, "Debe de ser una variable tipo FILE", func.getId().getLast());
+                }
+            });
+        }
+        if (res.contains("<+")) {
+            e1.getIds().getFirst().setTipo("BOOL");
+        } else if (res.contains(">+")) {
+            e1.getIds().getFirst().setTipo("VOID");
+        }
         return e1.getIds().getFirst();
     }
 
