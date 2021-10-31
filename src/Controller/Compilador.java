@@ -281,10 +281,10 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ASIGNACION", "*="));
         producciones.add(new Producciones("ASIGNACION", "-="));
         producciones.add(new Producciones("FUNCIONES", "clean ( )"));
-        producciones.add(new Producciones("FUNCIONES", "sqrt ( SE3 EXP_PASCAL soloINT )"));
-        producciones.add(new Producciones("FUNCIONES", "sqr ( SE3 EXP_PASCAL soloINT )"));
-        producciones.add(new Producciones("FUNCIONES", "pow ( EXP_PASCAL , EXP_PASCAL )"));
-        producciones.add(new Producciones("FUNCIONES", "sqrtv ( EXP_PASCAL , EXP_PASCAL )"));
+        producciones.add(new Producciones("FUNCIONES", "sqrt ( sqrt1 EXP_PASCAL tipoInt )"));
+        producciones.add(new Producciones("FUNCIONES", "sqr ( sqr1 EXP_PASCAL tipoInt )"));
+        producciones.add(new Producciones("FUNCIONES", "pow ( pow1 EXP_PASCAL tipoInt , pow2 EXP_PASCAL SoloINT )"));
+        producciones.add(new Producciones("FUNCIONES", "sqrtv ( sqrtv1 EXP_PASCAL tipoInt , sqrtv2 EXP_PASCAL tipoInt )"));
         producciones.add(new Producciones("FUNCIONES", "<+ ( EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", ">+ ( EXP_PASCAL , EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "ins ( EXP_PASCAL , EXP_PASCAL , EXP_PASCAL )"));
@@ -514,6 +514,7 @@ public class Compilador implements ActionListener {
                     int paraFor = -1;
                     int totalPar = 0;
                     String igual = "";
+                    String resolviendo = "";
                     setSemanticaE_1();
                     setSemanticaE_2();
                     setSemanticaE_3();
@@ -1231,21 +1232,66 @@ public class Compilador implements ActionListener {
                                 break;
                             case "sqrt":
                             case "sqr":
+                            case "pow":
+                            case "sqrtv":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2010);
                                 break;
-                            case "SE3":
+                            case "sqrt1":
+                                resolviendo = "sqrt_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;
                                 break;
-                            case "soloINT":
+                            case "sqr1":
+                                resolviendo = "sqr_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "pow1":
+                                resolviendo = "pow_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "pow2":
+                                resolviendo = "pow_p2";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "sqrtv1":
+                                resolviendo = "sqrtv_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "sqrtv2":
+                                resolviendo = "sqrtv_p2";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "tipoInt":
                                 pila.removeLast();
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
-                                    sE_1.getIds().add(sE_3.resolverSqrt(amb, tonk.getFirst().getLiena()));
+                                    sE_1.getIds().add(sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else if (ISARR) {
-                                    sE_2.getUltimo().addVar(sE_3.resolverSqrt(amb, tonk.getFirst().getLiena()));
+                                    sE_2.getUltimo().addVar(sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo));
                                 } else {
-                                    sE_3.resolverSqrt(amb, tonk.getFirst().getLiena());
+                                    sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo);
+                                }
+                                sE_3.getErr().forEach(e -> err.add(e));
+                                s3 = false;
+                                break;
+                            case "SoloINT":
+                                pila.removeLast();
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                    sE_1.getIds().add(sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else if (ISARR) {
+                                    sE_2.getUltimo().addVar(sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo));
+                                } else {
+                                    sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo);
                                 }
                                 sE_3.getErr().forEach(e -> err.add(e));
                                 s3 = false;

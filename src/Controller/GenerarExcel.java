@@ -196,17 +196,22 @@ public class GenerarExcel {
             cell.setCellValue(head[i]);
         }
         for (int i = 0, j = 1; i < sE_3.size(); i++, j++) {
-            row = hoja7.createRow(j);
-            cell = row.createCell(0);
-            cell.setCellValue(sE_3.get(i).getFuncion());
-            cell = row.createCell(1);
-            cell.setCellValue(sE_3.get(i).getEntradas());
-            cell = row.createCell(2);
-            cell.setCellValue(sE_3.get(i).getSalida());
-            cell = row.createCell(3);
-            cell.setCellValue(sE_3.get(i).getAceptados());
-            cell = row.createCell(4);
-            cell.setCellValue(sE_3.get(i).getErroes());
+            if (sE_3.get(i).getEntradas() > 0 || sE_3.get(i).getSalida() > 0
+                    || sE_3.get(i).getAceptados() > 0 || sE_3.get(i).getErroes() > 0) {
+                row = hoja7.createRow(j);
+                cell = row.createCell(0);
+                cell.setCellValue(sE_3.get(i).getFuncion());
+                cell = row.createCell(1);
+                cell.setCellValue(sE_3.get(i).getEntradas());
+                cell = row.createCell(2);
+                cell.setCellValue(sE_3.get(i).getSalida());
+                cell = row.createCell(3);
+                cell.setCellValue(sE_3.get(i).getAceptados());
+                cell = row.createCell(4);
+                cell.setCellValue(sE_3.get(i).getErroes());
+            } else {
+                j--;
+            }
         }
 
         File file = new File(nombreArchivo);
