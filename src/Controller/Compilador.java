@@ -1256,7 +1256,7 @@ public class Compilador implements ActionListener {
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2015);
                                 break;
                             case "<+":
-                            case "$"
+                            case "$":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2016);
                                 break;
                             case ">+":
