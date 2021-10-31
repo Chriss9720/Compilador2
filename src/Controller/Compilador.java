@@ -292,7 +292,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("FUNCIONES", "up ( up1 EXP_PASCAL algunCHAR )"));
         producciones.add(new Producciones("FUNCIONES", "low ( low1 EXP_PASCAL algunCHAR )"));
         producciones.add(new Producciones("FUNCIONES", "len ( len1 EXP_PASCAL SoloCadena )"));
-        producciones.add(new Producciones("FUNCIONES", "asc EXP_PASCAL"));
+        producciones.add(new Producciones("FUNCIONES", "asc asc1 EXP_PASCAL SoloINT"));
         producciones.add(new Producciones("FUNCIONES", "val EXP_PASCAL"));
         producciones.add(new Producciones("FUNCIONES", "setcolorb ( EXP_PASCAL )"));
         producciones.add(new Producciones("FUNCIONES", "setcolorf ( EXP_PASCAL )"));
@@ -1238,17 +1238,27 @@ public class Compilador implements ActionListener {
                             case "sqrtv":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2010);
                                 break;
-                            case "<+":
-                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2016);
-                                break;
-                            case ">+":
-                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2017);
-                                break;
                             case "ins":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2011);
                                 break;
                             case "conv":
                                 sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2012);
+                                break;
+                            case "up":
+                            case "low":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2013);
+                                break;
+                            case "len":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2014);
+                                break;
+                            case "asc":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2015);
+                                break;
+                            case "<+":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2016);
+                                break;
+                            case ">+":
+                                sE_3.marcar(amb, pila.getLast(), tonk.getFirst().getLiena(), 2017);
                                 break;
                             case "sqrt1":
                                 rem = 0;
@@ -1378,6 +1388,13 @@ public class Compilador implements ActionListener {
                             case "len1":
                                 rem = 0;
                                 resolviendo = "len_p1";
+                                pila.removeLast();
+                                sE_3.Reiniciar();
+                                s3 = true;
+                                break;
+                            case "asc1":
+                                rem = 0;
+                                resolviendo = "asc_p1";
                                 pila.removeLast();
                                 sE_3.Reiniciar();
                                 s3 = true;

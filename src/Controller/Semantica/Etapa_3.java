@@ -97,7 +97,11 @@ public class Etapa_3 {
                 }
             });
         }
-        e1.getIds().getFirst().setTipo("EXP");
+        if (res.contains("asc")) {
+            e1.getIds().getFirst().setTipo("CHAR");
+        } else {
+            e1.getIds().getFirst().setTipo("EXP");
+        }
         return e1.getIds().getFirst();
     }
 
