@@ -3,7 +3,6 @@ package Controller.Semantica;
 import Model.Errores;
 import Model.Semantica_E_2;
 import Model.Semantica_E_3;
-import Model.Tokens;
 import Model.Variable;
 import Vista.Pantalla;
 import java.util.LinkedList;
@@ -159,7 +158,9 @@ public class Etapa_3 {
                 error(res, linea, amb.getLast(), regla, "Debe de ser una constante entero", ids.getFirst().getId().getFirst());
             });
         }
-        return ids.getFirst();
+        Variable func = ids.getFirst();
+        Reiniciar();
+        return func;
     }
 
     public Variable resolver2005(LinkedList<Integer> amb, int linea, String res) {
@@ -232,7 +233,7 @@ public class Etapa_3 {
     }
 
     public Variable resolver2007(LinkedList<Integer> amb, int linea, String res) {
-        int regla = 2006;
+        int regla = 2007;
         err = new LinkedList();
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));

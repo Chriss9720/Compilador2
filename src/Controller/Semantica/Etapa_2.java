@@ -193,8 +193,10 @@ public class Etapa_2 {
     }
 
     public void removeLast() {
-        ultimo = ultimo.getPrevio();
-        ultimo.setNext(null);
+        if (ultimo.getPrevio() != null) {
+            ultimo = ultimo.getPrevio();
+            ultimo.setNext(null);
+        }
     }
 
     public Arreglo getRaiz() {

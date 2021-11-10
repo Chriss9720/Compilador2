@@ -5,7 +5,7 @@ package Model;
  * @author Gonza
  */
 public class Semantica_E_3 {
-    
+
     private String funcion;
     private int entradas;
     private int salida;
@@ -59,5 +59,5 @@ public class Semantica_E_3 {
     public int getErroes() {
         return erroes;
     }
-    
+
 }
