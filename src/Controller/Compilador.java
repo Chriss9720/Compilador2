@@ -519,6 +519,8 @@ public class Compilador implements ActionListener {
                     setSemanticaE_1();
                     setSemanticaE_2();
                     setSemanticaE_3();
+                    setCuadruplos();
+                    setCuadruplosCont();
                     Etapa_1 sE_1 = new Etapa_1(pantalla);
                     Etapa_2 sE_2 = new Etapa_2(pantalla);
                     Etapa_3 sE_3 = new Etapa_3(pantalla);
@@ -2539,6 +2541,22 @@ public class Compilador implements ActionListener {
     public void setSemanticaE_3() {
         this.pantalla.setsE_3();
         cargarFunciones();
+    }
+
+    public LinkedList<Cuadruplos_1> getCuadruplos() {
+        return pantalla.getCuadruplos();
+    }
+
+    public void setCuadruplos() {
+        this.pantalla.setCuadruplos();
+    }
+
+    public LinkedList<Cuadruplos_Contadores> getCuadruplosCont() {
+        return this.pantalla.getCuadruplosCont();
+    }
+
+    public void setCuadruplosCont() {
+        this.pantalla.setCuadruplosCont();
     }
 
 }

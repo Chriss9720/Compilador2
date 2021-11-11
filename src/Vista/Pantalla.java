@@ -6,6 +6,8 @@ import Controller.Compilador;
 import Controller.Limpiar;
 import Model.Action;
 import Model.Ambito;
+import Model.Cuadruplos_1;
+import Model.Cuadruplos_Contadores;
 import Model.Keys;
 import Model.Semantica_E_1;
 import Model.Semantica_E_2;
@@ -42,6 +44,8 @@ public class Pantalla extends JFrame {
     private LinkedList<Semantica_E_1> sE_1 = new LinkedList();
     private LinkedList<Semantica_E_2> sE_2 = new LinkedList();
     private LinkedList<Semantica_E_3> sE_3 = new LinkedList();
+    private LinkedList<Cuadruplos_1> cuadruplos = new LinkedList();
+    private LinkedList<Cuadruplos_Contadores> cuadruplosCont = new LinkedList();
 
     public Pantalla() {
         init();
@@ -290,6 +294,22 @@ public class Pantalla extends JFrame {
 
     public void setsE_3() {
         this.sE_3 = new LinkedList();
+    }
+
+    public LinkedList<Cuadruplos_1> getCuadruplos() {
+        return cuadruplos;
+    }
+
+    public void setCuadruplos() {
+        this.cuadruplos = new LinkedList();
+    }
+
+    public LinkedList<Cuadruplos_Contadores> getCuadruplosCont() {
+        return cuadruplosCont;
+    }
+
+    public void setCuadruplosCont() {
+        this.cuadruplosCont = new LinkedList();
     }
 
 }
