@@ -823,7 +823,6 @@ public class Compilador implements ActionListener {
                                     varAuxSe2.setTope("Cont_caracter");
                                     sE_2.addItem(varAuxSe2);
                                 } else if (s3) {
-                                    System.out.println("addC");
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
@@ -1988,8 +1987,8 @@ public class Compilador implements ActionListener {
                                     tonk.getFirst().getLexema(),
                                     "Error de fuerza bruta", "Sintaxis", amb.getLast()));
                             contar(513);
-                            //System.out.println("FB");
-                            //System.out.println(pila.getLast() + " " + tonk.getFirst().getSintaxis());
+                            System.out.println("FB");
+                            System.out.println(pila.getLast() + " " + tonk.getFirst().getSintaxis());
                         } else {
                             System.err.println("MMM");
                         }
