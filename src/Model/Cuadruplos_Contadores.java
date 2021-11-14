@@ -14,6 +14,7 @@ public class Cuadruplos_Contadores {
     private int TEX;
     private int TB;
     private int TRX;
+    private int TF;
     private int Arr;
     private int call;
     private int igual;
@@ -31,8 +32,8 @@ public class Cuadruplos_Contadores {
     private int DEF;
     private int PPALL;
 
-    public Cuadruplos_Contadores() {
-        this.amb = 0;
+    public Cuadruplos_Contadores(int amb) {
+        this.amb = amb;
         this.TE = 0;
         this.TR = 0;
         this.TS = 0;
@@ -40,6 +41,7 @@ public class Cuadruplos_Contadores {
         this.TEX = 0;
         this.TB = 0;
         this.TRX = 0;
+        this.TF = 0;
         this.Arr = 0;
         this.call = 0;
         this.igual = 0;
@@ -120,6 +122,14 @@ public class Cuadruplos_Contadores {
 
     public void setTRX() {
         this.TRX +=1;
+    }
+
+    public int getTF() {
+        return TF;
+    }
+
+    public void setTF() {
+        this.TF += 1;
     }
 
     public int getArr() {

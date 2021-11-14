@@ -41,7 +41,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable funcion = e1.getIds().getFirst();
         if (funcion.isVariant()) {
@@ -74,7 +74,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -110,7 +110,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -169,7 +169,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -200,7 +200,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -238,7 +238,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -270,7 +270,7 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -307,7 +307,7 @@ public class Etapa_3 {
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
         System.out.println(ids.getFirst().toString());
-        e1.Resolver(false).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {

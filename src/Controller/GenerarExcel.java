@@ -5,6 +5,8 @@ import Model.Gestor;
 import Model.Semantica_E_1;
 import Model.Semantica_E_2;
 import Model.Semantica_E_3;
+import Model.Cuadruplos_1;
+import Model.Cuadruplos_Contadores;
 import Vista.Pantalla;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +32,8 @@ public class GenerarExcel {
     private final LinkedList<Semantica_E_1> sE_1;
     private final LinkedList<Semantica_E_2> sE_2;
     private final LinkedList<Semantica_E_3> sE_3;
+    private final LinkedList<Cuadruplos_1> c1;
+    private final LinkedList<Cuadruplos_Contadores> cc;
 
     public GenerarExcel(Pantalla p) {
         this.contadores = p.getContadores();
@@ -39,6 +43,8 @@ public class GenerarExcel {
         this.sE_1 = p.getsE_1();
         this.sE_2 = p.getsE_2();
         this.sE_3 = p.getsE_3();
+        this.c1 = p.getCuadruplos();
+        this.cc = p.getCuadruplosCont();
     }
 
     public void ejecutar() {
@@ -211,6 +217,127 @@ public class GenerarExcel {
                 cell.setCellValue(sE_3.get(i).getErroes());
             } else {
                 j--;
+            }
+        }
+
+        XSSFSheet hoja8 = libro.createSheet("Cl");
+        head = new String[]{"Etiqueta", "Accion", "Arg1", "Arg2", "Resultado"};
+        row = hoja8.createRow(0);
+        for (int i = 0; i < head.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(head[i]);
+        }
+        for (int i = 0, j = 1; i < c1.size(); i++, j++) {
+            row = hoja8.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(c1.get(i).getEtiqueta());
+            cell = row.createCell(1);
+            cell.setCellValue(c1.get(i).getAccion());
+            cell = row.createCell(2);
+            cell.setCellValue(c1.get(i).getArg1());
+            cell = row.createCell(3);
+            cell.setCellValue(c1.get(i).getArg2());
+            cell = row.createCell(4);
+            cell.setCellValue(c1.get(i).getResultado());
+        }
+
+        XSSFSheet hoja9 = libro.createSheet("Cont-CI");
+        head = new String[]{"Ambitos", "TE", "TR", "TS", "TCH", "TEX", "TB",
+            "TRX", "TF", "Arr", "call", "=", "Op-Rel", "Ope-Log", "Oper-Arit",
+            "Op-Un", "JF", "JMP", "valor", "if-E", "SW-E", "For-E", "Whi-E",
+            "DEF", "PPAL"};
+        int[] totales = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        row = hoja9.createRow(0);
+        for (int i = 0; i < head.length; i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(head[i]);
+        }
+        for (int i = 0, j = 1; i < cc.size(); i++, j++) {
+            row = hoja9.createRow(j);
+            cell = row.createCell(0);
+            cell.setCellValue(cc.get(i).getAmb());
+            totales[0] += cc.get(i).getAmb();
+            cell = row.createCell(1);
+            cell.setCellValue(cc.get(i).getTE());
+            totales[1] += cc.get(i).getTE();
+            cell = row.createCell(2);
+            cell.setCellValue(cc.get(i).getTR());
+            totales[2] += cc.get(i).getTR();
+            cell = row.createCell(3);
+            cell.setCellValue(cc.get(i).getTS());
+            totales[3] += cc.get(i).getTS();
+            cell = row.createCell(4);
+            cell.setCellValue(cc.get(i).getTCH());
+            totales[4] += cc.get(i).getTCH();
+            cell = row.createCell(5);
+            cell.setCellValue(cc.get(i).getTEX());
+            totales[5] += cc.get(i).getTEX();
+            cell = row.createCell(6);
+            cell.setCellValue(cc.get(i).getTB());
+            totales[6] += cc.get(i).getTB();
+            cell = row.createCell(7);
+            cell.setCellValue(cc.get(i).getTRX());
+            totales[7] += cc.get(i).getTRX();
+            cell = row.createCell(8);
+            cell.setCellValue(cc.get(i).getTF());
+            totales[8] += cc.get(i).getTF();
+            cell = row.createCell(9);
+            cell.setCellValue(cc.get(i).getArr());
+            totales[9] += cc.get(i).getArr();
+            cell = row.createCell(10);
+            cell.setCellValue(cc.get(i).getCall());
+            totales[10] += cc.get(i).getCall();
+            cell = row.createCell(11);
+            cell.setCellValue(cc.get(i).getIgual());
+            totales[11] += cc.get(i).getIgual();
+            cell = row.createCell(12);
+            cell.setCellValue(cc.get(i).getOpRel());
+            totales[12] += cc.get(i).getOpRel();
+            cell = row.createCell(13);
+            cell.setCellValue(cc.get(i).getOperLog());
+            totales[13] += cc.get(i).getOperLog();
+            cell = row.createCell(14);
+            cell.setCellValue(cc.get(i).getOperArit());
+            totales[14] += cc.get(i).getOperArit();
+            cell = row.createCell(15);
+            cell.setCellValue(cc.get(i).getOperUn());
+            totales[15] += cc.get(i).getOperUn();
+            cell = row.createCell(16);
+            cell.setCellValue(cc.get(i).getJF());
+            totales[16] += cc.get(i).getJF();
+            cell = row.createCell(17);
+            cell.setCellValue(cc.get(i).getJMP());
+            totales[17] += cc.get(i).getJMP();
+            cell = row.createCell(18);
+            cell.setCellValue(cc.get(i).getValor());
+            totales[18] += cc.get(i).getValor();
+            cell = row.createCell(19);
+            cell.setCellValue(cc.get(i).getIfE());
+            totales[19] += cc.get(i).getIfE();
+            cell = row.createCell(20);
+            cell.setCellValue(cc.get(i).getSWE());
+            totales[20] += cc.get(i).getSWE();
+            cell = row.createCell(21);
+            cell.setCellValue(cc.get(i).getForE());
+            totales[21] += cc.get(i).getForE();
+            cell = row.createCell(22);
+            cell.setCellValue(cc.get(i).getWhiE());
+            totales[22] += cc.get(i).getWhiE();
+            cell = row.createCell(23);
+            cell.setCellValue(cc.get(i).getDEF());
+            totales[23] += cc.get(i).getDEF();
+            cell = row.createCell(24);
+            cell.setCellValue(cc.get(i).getPPALL());
+            totales[24] += cc.get(i).getPPALL();
+        }
+        row = hoja9.createRow(cc.size() + 1);
+        for (int i = 0; i < totales.length; i++) {
+            cell = row.createCell(i);
+            if (i == 0) {
+                cell.setCellValue("Totales");
+            } else {
+                cell.setCellValue(totales[i]);
             }
         }
 

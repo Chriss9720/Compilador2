@@ -1,5 +1,7 @@
 package Controller.Semantica;
 
+import Model.Cuadruplos_1;
+import Model.Cuadruplos_Contadores;
 import Model.Errores;
 import Model.Semantica_E_1;
 import Model.Variable;
@@ -102,22 +104,23 @@ public class Etapa_1 {
         {"ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "ERROR", "REG", "ERROR", "ERROR"}
     };
     private final Pantalla pantalla;
+    private int ambAct;
 
     public Etapa_1(Pantalla pantalla) {
         this.pantalla = pantalla;
     }
 
     public void Reiniciar() {
-        this.ids = new LinkedList();
-        this.operadores = new LinkedList();
+        ids = new LinkedList();
+        operadores = new LinkedList();
     }
 
     public void mostrarEcuacion() {
         String e = "";
         LinkedList<Variable> idsAux = new LinkedList();
         LinkedList<String> operadoresAux = new LinkedList();
-        this.getIds().forEach(i -> idsAux.add(new Variable(i)));
-        this.getOperadores().forEach(i -> operadoresAux.add(i));
+        getIds().forEach(i -> idsAux.add(new Variable(i)));
+        getOperadores().forEach(i -> operadoresAux.add(i));
         while (!idsAux.isEmpty()) {
             e += idsAux.getFirst().getId().getFirst();
             if (!operadoresAux.isEmpty()) {
@@ -129,7 +132,9 @@ public class Etapa_1 {
         System.out.println(e + " ->  SE_1");
     }
 
-    public LinkedList<Errores> Resolver(boolean s1) {
+    public LinkedList<Errores> Resolver(boolean s1, int amb) {
+        ambAct = amb;
+        getCuadruplos().add(new Cuadruplos_1());
         LinkedList<Errores> err = new LinkedList();
         ResolverEcuacion(err, s1);
         return err;
@@ -197,6 +202,12 @@ public class Etapa_1 {
         int aux = p + 1;
         String id1 = ids.get(p).getId().getFirst();
         String id2 = ids.get(aux).getId().getFirst();
+        if (!isErrC()) {
+            getCuadruplos().add(new Cuadruplos_1());
+            getCuadruplos().getLast().setAccion("=");
+            getCuadruplos().getLast().setArg1(id1);
+            getCuadruplos().getLast().setResultado(id2);
+        }
         String t1 = ids.get(p).getTipo();
         String t2 = ids.get(aux).getTipo();
         int amb = ids.getFirst().getAmb();
@@ -226,7 +237,7 @@ public class Etapa_1 {
                     v.setVariant(true);
                     err.add(new Errores(l, 807, lex, msj, "Semantica:Etapa 1", amb));
                     if (s1) {
-                        this.getSemanticaE_1().setErr();
+                        getSemanticaE_1().setErr();
                     }
                 } else {
                     v.setVariant(false);
@@ -238,6 +249,7 @@ public class Etapa_1 {
             }
         } else if (v1 && v2) {
             v.setVariant(true);
+            setErrC();
         } else if (v1 && !v2) {
             v.setVariant(false);
             v.setTipo(t1);
@@ -266,6 +278,13 @@ public class Etapa_1 {
         String tipo = "";
         String tope = ids.get(p).getTope();
         int linea = ids.get(p).getLinea();
+        if (!isErrC()) {
+            if (!getCuadruplos().getLast().getArg2().isEmpty()) {
+                getCuadruplos().add(new Cuadruplos_1());
+            }
+            getCuadruplos().getLast().setArg1(id1);
+            getCuadruplos().getLast().setArg2(id2);
+        }
         if (v1 || v2) {
             if (!v1 && v2) {
                 tipo = t1;
@@ -275,8 +294,9 @@ public class Etapa_1 {
                 v = tipo(tipo, v, c, s1);
             } else {
                 v.setVariant(true);
+                setErrC();
                 if (s1) {
-                    this.getSemanticaE_1().settV();
+                    getSemanticaE_1().settV();
                 }
             }
         } else {
@@ -288,16 +308,19 @@ public class Etapa_1 {
             String msj = "No se puede desarrollar una " + v.getOp() + " de " + tipo;
             err.add(new Errores(l, v.getTE(), id1 + c + id2, msj, "Semantica:Etapa 1", amb));
             if (s1) {
-                this.getSemanticaE_1().setErr();
+                getSemanticaE_1().setErr();
             }
             v.setVariant(true);
+            setErrC();
             if (s1) {
-                this.getSemanticaE_1().settV();
+                getSemanticaE_1().settV();
             }
         }
         ids.remove(aux);
         ids.remove(p);
-        v.setId(id1);
+        if (v.getId().isEmpty()) {
+            v.setId(id1);
+        }
         v.setTope(tope);
         v.setLinea(linea);
         ids.add(p, v);
@@ -321,6 +344,7 @@ public class Etapa_1 {
     private void ponerTipo(Variable v, String c, int fila, int col, boolean s1) {
         if (fila == -1 || col == -1) {
             c = "ERROR";
+            setErrC();
         }
         switch (c) {
             case "/":
@@ -373,11 +397,56 @@ public class Etapa_1 {
                 v.setVariant(true);
                 v.setOp(c);
                 v.setTE(807);
+                setErrC();
                 break;
         }
-        if (s1) {
-            this.getSemanticaE_1().calcularTipo(v.getTipo());
+        if (!isErrC()) {
+            getCuadruplos().getLast().setAccion(c);
+            v.setId(temporal(v.getTipo()));
+            getCuadruplos().getLast().setResultado(v.getId().getLast());
         }
+        if (s1) {
+            getSemanticaE_1().calcularTipo(v.getTipo());
+        }
+    }
+
+    private String temporal(String tipo) {
+        String temp = "T";
+        switch (tipo) {
+            case "INT":
+                getCuadruplosCont().get(ambAct).setTE();
+                temp += "E" + getCuadruplosCont().get(ambAct).getTE();
+                break;
+            case "REAL":
+                getCuadruplosCont().get(ambAct).setTR();
+                temp += "R" + getCuadruplosCont().get(ambAct).getTR();
+                break;
+            case "EXP":
+                getCuadruplosCont().get(ambAct).setTEX();
+                temp += "EX" + getCuadruplosCont().get(ambAct).getTEX();
+                break;
+            case "CHAR":
+                getCuadruplosCont().get(ambAct).setTCH();
+                temp += "CH" + getCuadruplosCont().get(ambAct).getTCH();
+                break;
+            case "CHAR[]":
+                getCuadruplosCont().get(ambAct).setTS();
+                temp += "S" + getCuadruplosCont().get(ambAct).getTS();
+                break;
+            case "BOOL":
+                getCuadruplosCont().get(ambAct).setTB();
+                temp += "B" + getCuadruplosCont().get(ambAct).getTB();
+                break;
+            case "REG":
+                getCuadruplosCont().get(ambAct).setTRX();
+                temp += "RX" + getCuadruplosCont().get(ambAct).getTRX();
+                break;
+            case "FILE":
+                getCuadruplosCont().get(ambAct).setTF();
+                temp += "F" + getCuadruplosCont().get(ambAct).getTF();
+                break;
+        }
+        return temp;
     }
 
     private int sacarFilaColumaMD(String in) {
@@ -394,7 +463,7 @@ public class Etapa_1 {
     }
 
     public int contieneIguales() {
-        for (String o : this.operadores) {
+        for (String o : operadores) {
             if (o.equals("=")) {
                 return 2;
             }
@@ -403,7 +472,7 @@ public class Etapa_1 {
     }
 
     public boolean contieneDecOInc() {
-        return this.operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") || o.equals("*") || o.equals("/")));
+        return operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") || o.equals("*") || o.equals("/")));
     }
 
     public LinkedList<String> getOperadores() {
@@ -415,7 +484,31 @@ public class Etapa_1 {
     }
 
     public void setSemanticaE_1() {
-        this.pantalla.setsE_1();
+        pantalla.setsE_1();
+    }
+
+    public LinkedList<Cuadruplos_1> getCuadruplos() {
+        return pantalla.getCuadruplos();
+    }
+
+    public void setCuadruplos() {
+        pantalla.setCuadruplos();
+    }
+
+    public LinkedList<Cuadruplos_Contadores> getCuadruplosCont() {
+        return pantalla.getCuadruplosCont();
+    }
+
+    public void setCuadruplosCont() {
+        pantalla.setCuadruplosCont();
+    }
+
+    public boolean isErrC() {
+        return pantalla.isErrC();
+    }
+
+    public void setErrC() {
+        pantalla.setErrC();
     }
 
 }

@@ -476,6 +476,7 @@ public class Compilador implements ActionListener {
                         System.out.print(p + " ");
                     }
                     System.out.println();*/
+                    pantalla.setErrR();
                     boolean EFB = true;
                     boolean VR = true;
                     boolean IDREG = false;
@@ -540,6 +541,7 @@ public class Compilador implements ActionListener {
                     ambitosTotales = new LinkedList();
                     ambitosTotales.add(new Ambito(0));
                     amb.add(ambitosTotales.getLast().getAmbito());
+                    getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
                     while (!pila.isEmpty() && !tonk.isEmpty() && EFB && VR) {
                         switch (pila.getLast()) {
                             case "REGISTRO":
@@ -548,6 +550,7 @@ public class Compilador implements ActionListener {
                                 reg.setAmb(amb.getLast());
                                 ambitosTotales.add(new Ambito(ambitosTotales.size()));
                                 amb.add(ambitosTotales.getLast().getAmbito());
+                                getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
                                 reg.settPar(tS(ambitosTotales.getLast().getAmbito()));
                                 break;
                             case "IDREG":
@@ -640,6 +643,7 @@ public class Compilador implements ActionListener {
                                 func.settArr(temp.gettArr());
                                 ambitosTotales.add(new Ambito(ambitosTotales.size()));
                                 amb.add(ambitosTotales.getLast().getAmbito());
+                                getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
                                 func.settPar(tS(ambitosTotales.getLast().getAmbito()));
                                 if (!temp.getId().isEmpty()) {
                                     func.setId(temp.getId());
@@ -650,7 +654,7 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 if (gestor.getReturn(amb.getLast())) {
                                     if (isRet) {
-                                        sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+                                        sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
                                         String tF = gestor.getTipoFunc(amb.getLast());
                                         String rs = sE_1.getIds().getFirst().getTipo();
                                         if (tF.equals(rs)) {
@@ -950,7 +954,7 @@ public class Compilador implements ActionListener {
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     }
                                     if (resolver) {
-                                        for (Errores i : sE_1.Resolver(true)) {
+                                        for (Errores i : sE_1.Resolver(true, amb.getLast())) {
                                             if (i.getNumero() == 807 && acept) {
                                                 acept = false;
                                             }
@@ -1023,7 +1027,7 @@ public class Compilador implements ActionListener {
                                     aux1160 = (sE_1.getIds().get(i).getClase().contains("REG"));
                                 }
                                 if (!aux1160) {
-                                    sE_1.Resolver(false).forEach(e -> {
+                                    sE_1.Resolver(false, amb.getLast()).forEach(e -> {
                                         err.add(new Errores(e));
                                         contar(509);
                                     });
@@ -1108,7 +1112,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "for2F":
                                 pila.removeLast();
-                                sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+                                sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
                                 if (paraFor == 10) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 } else {
@@ -1139,7 +1143,7 @@ public class Compilador implements ActionListener {
                             case "for3F":
                                 pila.removeLast();
                                 boolean cont = sE_1.contieneDecOInc();
-                                sE_1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+                                sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
                                 if (paraFor == 20) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ")", ")",
                                             tonk.getFirst().getLiena(), "Acept", amb.getLast()));
@@ -2557,6 +2561,14 @@ public class Compilador implements ActionListener {
 
     public void setCuadruplosCont() {
         this.pantalla.setCuadruplosCont();
+    }
+
+    public boolean isErrC() {
+        return pantalla.isErrC();
+    }
+
+    public void setErrC() {
+        this.pantalla.setErrC();
     }
 
 }

@@ -44,6 +44,7 @@ public class Pantalla extends JFrame {
     private LinkedList<Semantica_E_1> sE_1 = new LinkedList();
     private LinkedList<Semantica_E_2> sE_2 = new LinkedList();
     private LinkedList<Semantica_E_3> sE_3 = new LinkedList();
+    private boolean errC = false;
     private LinkedList<Cuadruplos_1> cuadruplos = new LinkedList();
     private LinkedList<Cuadruplos_Contadores> cuadruplosCont = new LinkedList();
 
@@ -310,6 +311,18 @@ public class Pantalla extends JFrame {
 
     public void setCuadruplosCont() {
         this.cuadruplosCont = new LinkedList();
+    }
+
+    public boolean isErrC() {
+        return errC;
+    }
+
+    public void setErrC() {
+        this.errC = true;
+    }
+    
+    public void setErrR() {
+        this.errC = false;
     }
 
 }

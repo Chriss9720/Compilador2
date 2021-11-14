@@ -79,7 +79,7 @@ public class Etapa_2 {
             ultimo.setNext(null);
         }
         //Resolver
-        e1.Resolver(false).forEach(e -> err.add(new Errores(e)));
+        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
         //Validar
         Variable var = ultimo.getVars().getFirst();
         if (e1.getIds().getFirst().getTipo().equals("INT") || e1.getIds().getFirst().isVariant()) {
