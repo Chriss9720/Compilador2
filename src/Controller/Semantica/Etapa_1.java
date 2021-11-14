@@ -374,7 +374,7 @@ public class Etapa_1 {
             case "=<":
             case "!=":
             case ">":
-            case "=="://igual o ==
+            case "==":
                 v.setTipo(matrizRelacionales[fila][col]);
                 v.setOp("relacional");
                 v.setTE(804);

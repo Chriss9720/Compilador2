@@ -30,6 +30,7 @@ public class Compilador implements ActionListener {
     private LinkedList<Contadores> cont;
     private LinkedList<Reservadas> reservadas;
     private LinkedList<Producciones> producciones;
+    private LinkedList<String> funciones;
     LinkedList<Ambito> ambitosTotales = new LinkedList();
     private final String[] regex = {
         "e", "E", "[a-zA-Z]", "\\_", "\\/", "\\*", "\\n", "[0-9]", "\\\"",
@@ -538,6 +539,7 @@ public class Compilador implements ActionListener {
                     Object[] res;
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
+                    funciones = new LinkedList();
                     ambitosTotales = new LinkedList();
                     ambitosTotales.add(new Ambito(0));
                     amb.add(ambitosTotales.getLast().getAmbito());
@@ -641,6 +643,14 @@ public class Compilador implements ActionListener {
                                 func.setAmb(temp.getAmb());
                                 func.setDimArr(temp.getDimArr());
                                 func.settArr(temp.gettArr());
+                                if (!isErrC()) {
+                                    getCuadruplosCont().get(amb.getLast()).setDEF();
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    funciones.add(tonk.getFirst().getLexema());
+                                    getCuadruplos().getLast().setEtiqueta("DEF");
+                                    getCuadruplos().getLast().setAccion(funciones.getLast());
+                                    
+                                }
                                 ambitosTotales.add(new Ambito(ambitosTotales.size()));
                                 amb.add(ambitosTotales.getLast().getAmbito());
                                 getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
@@ -663,6 +673,7 @@ public class Compilador implements ActionListener {
                                                     tonk.getFirst().getLiena(), "Acept",
                                                     amb.getLast()));
                                         } else {
+                                            setErrC();
                                             getSemanticaE_2().add(new Semantica_E_2(
                                                     1140, "return", rs,
                                                     tonk.getFirst().getLiena(), "ERROR",
@@ -672,6 +683,7 @@ public class Compilador implements ActionListener {
                                                     "Semantica Etapa 2", amb.getLast()));
                                         }
                                     } else {
+                                        setErrC();
                                         getSemanticaE_2().add(new Semantica_E_2(
                                                 1140, pila.getLast(), tonk.getFirst().getLexema(),
                                                 tonk.getFirst().getLiena(), "ERROR",
@@ -686,6 +698,7 @@ public class Compilador implements ActionListener {
                                             tonk.getFirst().getLiena(), "Acept",
                                             amb.getLast()));
                                 } else if (isRet) {
+                                    setErrC();
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             1150, "return", "return", tonk.getFirst().getLiena(),
                                             "ERROR", amb.getLast()));
@@ -695,6 +708,12 @@ public class Compilador implements ActionListener {
                                 }
                                 isRet = false;
                                 amb.removeLast();
+                                if (!isErrC()) {
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    getCuadruplos().getLast().setEtiqueta("enddef");
+                                    getCuadruplos().getLast().setAccion(funciones.getLast());
+                                    funciones.removeLast();
+                                }
                                 break;
                             case "ParamsFunc":
                                 pila.removeLast();
@@ -1569,6 +1588,20 @@ public class Compilador implements ActionListener {
                                     s3 = true;
                                 }
                                 pila.removeLast();
+                                break;
+                            case "main":
+                                if (Buscar(pila, "main") == 1) {
+                                   getCuadruplos().add(new Cuadruplos_1());
+                                   getCuadruplos().getLast().setAccion("PPAL");
+                                   getCuadruplos().getLast().setEtiqueta("main");
+                                   getCuadruplosCont().getFirst().setPPALL();
+                                } 
+                                break;
+                            case "}":
+                                if (Buscar(pila, "}") == 1) {
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                   getCuadruplos().getLast().setEtiqueta("endmain");
+                                }
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
