@@ -234,6 +234,7 @@ public class Etapa_1 {
                         error = true;
                 }
                 if (error) {
+                    setErrC();
                     v.setVariant(true);
                     err.add(new Errores(l, 807, lex, msj, "Semantica:Etapa 1", amb));
                     if (s1) {

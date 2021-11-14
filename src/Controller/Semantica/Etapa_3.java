@@ -41,7 +41,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable funcion = e1.getIds().getFirst();
         if (funcion.isVariant()) {
@@ -74,7 +77,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -110,7 +116,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -169,7 +178,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -200,7 +212,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -238,7 +253,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -270,7 +288,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -306,8 +327,10 @@ public class Etapa_3 {
         Etapa_1 e1 = new Etapa_1(p);
         ids.forEach(v -> e1.getIds().add(v));
         operadores.forEach(o -> e1.getOperadores().add(o));
-        System.out.println(ids.getFirst().toString());
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(e));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(e);
+            setErrC();
+        });
         Reiniciar();
         Variable func = e1.getIds().getFirst();
         if (func.isVariant()) {
@@ -352,6 +375,7 @@ public class Etapa_3 {
     }
 
     private void error(String res, int linea, int amb, int clave, String desc, String tope) {
+        setErrC();
         err.add(new Errores(linea, clave, res, desc, "Semantica 3", amb));
         getSemanticaE_2().add(new Semantica_E_2(clave, res, tope, linea, "ERROR", amb));
         getSemanticaE_2().getLast().setFuncion(res);
@@ -387,6 +411,14 @@ public class Etapa_3 {
 
     public LinkedList<Semantica_E_2> getSemanticaE_2() {
         return p.getsE_2();
+    }
+
+    public boolean isErrC() {
+        return p.isErrC();
+    }
+
+    public void setErrC() {
+        p.setErrC();
     }
 
 }

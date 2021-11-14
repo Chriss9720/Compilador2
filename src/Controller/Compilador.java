@@ -576,12 +576,14 @@ public class Compilador implements ActionListener {
                                 if (!reg.isError()) {
                                     listaAux = gestor.guadarItemRegistro(reg.getParams());
                                     for (Errores item : listaAux) {
+                                        setErrC();
                                         err.add(new Errores(item));
                                         contar(502);
                                         ambitosTotales.get(item.getAmb()).setErrores();
                                     }
                                 } else {
                                     for (Errores item : listaAux) {
+                                        setErrC();
                                         err.add(new Errores(item));
                                         contar(503);
                                         ambitosTotales.get(item.getAmb()).setErrores();
@@ -627,6 +629,7 @@ public class Compilador implements ActionListener {
                                     listaAux = gestor.guadarSimples(simple);
                                     if (!listaAux.isEmpty()) {
                                         for (Errores item : listaAux) {
+                                            setErrC();
                                             err.add(new Errores(item));
                                             contar(504);
                                             ambitosTotales.get(item.getAmb()).setErrores();
@@ -649,7 +652,7 @@ public class Compilador implements ActionListener {
                                     funciones.add(tonk.getFirst().getLexema());
                                     getCuadruplos().getLast().setEtiqueta("DEF");
                                     getCuadruplos().getLast().setAccion(funciones.getLast());
-                                    
+
                                 }
                                 ambitosTotales.add(new Ambito(ambitosTotales.size()));
                                 amb.add(ambitosTotales.getLast().getAmbito());
@@ -664,7 +667,10 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 if (gestor.getReturn(amb.getLast())) {
                                     if (isRet) {
-                                        sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
+                                        sE_1.Resolver(false, amb.getLast()).forEach(e -> {
+                                            setErrC();
+                                            err.add(new Errores(e));
+                                        });
                                         String tF = gestor.getTipoFunc(amb.getLast());
                                         String rs = sE_1.getIds().getFirst().getTipo();
                                         if (tF.equals(rs)) {
@@ -726,12 +732,14 @@ public class Compilador implements ActionListener {
                                     if (listaAux.isEmpty()) {
                                         listaAux = gestor.guadarItemRegistro(func.getParams());
                                         for (Errores item : listaAux) {
+                                            setErrC();
                                             err.add(new Errores(item));
                                             contar(505);
                                             ambitosTotales.get(item.getAmb()).setErrores();
                                         }
                                     } else {
                                         for (Errores item : listaAux) {
+                                            setErrC();
                                             err.add(new Errores(item));
                                             contar(506);
                                             ambitosTotales.get(item.getAmb()).setErrores();
@@ -756,6 +764,7 @@ public class Compilador implements ActionListener {
                                 listaAux = gestor.guardarConstante(var);
                                 if (!listaAux.isEmpty()) {
                                     for (Errores item : listaAux) {
+                                        setErrC();
                                         err.add(item);
                                         contar(507);
                                         ambitosTotales.get(var.getAmb()).setErrores();
@@ -935,7 +944,10 @@ public class Compilador implements ActionListener {
                                     } else if (paraFor == 21) {
                                         paraFor = (sE_1.contieneDecOInc()) ? 22 : 21;
                                     }
-                                    sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> err.add(new Errores(e)));
+                                    sE_2.revisarFunciones(sE_1.getIds(), amb).forEach(e -> {
+                                        setErrC();
+                                        err.add(new Errores(e));
+                                    });
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     if (isReg) {
                                         getSemanticaE_2().add(new Semantica_E_2(
@@ -947,11 +959,16 @@ public class Compilador implements ActionListener {
                                         if (varAuxSe2.getClase().contains("Constante") || varAuxSe2.getClase().contains("funcion") || varAuxSe2.getClase().contains("REG")) {
                                             if (varAuxSe2.getClase().contains("REG")) {
                                                 resolver = false;
-                                                sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb).forEach(e -> err.add(new Errores(e)));
+                                                sE_2.revisarREG(sE_1.getIds(), sE_1.getOperadores(), amb)
+                                                        .forEach(e -> {
+                                                            setErrC();
+                                                            err.add(new Errores(e));
+                                                        });
                                                 auxSe2 = sE_1.getIds().getFirst();
                                                 auxSe2.setTope("id");
                                                 sE_1.Reiniciar();
                                             } else {
+                                                setErrC();
                                                 auxSe2 = sE_1.getIds().getFirst();
                                                 auxSe2.setTope("id");
                                                 String es = (varAuxSe2.getClase().contains("Constante")) ? "Constante" : "Funcion";
@@ -979,6 +996,7 @@ public class Compilador implements ActionListener {
                                             }
                                             i.setNumero(clave);
                                             err.add(new Errores(i));
+                                            setErrC();
                                             contar(509);
                                         }
                                         auxSe2 = sE_1.getIds().getFirst();
@@ -1047,6 +1065,7 @@ public class Compilador implements ActionListener {
                                 }
                                 if (!aux1160) {
                                     sE_1.Resolver(false, amb.getLast()).forEach(e -> {
+                                        setErrC();
                                         err.add(new Errores(e));
                                         contar(509);
                                     });
@@ -1057,7 +1076,10 @@ public class Compilador implements ActionListener {
                                     } else {
                                         sE_1.getIds().getFirst().setTipo("NONE");
                                         sE_1.getIds().getFirst().setVariant(true);
-                                        auxERR.forEach(e -> err.add(new Errores(e)));
+                                        auxERR.forEach(e -> {
+                                            setErrC();
+                                            err.add(new Errores(e));
+                                        });
                                     }
                                 }
                                 auxSe2 = sE_1.getIds().getFirst();
@@ -1066,6 +1088,7 @@ public class Compilador implements ActionListener {
                                             clave, auxSe2.getTope(), auxSe2.getId().getFirst(),
                                             auxSe2.getLinea(), "Acept", auxSe2.getAmb()));
                                 } else {
+                                    setErrC();
                                     err.add(new Errores(auxSe2.getLinea(), clave,
                                             auxSe2.getTope(), "Debe de ser un BOOL lo que este entre ()",
                                             "Semantica Etapa 2", auxSe2.getAmb()));
@@ -1078,6 +1101,7 @@ public class Compilador implements ActionListener {
                             case "+LVL":
                                 pila.removeLast();
                                 sE_2.addNodo(amb).forEach(e -> {
+                                    setErrC();
                                     err.add(new Errores(e));
                                     contar(509);
                                 });
@@ -1086,6 +1110,7 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                                 if (sE_2.pasoRegla1()) {
                                     sE_2.resolver(amb).forEach(e -> {
+                                        setErrC();
                                         err.add(new Errores(e));
                                         contar(509);
                                     });
@@ -1104,6 +1129,7 @@ public class Compilador implements ActionListener {
                                             "=", varAuxSe2.getId().getFirst(),
                                             varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                 } else {
+                                    setErrC();
                                     err.add(new Errores(varAuxSe2.getLinea(), 1080,
                                             varAuxSe2.getId().getLast(), "Debe de ser una asignacion",
                                             "Semantica Etapa 2", varAuxSe2.getAmb()));
@@ -1131,7 +1157,10 @@ public class Compilador implements ActionListener {
                                 break;
                             case "for2F":
                                 pila.removeLast();
-                                sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
+                                sE_1.Resolver(false, amb.getLast()).forEach(e -> {
+                                    err.add(new Errores(e));
+                                    setErrC();
+                                });
                                 if (paraFor == 10) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 } else {
@@ -1141,6 +1170,7 @@ public class Compilador implements ActionListener {
                                                 varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
                                                 varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                     } else {
+                                        setErrC();
                                         err.add(new Errores(varAuxSe2.getLinea(), 1081,
                                                 varAuxSe2.getId().getLast(), "Debe de ser una condicion BOOL",
                                                 "Semantica Etapa 2", varAuxSe2.getAmb()));
@@ -1162,7 +1192,10 @@ public class Compilador implements ActionListener {
                             case "for3F":
                                 pila.removeLast();
                                 boolean cont = sE_1.contieneDecOInc();
-                                sE_1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
+                                sE_1.Resolver(false, amb.getLast()).forEach(e -> {
+                                    err.add(new Errores(e));
+                                    setErrC();
+                                });
                                 if (paraFor == 20) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ")", ")",
                                             tonk.getFirst().getLiena(), "Acept", amb.getLast()));
@@ -1178,6 +1211,7 @@ public class Compilador implements ActionListener {
                                                     varAuxSe2.getTope(), varAuxSe2.getId().getFirst(),
                                                     varAuxSe2.getLinea(), "Acept", amb.getLast()));
                                         } else {
+                                            setErrC();
                                             err.add(new Errores(varAuxSe2.getLinea(), 1082,
                                                     varAuxSe2.getId().getLast(), "Debe de incrementar o decrementar el valor",
                                                     "Semantica Etapa 2", varAuxSe2.getAmb()));
@@ -1205,6 +1239,7 @@ public class Compilador implements ActionListener {
                                                     auxFunc.getId().getFirst(),
                                                     auxFunc.getLinea(), "Acept", amb.getLast()));
                                         } else {
+                                            setErrC();
                                             err.add(new Errores(auxFunc.getLinea(), 1120,
                                                     auxFunc.getId().getFirst(),
                                                     "Debe de ser un procedimiento",
@@ -1214,6 +1249,7 @@ public class Compilador implements ActionListener {
                                                     auxFunc.getLinea(), "ERROR", amb.getLast()));
                                         }
                                     } else {
+                                        setErrC();
                                         err.add(new Errores(auxFunc.getLinea(), 1110,
                                                 auxFunc.getId().getFirst(),
                                                 "Debe de ser un procedimiento",
@@ -1240,6 +1276,7 @@ public class Compilador implements ActionListener {
                                 if (amb.getLast() > 0) {
                                     isRet = true;
                                 } else {
+                                    setErrC();
                                     err.add(new Errores(tonk.getFirst().getLiena(), 1150,
                                             "return", "No se puede poner un return en el main",
                                             "Semantica 2", amb.getLast()));
@@ -1475,7 +1512,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "SoloINT":
@@ -1488,7 +1528,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "SoloCadena":
@@ -1501,7 +1544,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "soloFile":
@@ -1514,7 +1560,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "SoloCadena2":
@@ -1527,7 +1576,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "enteroDET":
@@ -1540,7 +1592,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "algunCHAR":
@@ -1553,7 +1608,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "SoloCHAR":
@@ -1566,7 +1624,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "Archivo1":
@@ -1579,7 +1640,10 @@ public class Compilador implements ActionListener {
                                 } else {
                                     mandarLista3(res, sE_3);
                                 }
-                                sE_3.getErr().forEach(e -> err.add(e));
+                                sE_3.getErr().forEach(e -> {
+                                    err.add(e);
+                                    setErrC();
+                                });
                                 s3 = false;
                                 break;
                             case "S3":
@@ -1591,16 +1655,16 @@ public class Compilador implements ActionListener {
                                 break;
                             case "main":
                                 if (Buscar(pila, "main") == 1) {
-                                   getCuadruplos().add(new Cuadruplos_1());
-                                   getCuadruplos().getLast().setAccion("PPAL");
-                                   getCuadruplos().getLast().setEtiqueta("main");
-                                   getCuadruplosCont().getFirst().setPPALL();
-                                } 
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    getCuadruplos().getLast().setAccion("PPAL");
+                                    getCuadruplos().getLast().setEtiqueta("main");
+                                    getCuadruplosCont().getFirst().setPPALL();
+                                }
                                 break;
                             case "}":
                                 if (Buscar(pila, "}") == 1) {
                                     getCuadruplos().add(new Cuadruplos_1());
-                                   getCuadruplos().getLast().setEtiqueta("endmain");
+                                    getCuadruplos().getLast().setEtiqueta("endmain");
                                 }
                                 break;
                         }
@@ -1623,6 +1687,7 @@ public class Compilador implements ActionListener {
                                 pila.removeLast();
                             } else if (valor > 599) {
                                 String desc = erroresSintaxis(valor);
+                                setErrC();
                                 err.add(new Errores(tonk.getFirst().getLiena(), valor,
                                         tonk.getFirst().getLexema(), desc, "Sintaxis", 0));
                                 contar(510);
@@ -2118,6 +2183,7 @@ public class Compilador implements ActionListener {
             getSemanticaE_2().add(new Semantica_E_2(1100, var.getTope(), var.getId().getFirst(),
                     var.getLinea(), "Acept", amb.getLast()));
         } else {
+            setErrC();
             err.add(new Errores(var.getLinea(), 1100, var.getId().getLast(),
                     "El parametro: " + totalPar + " esta fuera de rango",
                     "Semantica Etapa 2", amb.getLast()));

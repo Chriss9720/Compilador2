@@ -51,6 +51,7 @@ public class Etapa_2 {
             p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "Acept", amb.getLast()));
         } else {
             ultimo.setRegla1(false);
+            setErrC();
             err.add(new Errores(var.getLinea(), 1030, "[ ... ]", "Dimension fuera del rango", "Semantica 2", amb.getLast()));
             p.getsE_2().add(new Semantica_E_2(1030, "[", "[", var.getLinea(), "ERROR", amb.getLast()));
         }
@@ -79,7 +80,10 @@ public class Etapa_2 {
             ultimo.setNext(null);
         }
         //Resolver
-        e1.Resolver(false, amb.getLast()).forEach(e -> err.add(new Errores(e)));
+        e1.Resolver(false, amb.getLast()).forEach(e -> {
+            err.add(new Errores(e));
+            setErrC();
+        });
         //Validar
         Variable var = ultimo.getVars().getFirst();
         if (e1.getIds().getFirst().getTipo().equals("INT") || e1.getIds().getFirst().isVariant()) {
@@ -87,6 +91,7 @@ public class Etapa_2 {
             p.getsE_2().add(new Semantica_E_2(1040, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
         } else {
             ultimo.setRegla2(false);
+            setErrC();
             err.add(new Errores(var.getLinea(), 1040, e1.getIds().getFirst().getId().getFirst(), "Se requiere un valor entero", "Semantica 2", amb.getLast()));
             p.getsE_2().add(new Semantica_E_2(1040, "const_entero", e1.getIds().getFirst().getId().getFirst(), var.getLinea(), "ERROR", amb.getLast()));
         }
@@ -100,6 +105,7 @@ public class Etapa_2 {
                     p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
                 } else {
                     ultimo.setRegla3(false);
+                    setErrC();
                     err.add(new Errores(var.getLinea(), 1050, "const_entero", "Debe de ser menor a la dimension", "Semantica 2", amb.getLast()));
                     p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "ERROR", amb.getLast()));
                 }
@@ -130,6 +136,7 @@ public class Etapa_2 {
         for (int i = 0; i < vars.size() && act; i++) {
             act = vars.get(i).getTipo().contains("REG");
             if (!act) {
+                setErrC();
                 err.add(new Errores(var.getLinea(), 1160, "REG", "Solo se puede comparar un registro con otro", "Semantica 2", amb.getLast()));
                 p.getsE_2().add(new Semantica_E_2(1160, vars.get(i).getTipo(), vars.get(i).getTipo(), var.getLinea(), "ERROR", amb.getLast()));
             }
@@ -137,6 +144,7 @@ public class Etapa_2 {
         for (int i = 0; i < op.size() && act; i++) {
             act = op.get(i).equals("==");
             if (!act) {
+                setErrC();
                 err.add(new Errores(var.getLinea(), 1160, "==", "Solo se permite == en la comparacion", "Semantica 2", amb.getLast()));
                 p.getsE_2().add(new Semantica_E_2(1160, op.get(i), op.get(i), var.getLinea(), "ERROR", amb.getLast()));
             }
@@ -153,6 +161,7 @@ public class Etapa_2 {
             if (!i.getTipo().equals("VOID")) {
                 p.getsE_2().add(new Semantica_E_2(1120, "id", i.getId().getFirst(), i.getLinea(), "Acept", amb.getLast()));
             } else {
+                setErrC();
                 err.add(new Errores(i.getLinea(), 1120, i.getId().getFirst(), "Debe de ser una funcion valida",
                         "Semantica 2", amb.getLast()));
                 p.getsE_2().add(new Semantica_E_2(1120, i.getTope(), i.getId().getFirst(),
@@ -172,18 +181,21 @@ public class Etapa_2 {
                     p.getsE_2().add(new Semantica_E_2(1161, v2.getTope(), vars.get(0).getId().getFirst(),
                             vars.get(0).getLinea(), "Acept", amb.getLast()));
                 } else {
+                    setErrC();
                     err.add(new Errores(vars.get(0).getLinea(), 1161, vars.get(0).getId().getFirst(),
                             "Para asignar debe de ser del mismo registro", "Semantica 2", amb.getLast()));
                     p.getsE_2().add(new Semantica_E_2(1161, v2.getTope(), vars.get(0).getId().getFirst(),
                             vars.get(0).getLinea(), "ERROR", amb.getLast()));
                 }
             } else {
+                setErrC();
                 err.add(new Errores(vars.get(0).getLinea(), 1170, vars.get(0).getId().getFirst(),
                         "Este valor solo puede ser asginado a un elemento", "Semantica 2", amb.getLast()));
                 p.getsE_2().add(new Semantica_E_2(1170, v2.getTope(), vars.get(0).getId().getFirst(),
                         vars.get(0).getLinea(), "ERROR", amb.getLast()));
             }
         } else {
+            setErrC();
             err.add(new Errores(vars.get(0).getLinea(), 1161, vars.get(0).getId().getFirst(),
                     "Para asignar debe de ser del mismo registro", "Semantica 2", amb.getLast()));
             p.getsE_2().add(new Semantica_E_2(1161, vars.get(0).getTope(), vars.get(0).getId().getFirst(),
@@ -225,6 +237,14 @@ public class Etapa_2 {
 
     public int tI(String ob) {
         return Integer.parseInt(ob);
+    }
+
+    public boolean isErrC() {
+        return p.isErrC();
+    }
+
+    public void setErrC() {
+        p.setErrC();
     }
 
 }
