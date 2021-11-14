@@ -134,10 +134,16 @@ public class Etapa_1 {
 
     public LinkedList<Errores> Resolver(boolean s1, int amb) {
         ambAct = amb;
+        filtro();
         getCuadruplos().add(new Cuadruplos_1());
         LinkedList<Errores> err = new LinkedList();
         ResolverEcuacion(err, s1);
         return err;
+    }
+
+    private void filtro() {
+        ids.stream().filter(i -> i.getClase().contains("funcion"))
+                .forEachOrdered(i -> i.getId().set(0, "Tdef" + i.getId().getFirst()));
     }
 
     private void ResolverEcuacion(LinkedList<Errores> err, boolean s1) {

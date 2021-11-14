@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class Compilador implements ActionListener {
 
     private boolean time;
+    private boolean FM = false;
     private final Pantalla pantalla;
     private final Gestor gestor = new Gestor();
     private LinkedList<Tokens> tonk;
@@ -789,7 +790,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_real");
+                                    regla9(auxFunc, totalPar, amb, "Cont_real", varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, "Cont_real");
@@ -812,7 +813,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_exponencial");
+                                    regla9(auxFunc, totalPar, amb, "Cont_exponencial", varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, "Cont_exponencial");
@@ -837,7 +838,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_cadena");
+                                    regla9(auxFunc, totalPar, amb, "Cont_cadena", varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, "Cont_cadena");
@@ -860,7 +861,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_caracter");
+                                    regla9(auxFunc, totalPar, amb, "Cont_caracter", varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, "Cont_caracter");
@@ -883,7 +884,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_entero");
+                                    regla9(auxFunc, totalPar, amb, "Cont_entero", varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, "Cont_entero");
@@ -916,7 +917,7 @@ public class Compilador implements ActionListener {
                                     sE_3.getIds().add(varAuxSe2);
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, topeAux);
+                                    regla9(auxFunc, totalPar, amb, topeAux, varAuxSe2);
                                 }
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, topeAux);
@@ -1656,8 +1657,8 @@ public class Compilador implements ActionListener {
                             case "main":
                                 if (Buscar(pila, "main") == 1) {
                                     getCuadruplos().add(new Cuadruplos_1());
-                                    getCuadruplos().getLast().setAccion("PPAL");
-                                    getCuadruplos().getLast().setEtiqueta("main");
+                                    getCuadruplos().getLast().setEtiqueta("PPAL");
+                                    getCuadruplos().getLast().setAccion("main");
                                     getCuadruplosCont().getFirst().setPPALL();
                                 }
                                 break;
@@ -1857,6 +1858,7 @@ public class Compilador implements ActionListener {
                                     temp.setTipo(aux);
                                     temp.setError(false);
                                 } else {
+                                    setErrC();
                                     err.add(new Errores(linea, 707,
                                             aux, "No esta declarado el registro",
                                             "Ambito", amb.getLast()));
@@ -1982,6 +1984,7 @@ public class Compilador implements ActionListener {
                                     varAux.setVariant(true);
                                     varAux.setAmb(amb.getLast());
                                     if (!isReg) {
+                                        setErrC();
                                         err.add(new Errores(linea, 706,
                                                 aux, "No esta declarada la variable",
                                                 "Ambito", amb.getLast()));
@@ -2014,6 +2017,7 @@ public class Compilador implements ActionListener {
                                         getSemanticaE_2().add(new Semantica_E_2(1190, "id",
                                                 varAux.getId().getFirst(), linea,
                                                 "ERROR", amb.getLast()));
+                                        setErrC();
                                         err.add(new Errores(linea, 1190,
                                                 aux, "No esta declarado el item",
                                                 "Semantica 2", amb.getLast()));
@@ -2039,6 +2043,7 @@ public class Compilador implements ActionListener {
                                             getSemanticaE_2().add(new Semantica_E_2(1180, "id",
                                                     varAux.getId().getFirst(), linea,
                                                     "ERROR", amb.getLast()));
+                                            setErrC();
                                             err.add(new Errores(linea, 1190, aux,
                                                     "Los operadores unarios solo puede ser aplicados a valores numericos",
                                                     "Semantica 2", amb.getLast()));
@@ -2046,8 +2051,9 @@ public class Compilador implements ActionListener {
                                     }
                                 }
                                 if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "id");
+                                    regla9(auxFunc, totalPar, amb, "id", varAuxSe2);
                                 } else {
+                                    FM = false;
                                     auxFunc = varAuxSe2;
                                 }
                                 if (!ISARR && !s3) {
@@ -2087,6 +2093,7 @@ public class Compilador implements ActionListener {
                             JOptionPane.showMessageDialog(pantalla, "Error de fuerza bruta",
                                     "Error", JOptionPane.ERROR_MESSAGE);
                             EFB = false;
+                            setErrC();
                             err.add(new Errores(tonk.getFirst().getLiena(), 628,
                                     tonk.getFirst().getLexema(),
                                     "Error de fuerza bruta", "Sintaxis", amb.getLast()));
@@ -2104,6 +2111,7 @@ public class Compilador implements ActionListener {
                         for (String p : pila) {
                             m1 += p + " ";
                         }
+                        setErrC();
                         err.add(new Errores(linea, 629, v, m1, "Sintaxis", 0));
                         contar(514);
                     }
@@ -2128,6 +2136,7 @@ public class Compilador implements ActionListener {
         getSemanticaE_2().add(new Semantica_E_2(1190, "id",
                 var.getId().getFirst(), var.getLinea(),
                 "ERROR", amb.getLast()));
+        setErrC();
         err.add(new Errores(var.getLinea(), 1190,
                 tope, "No esta declarado el item",
                 "Semantica 2", amb.getLast()));
@@ -2178,7 +2187,14 @@ public class Compilador implements ActionListener {
         return new Object[]{s3, v};
     }
 
-    private void regla9(Variable var, int totalPar, LinkedList<Integer> amb, String tope) {
+    private void regla9(Variable var, int totalPar, LinkedList<Integer> amb, String tope, Variable arg) {
+        if (!isErrC() && !FM) {
+            FM= true;
+            getCuadruplos().add(new Cuadruplos_1());
+            getCuadruplos().getLast().setAccion("Call");
+            getCuadruplos().getLast().setArg1(var.getId().getFirst());
+            getCuadruplosCont().get(amb.getLast()).setCall();
+        }
         if (totalPar <= var.getNoPar()) {
             getSemanticaE_2().add(new Semantica_E_2(1100, var.getTope(), var.getId().getFirst(),
                     var.getLinea(), "Acept", amb.getLast()));
@@ -2189,6 +2205,16 @@ public class Compilador implements ActionListener {
                     "Semantica Etapa 2", amb.getLast()));
             getSemanticaE_2().add(new Semantica_E_2(1100, tope, var.getId().getFirst(),
                     var.getLinea(), "ERROR", amb.getLast()));
+        }
+        if (!isErrC()) {
+            if (getCuadruplos().getLast().getAccion().equals("Call") || getCuadruplos().getLast().nuevo()) {
+                getCuadruplos().add(new Cuadruplos_1());
+            }
+            if (getCuadruplos().getLast().primero()) {
+                getCuadruplos().getLast().setArg1(arg.getId().getFirst());
+            } else if (getCuadruplos().getLast().segundo()) {
+                getCuadruplos().getLast().setArg2(arg.getId().getFirst());
+            }
         }
     }
 

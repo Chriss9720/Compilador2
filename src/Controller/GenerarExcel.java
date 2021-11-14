@@ -48,6 +48,7 @@ public class GenerarExcel {
     }
 
     public void ejecutar() {
+
         String nombreArchivo = "src/Excel/Yañez_Gonzalez_Christian_Emmanuel.xlsx";
         XSSFWorkbook libro = new XSSFWorkbook();
 
@@ -228,17 +229,21 @@ public class GenerarExcel {
             cell.setCellValue(head[i]);
         }
         for (int i = 0, j = 1; i < c1.size(); i++, j++) {
-            row = hoja8.createRow(j);
-            cell = row.createCell(0);
-            cell.setCellValue(c1.get(i).getEtiqueta());
-            cell = row.createCell(1);
-            cell.setCellValue(c1.get(i).getAccion());
-            cell = row.createCell(2);
-            cell.setCellValue(c1.get(i).getArg1());
-            cell = row.createCell(3);
-            cell.setCellValue(c1.get(i).getArg2());
-            cell = row.createCell(4);
-            cell.setCellValue(c1.get(i).getResultado());
+            if (!c1.get(i).remover()) {
+                row = hoja8.createRow(j);
+                cell = row.createCell(0);
+                cell.setCellValue(c1.get(i).getEtiqueta());
+                cell = row.createCell(1);
+                cell.setCellValue(c1.get(i).getAccion());
+                cell = row.createCell(2);
+                cell.setCellValue(c1.get(i).getArg1());
+                cell = row.createCell(3);
+                cell.setCellValue(c1.get(i).getArg2());
+                cell = row.createCell(4);
+                cell.setCellValue(c1.get(i).getResultado());
+            } else {
+                j--;
+            }
         }
 
         XSSFSheet hoja9 = libro.createSheet("Cont-CI");

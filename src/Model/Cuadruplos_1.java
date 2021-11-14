@@ -60,4 +60,21 @@ public class Cuadruplos_1 {
         this.Resultado = Resultado;
     }
 
+    public boolean primero() {
+        return this.getArg1().isEmpty();
+    }
+    
+    public boolean segundo() {
+        return this.getArg2().isEmpty();
+    }
+    
+    public boolean nuevo() {
+        return !this.getArg2().isEmpty();
+    }
+    
+    public boolean remover() {
+        return getEtiqueta().isEmpty() && getAccion().isEmpty() 
+                && primero() && segundo() && getResultado().isEmpty();
+    }
+    
 }
