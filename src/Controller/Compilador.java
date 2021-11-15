@@ -1505,7 +1505,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "tipoInt":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2001(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1521,7 +1521,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "SoloINT":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2002(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1537,7 +1537,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "SoloCadena":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2006(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2006(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1553,7 +1553,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "soloFile":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2008(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1569,7 +1569,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "SoloCadena2":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2003(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1585,7 +1585,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "enteroDET":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2004(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1601,7 +1601,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "algunCHAR":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2005(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2005(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1617,7 +1617,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "SoloCHAR":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2007(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2007(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -1633,7 +1633,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "Archivo1":
                                 pila.removeLast();
-                                res = colchonS3(pila, sE_3.resolver2009(amb, tonk.getFirst().getLiena(), resolviendo));
+                                res = colchonS3(pila, sE_3.resolver2009(amb, tonk.getFirst().getLiena(), resolviendo, add));
                                 if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
                                     mandaLista1(res, add, sE_3, sE_1);
                                 } else if (ISARR) {
@@ -2433,8 +2433,7 @@ public class Compilador implements ActionListener {
         return desc;
     }
 
-    private LinkedList<String> juntar(LinkedList<String> lista1,
-            LinkedList<String> lista2) {
+    private LinkedList<String> juntar(LinkedList<String> lista1, LinkedList<String> lista2) {
         while (!lista2.isEmpty()) {
             lista1.add(lista2.getFirst());
             lista2.removeFirst();

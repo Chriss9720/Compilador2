@@ -135,7 +135,9 @@ public class Etapa_1 {
     public LinkedList<Errores> Resolver(boolean s1, int amb) {
         ambAct = amb;
         filtro();
-        getCuadruplos().add(new Cuadruplos_1());
+        if (s1) {
+            getCuadruplos().add(new Cuadruplos_1());
+        }
         LinkedList<Errores> err = new LinkedList();
         ResolverEcuacion(err, s1);
         return err;
@@ -213,6 +215,7 @@ public class Etapa_1 {
             getCuadruplos().getLast().setAccion("=");
             getCuadruplos().getLast().setArg1(id1);
             getCuadruplos().getLast().setResultado(id2);
+            getCuadruplosCont().get(ambAct).setIgual();
         }
         String t1 = ids.get(p).getTipo();
         String t2 = ids.get(aux).getTipo();
@@ -479,7 +482,8 @@ public class Etapa_1 {
     }
 
     public boolean contieneDecOInc() {
-        return operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") || o.equals("*") || o.equals("/")));
+        return operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") 
+                || o.equals("*") || o.equals("/")));
     }
 
     public LinkedList<String> getOperadores() {
