@@ -5,7 +5,7 @@ package Model;
  * @author Gonza
  */
 public class Cuadruplos_Contadores {
-    
+
     private int amb;
     private int TE;
     private int TR;
@@ -65,7 +65,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setAmb() {
-        this.amb +=1;
+        this.amb += 1;
     }
 
     public int getTE() {
@@ -73,7 +73,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTE() {
-        this.TE +=1;
+        this.TE += 1;
     }
 
     public int getTR() {
@@ -81,7 +81,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTR() {
-        this.TR +=1;
+        this.TR += 1;
     }
 
     public int getTS() {
@@ -89,7 +89,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTS() {
-        this.TS +=1;
+        this.TS += 1;
     }
 
     public int getTCH() {
@@ -97,7 +97,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTCH() {
-        this.TCH +=1;
+        this.TCH += 1;
     }
 
     public int getTEX() {
@@ -105,7 +105,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTEX() {
-        this.TEX +=1;
+        this.TEX += 1;
     }
 
     public int getTB() {
@@ -113,7 +113,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTB() {
-        this.TB +=1;
+        this.TB += 1;
     }
 
     public int getTRX() {
@@ -121,7 +121,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setTRX() {
-        this.TRX +=1;
+        this.TRX += 1;
     }
 
     public int getTF() {
@@ -137,7 +137,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setArr() {
-        this.Arr +=1;
+        this.Arr += 1;
     }
 
     public int getCall() {
@@ -145,7 +145,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setCall() {
-        this.call +=1;
+        this.call += 1;
     }
 
     public int getIgual() {
@@ -153,7 +153,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setIgual() {
-        this.igual +=1;
+        this.igual += 1;
     }
 
     public int getOpRel() {
@@ -161,7 +161,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setOpRel() {
-        this.OpRel +=1;
+        this.OpRel += 1;
     }
 
     public int getOperLog() {
@@ -169,7 +169,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setOperLog() {
-        this.OperLog +=1;
+        this.OperLog += 1;
     }
 
     public int getOperArit() {
@@ -177,7 +177,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setOperArit() {
-        this.OperArit +=1;
+        this.OperArit += 1;
     }
 
     public int getOperUn() {
@@ -185,7 +185,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setOperUn() {
-        this.OperUn +=1;
+        this.OperUn += 1;
     }
 
     public int getJF() {
@@ -193,7 +193,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setJF() {
-        this.JF +=1;
+        this.JF += 1;
     }
 
     public int getJMP() {
@@ -201,7 +201,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setJMP() {
-        this.JMP +=1;
+        this.JMP += 1;
     }
 
     public int getValor() {
@@ -209,7 +209,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setValor() {
-        this.valor +=1;
+        this.valor += 1;
     }
 
     public int getIfE() {
@@ -217,7 +217,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setIfE() {
-        this.ifE +=1;
+        this.ifE += 1;
     }
 
     public int getSWE() {
@@ -225,7 +225,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setSWE() {
-        this.SWE +=1;
+        this.SWE += 1;
     }
 
     public int getForE() {
@@ -233,7 +233,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setForE() {
-        this.ForE +=1;
+        this.ForE += 1;
     }
 
     public int getWhiE() {
@@ -241,7 +241,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setWhiE() {
-        this.WhiE +=1;
+        this.WhiE += 1;
     }
 
     public int getDEF() {
@@ -249,7 +249,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setDEF() {
-        this.DEF +=1;
+        this.DEF += 1;
     }
 
     public int getPPALL() {
@@ -257,7 +257,7 @@ public class Cuadruplos_Contadores {
     }
 
     public void setPPALL() {
-        this.PPALL +=1;
+        this.PPALL += 1;
     }
 
 }
