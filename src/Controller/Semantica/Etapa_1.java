@@ -533,16 +533,8 @@ public class Etapa_1 {
         return pantalla.getCuadruplos();
     }
 
-    public void setCuadruplos() {
-        pantalla.setCuadruplos();
-    }
-
     public LinkedList<Cuadruplos_Contadores> getCuadruplosCont() {
         return pantalla.getCuadruplosCont();
-    }
-
-    public void setCuadruplosCont() {
-        pantalla.setCuadruplosCont();
     }
 
     public boolean isErrC() {

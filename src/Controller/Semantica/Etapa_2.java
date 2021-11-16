@@ -1,6 +1,8 @@
 package Controller.Semantica;
 
 import Model.Arreglo;
+import Model.Cuadruplos_1;
+import Model.Cuadruplos_Contadores;
 import Model.Errores;
 import Model.Semantica_E_2;
 import Model.Variable;
@@ -113,6 +115,16 @@ public class Etapa_2 {
                 ultimo.setRegla3(true);
                 ultimo.setRegla3(true);
                 p.getsE_2().add(new Semantica_E_2(1050, "const_entero", "const_entero", var.getLinea(), "Acept", amb.getLast()));
+            }
+        }
+        if (!isErrC()) {
+            if (getCuadruplos().getLast().getAccion().equals("Arr") || getCuadruplos().getLast().nuevo()) {
+                getCuadruplos().add(new Cuadruplos_1());
+            }
+            if (getCuadruplos().getLast().primero()) {
+                getCuadruplos().getLast().setArg1(e1.getIds().getFirst().getId().getFirst());
+            } else if (getCuadruplos().getLast().segundo()) {
+                getCuadruplos().getLast().setArg2(e1.getIds().getFirst().getId().getFirst());
             }
         }
         e1.Reiniciar();
@@ -245,6 +257,14 @@ public class Etapa_2 {
 
     public void setErrC() {
         p.setErrC();
+    }
+
+    public LinkedList<Cuadruplos_1> getCuadruplos() {
+        return p.getCuadruplos();
+    }
+
+    public LinkedList<Cuadruplos_Contadores> getCuadruplosCont() {
+        return p.getCuadruplosCont();
     }
 
 }

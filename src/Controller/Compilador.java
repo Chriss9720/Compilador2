@@ -878,6 +878,12 @@ public class Compilador implements ActionListener {
                                 if (!ISARR) {
                                     ArryAdd = false;
                                     sE_2.empezar(sE_1.getIds().getLast());
+                                    if (!isErrC()) {
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setAccion("Arr");
+                                        getCuadruplos().getLast().setArg1(sE_1.getIds().getLast().getId().getFirst());
+                                        getCuadruplosCont().get(amb.getLast()).setArr();
+                                    }
                                 }
                                 ISARR = true;
                                 break;
@@ -885,6 +891,9 @@ public class Compilador implements ActionListener {
                                 int aux = Buscar(pila, "FSARR");
                                 if (aux == 1) {
                                     ISARR = false;
+                                    String arr = "TAr" + getCuadruplosCont().get(amb.getLast()).getArr();
+                                    sE_1.getIds().getLast().getId().set(0, arr);
+                                    getCuadruplos().getLast().setResultado(arr);
                                 }
                                 pila.removeLast();
                                 break;
