@@ -561,21 +561,20 @@ public class Compilador implements ActionListener {
                                         etiquetas.removeLast();
                                     }
                                     pila.removeLast();
-
                                     break;
                                 case "cleanFor":
-                                        pila.removeLast();
-                                        if (!isErrC()) {
-                                            pendienteFor.forEach(p -> {
-                                                getCuadruplos().add(new Cuadruplos_1(p));
-                                            });
-                                            getCuadruplos().add(new Cuadruplos_1());
-                                            getCuadruplos().getLast().setAccion("JMP");
-                                            getCuadruplos().getLast().setResultado(etiquetas.getLast().getIni());
-                                            getCuadruplos().add(new Cuadruplos_1());
-                                            getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getFin());
-                                            etiquetas.removeLast();
-                                        }
+                                    pila.removeLast();
+                                    if (!isErrC()) {
+                                        pendienteFor.forEach(p -> {
+                                            getCuadruplos().add(new Cuadruplos_1(p));
+                                        });
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setAccion("JMP");
+                                        getCuadruplos().getLast().setResultado(etiquetas.getLast().getIni());
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getFin());
+                                        etiquetas.removeLast();
+                                    }
                                     break;
                             }
                         } while (pila.getLast().equals("finWhile") || pila.getLast().equals("cleanFor"));
@@ -944,12 +943,12 @@ public class Compilador implements ActionListener {
                                 paraBool = true;
                                 sE_1.Reiniciar();
                                 if (!isErrC()) {
-                                    etiquetas.add(new Etiquetas());
                                     String whiE;
                                     switch (pila.getLast()) {
                                         case "1010I":
                                             break;
                                         case "1011I":
+                                            etiquetas.add(new Etiquetas());
                                             getCuadruplosCont().get(amb.getLast()).setWhiE();
                                             whiE = "Whi-E" + getCuadruplosCont().get(amb.getLast()).getWhiE() + ":";
                                             etiquetas.getLast().setIni(whiE);
@@ -1022,6 +1021,14 @@ public class Compilador implements ActionListener {
                                 if (!isErrC()) {
                                     switch (pila.getLast()) {
                                         case "1010F":
+                                            getCuadruplosCont().get(amb.getLast()).setIfE();
+                                            String ifE = "if-E" + getCuadruplosCont().get(amb.getLast()).getIfE() + ":";
+                                            getCuadruplos().add(new Cuadruplos_1());
+                                            getCuadruplos().getLast().setAccion("JF");
+                                            getCuadruplos().getLast().setArg1(auxSe2.getId().getFirst());
+                                            getCuadruplos().getLast().setResultado(ifE);
+                                            etiquetas.add(new Etiquetas());
+                                            etiquetas.getLast().setIni(ifE);
                                             break;
                                         case "1011F":
                                             getCuadruplosCont().get(amb.getLast()).setJF();
@@ -1636,6 +1643,7 @@ public class Compilador implements ActionListener {
                                     getCuadruplos().getLast().setEtiqueta("PPAL");
                                     getCuadruplos().getLast().setAccion("main");
                                     getCuadruplosCont().getFirst().setPPALL();
+                                    getCuadruplos().add(new Cuadruplos_1());
                                 }
                                 break;
                             case "}":
@@ -1795,6 +1803,11 @@ public class Compilador implements ActionListener {
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, topeAux);
                                 }
+                                break;
+                            case "I5":
+                                getCuadruplos().add(new Cuadruplos_1());
+                                getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getIni());
+                                etiquetas.removeLast();
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
