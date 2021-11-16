@@ -1134,6 +1134,13 @@ public class Compilador implements ActionListener {
                                 totalPar++;
                                 break;
                             case "FinF":
+                                if ((INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) && !ISARR) {
+                                   getCuadruplos().getLast().setResultado("Tdef" + sE_1.getIds().getLast().getId().getFirst());
+                                } else if (ISARR) {
+                                   getCuadruplos().getLast().setResultado("Tdef" + sE_2.getUltimo().getVars().getLast().getId().getFirst());
+                                } else {
+                                   getCuadruplos().getLast().setResultado("Tdef" + sE_3.getIds().getLast().getId().getFirst());
+                                }
                                 pila.removeLast();
                                 isFunc = false;
                                 totalPar = 0;
