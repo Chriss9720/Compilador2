@@ -20,6 +20,14 @@ public class Cuadruplos_1 {
         this.Resultado = "";
     }
 
+    public Cuadruplos_1(Cuadruplos_1 data) {
+        this.etiqueta = data.getEtiqueta();
+        this.Accion = data.getAccion();
+        this.Arg1 = data.getArg1();
+        this.Arg2 = data.getArg2();
+        this.Resultado = data.getResultado();
+    }
+
     public String getEtiqueta() {
         return etiqueta;
     }
@@ -79,6 +87,15 @@ public class Cuadruplos_1 {
 
     public boolean isCall() {
         return getAccion().equals("Call");
+    }
+
+    @Override
+    public String toString() {
+        return "Etiqueta: " + this.getEtiqueta()
+                + "\nAccion: " + this.getAccion()
+                + "\nArg1: " + this.getArg1()
+                + "\nArg2: " + this.getArg2()
+                + "\nResultado: " + this.getResultado();
     }
 
 }

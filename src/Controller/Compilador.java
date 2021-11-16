@@ -264,7 +264,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ESTATUTOS", "{ ESTATUTOS I6 }"));
         producciones.add(new Producciones("I6", "; ESTATUTOS I6"));
         producciones.add(new Producciones("ESTATUTOS", "repeat ESTATUTOS until ( 1012I EXP_PASCAL 1012F )"));
-        producciones.add(new Producciones("ESTATUTOS", "for ( for1I I7 for1F ; for2I I9 for2F ; for3I I10 for3F ) ESTATUTOS"));
+        producciones.add(new Producciones("ESTATUTOS", "for ( for1I I7 for1F ; for2I I9 for2F ; for3I I10 for3F ) ESTATUTOS cleanFor"));
         producciones.add(new Producciones("I7", "EXP_PASCAL for1O I8"));
         producciones.add(new Producciones("I8", ", EXP_PASCAL for1O I8"));
         producciones.add(new Producciones("I9", "for2O EXP_PASCAL"));
@@ -538,6 +538,7 @@ public class Compilador implements ActionListener {
                     Variable auxSe2 = new Variable();
                     Funcion func = new Funcion();
                     Object[] res;
+                    LinkedList<Cuadruplos_1> pendienteFor = new LinkedList();
                     LinkedList<Etiquetas> etiquetas = new LinkedList();
                     LinkedList<Errores> listaAux = new LinkedList();
                     LinkedList<Integer> amb = new LinkedList();
@@ -547,9 +548,9 @@ public class Compilador implements ActionListener {
                     amb.add(ambitosTotales.getLast().getAmbito());
                     getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
                     while (!pila.isEmpty() && !tonk.isEmpty() && EFB && VR) {
-                        switch (pila.getLast()) {
-                            case "finWhile":
-                                do {
+                        do {
+                            switch (pila.getLast()) {
+                                case "finWhile":
                                     if (!isErrC()) {
                                         getCuadruplosCont().get(amb.getLast()).setJMP();
                                         getCuadruplos().add(new Cuadruplos_1());
@@ -560,9 +561,24 @@ public class Compilador implements ActionListener {
                                         etiquetas.removeLast();
                                     }
                                     pila.removeLast();
-                                } while (pila.getLast().equals("finWhile"));
-                                break;
-                        }
+
+                                    break;
+                                case "cleanFor":
+                                        pila.removeLast();
+                                        if (!isErrC()) {
+                                            pendienteFor.forEach(p -> {
+                                                getCuadruplos().add(new Cuadruplos_1(p));
+                                            });
+                                            getCuadruplos().add(new Cuadruplos_1());
+                                            getCuadruplos().getLast().setAccion("JMP");
+                                            getCuadruplos().getLast().setResultado(etiquetas.getLast().getIni());
+                                            getCuadruplos().add(new Cuadruplos_1());
+                                            getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getFin());
+                                            etiquetas.removeLast();
+                                        }
+                                    break;
+                            }
+                        } while (pila.getLast().equals("finWhile") || pila.getLast().equals("cleanFor"));
                         switch (pila.getLast()) {
                             case "REGISTRO":
                                 pila.removeLast();
@@ -1068,6 +1084,7 @@ public class Compilador implements ActionListener {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";",
                                             tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 }
+                                sE_1.Reiniciar();
                                 paraFor = -1;
                                 break;
                             case "for2I":
@@ -1080,13 +1097,14 @@ public class Compilador implements ActionListener {
                                 break;
                             case "for2F":
                                 pila.removeLast();
-                                sE_1.Resolver(false, amb.getLast()).forEach(e -> {
-                                    err.add(new Errores(e));
-                                    setErrC();
-                                });
+                                getCuadruplos().add(new Cuadruplos_1());
                                 if (paraFor == 10) {
                                     getSemanticaE_2().add(new Semantica_E_2(1083, ";", ";", tonk.getFirst().getLiena(), "Acept", amb.getLast()));
                                 } else {
+                                    sE_1.Resolver(false, amb.getLast()).forEach(e -> {
+                                        err.add(new Errores(e));
+                                        setErrC();
+                                    });
                                     varAuxSe2 = sE_1.getIds().getFirst();
                                     if (sE_1.getIds().getFirst().getTipo().equals("BOOL") || sE_1.getIds().getFirst().isVariant()) {
                                         getSemanticaE_2().add(new Semantica_E_2(1081,
@@ -1101,6 +1119,24 @@ public class Compilador implements ActionListener {
                                                 1081, "id", varAuxSe2.getId().getFirst(),
                                                 varAuxSe2.getLinea(), "ERROR", amb.getLast()));
                                     }
+                                }
+                                if (!isErrC()) {
+                                    getCuadruplosCont().get(amb.getLast()).setForE();
+                                    String forT = "For-E" + getCuadruplosCont().get(amb.getLast()).getForE() + ":";
+                                    getCuadruplos().getLast().setEtiqueta(forT);
+
+                                    etiquetas.add(new Etiquetas());
+                                    etiquetas.getLast().setIni(forT);
+
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    getCuadruplosCont().get(amb.getLast()).setJF();
+                                    getCuadruplos().getLast().setAccion("JF");
+                                    getCuadruplos().getLast().setArg1(sE_1.getIds().getFirst().getId().getFirst());
+
+                                    getCuadruplosCont().get(amb.getLast()).setForE();
+                                    forT = "For-E" + getCuadruplosCont().get(amb.getLast()).getForE() + ":";
+                                    getCuadruplos().getLast().setResultado(forT);
+                                    etiquetas.getLast().setFin(forT);
                                 }
                                 sE_1.Reiniciar();
                                 break;
@@ -1143,6 +1179,10 @@ public class Compilador implements ActionListener {
                                                     varAuxSe2.getLinea(), "ERROR", amb.getLast()));
                                         }
                                     }
+                                }
+                                while (!getCuadruplos().getLast().getAccion().equals("JF")) {
+                                    pendienteFor.add(new Cuadruplos_1(getCuadruplos().getLast()));
+                                    getCuadruplos().removeLast();
                                 }
                                 sE_1.Reiniciar();
                                 break;

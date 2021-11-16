@@ -293,7 +293,6 @@ public class Etapa_1 {
             if (!getCuadruplos().getLast().getArg2().isEmpty()) {
                 getCuadruplos().add(new Cuadruplos_1());
             }
-            System.out.println(id1 + " " + id2);
             getCuadruplos().getLast().setArg1(id1);
             getCuadruplos().getLast().setArg2(id2);
         }
