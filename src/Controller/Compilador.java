@@ -519,6 +519,7 @@ public class Compilador implements ActionListener {
                     int totalPar = 0;
                     String igual = "";
                     String resolviendo = "";
+                    String un = "";
                     setSemanticaE_1();
                     setSemanticaE_2();
                     setSemanticaE_3();
@@ -1076,6 +1077,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "2algo":
                                 pila.removeLast();
+                                un = tonk.getFirst().getLexema();
                                 isDoble = true;
                                 if (paraFor == 20 || paraFor == 21) {
                                     paraFor = 22;
@@ -2056,6 +2058,13 @@ public class Compilador implements ActionListener {
                                                     "Los operadores unarios solo puede ser aplicados a valores numericos",
                                                     "Semantica 2", amb.getLast()));
                                         }
+                                    }
+                                    if (!isErrC()) {
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setAccion(un);
+                                        getCuadruplos().getLast().setArg1(tonk.getFirst().getLexema());
+                                        getCuadruplos().getLast().setResultado(tonk.getFirst().getLexema());
+                                        getCuadruplosCont().get(amb.getLast()).setOperUn();
                                     }
                                 }
                                 if (isFunc) {

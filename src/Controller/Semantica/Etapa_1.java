@@ -177,6 +177,7 @@ public class Etapa_1 {
     private int BuscarOp(String[] opers) {
         for (int i = 0; i < operadores.size(); i++) {
             if (BuscarOper(opers, operadores.get(i))) {
+                filtroOper(operadores.get(i));
                 return i;
             }
         }
@@ -420,6 +421,36 @@ public class Etapa_1 {
         }
     }
 
+    private void filtroOper(String oper) {
+        if (!isErrC()) {
+            switch (oper) {
+                case "|":
+                case "||":
+                case "&":
+                case "&&":
+                case "!":
+                    getCuadruplosCont().get(ambAct).setOperLog();
+                    break;
+                case "+":
+                case "-":
+                case "/":
+                case "*":
+                    getCuadruplosCont().get(ambAct).setOperArit();
+                    break;
+                case "<":
+                case "<=":
+                case "=<":
+                case ">":
+                case ">=":
+                case "=>":
+                case "!=":
+                case "==":
+                    getCuadruplosCont().get(ambAct).setOpRel();
+                    break;
+            }
+        }
+    }
+
     private String temporal(String tipo) {
         String temp = "T";
         switch (tipo) {
@@ -482,7 +513,7 @@ public class Etapa_1 {
     }
 
     public boolean contieneDecOInc() {
-        return operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-") 
+        return operadores.stream().anyMatch(o -> (o.equals("+") || o.equals("-")
                 || o.equals("*") || o.equals("/")));
     }
 
