@@ -773,156 +773,6 @@ public class Compilador implements ActionListener {
                                 }
                                 var = new Variable();
                                 break;
-                            case "Cont_real":
-                                var.setTipo("REAL");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "REAL");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope("Cont_real");
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope("Cont_real");
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_real", varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, "Cont_real");
-                                }
-                                break;
-                            case "Cont_exponencial":
-                                var.setTipo("EXP");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "EXP");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope("Cont_exponencial");
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope("Cont_exponencial");
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_exponencial", varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, "Cont_exponencial");
-                                }
-                                break;
-                            case "Cont_cadena":
-                                var.setTipo("CHAR");
-                                var.setClase("Constante/Arr");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "CHAR[]");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClase("Arr");
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope("Cont_cadena");
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope("Cont_cadena");
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_cadena", varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, "Cont_cadena");
-                                }
-                                break;
-                            case "Cont_caracter":
-                                var.setTipo("CHAR");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "CHAR");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope("Cont_caracter");
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope("Cont_caracter");
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_caracter", varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, "Cont_caracter");
-                                }
-                                break;
-                            case "Cont_entero":
-                                var.setTipo("INT");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "INT");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope("Cont_entero");
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope("Cont_entero");
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, "Cont_entero", varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, "Cont_entero");
-                                }
-                                break;
-                            case "Cont_true":
-                            case "Cont_false":
-                                String topeAux = "";
-                                switch (pila.getLast()) {
-                                    case "Cont_true":
-                                        topeAux = "Cont_true";
-                                        break;
-                                    case "Cont_false":
-                                        topeAux = "Cont_false";
-                                        break;
-                                }
-                                var.setTipo("BOOL");
-                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
-                                        tonk.getFirst().getLiena(), "BOOL");
-                                if (!ISARR && !isFunc && !s3) {
-                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
-                                        sE_1.getIds().add(varAuxSe2);
-                                        sE_1.getIds().getLast().setClave(clave);
-                                        sE_1.getIds().getLast().setTope(topeAux);
-                                    }
-                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
-                                    varAuxSe2.setTope(topeAux);
-                                    sE_2.addItem(varAuxSe2);
-                                } else if (s3) {
-                                    sE_3.getIds().add(varAuxSe2);
-                                }
-                                if (isFunc) {
-                                    regla9(auxFunc, totalPar, amb, topeAux, varAuxSe2);
-                                }
-                                if (isReg) {
-                                    Error19(varAuxSe2, amb, topeAux);
-                                }
-                                break;
                             case "INIAS":
                                 if (!INIAS) {
                                     Variable auxVar = sE_1.getIds().getLast();
@@ -1550,6 +1400,9 @@ public class Compilador implements ActionListener {
                                     setErrC();
                                 });
                                 s3 = false;
+                                if (pila.getLast().equals("S3")) {
+                                    pila.removeLast();
+                                }
                                 break;
                             case "soloFile":
                                 pila.removeLast();
@@ -1566,6 +1419,9 @@ public class Compilador implements ActionListener {
                                     setErrC();
                                 });
                                 s3 = false;
+                                if (pila.getLast().equals("S3")) {
+                                    pila.removeLast();
+                                }
                                 break;
                             case "SoloCadena2":
                                 pila.removeLast();
@@ -1666,6 +1522,158 @@ public class Compilador implements ActionListener {
                                 if (Buscar(pila, "}") == 1) {
                                     getCuadruplos().add(new Cuadruplos_1());
                                     getCuadruplos().getLast().setEtiqueta("endmain");
+                                }
+                                break;
+                        }
+                        switch (pila.getLast()) {
+                            case "Cont_real":
+                                var.setTipo("REAL");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "REAL");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope("Cont_real");
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope("Cont_real");
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_real", varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_real");
+                                }
+                                break;
+                            case "Cont_exponencial":
+                                var.setTipo("EXP");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "EXP");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope("Cont_exponencial");
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope("Cont_exponencial");
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_exponencial", varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_exponencial");
+                                }
+                                break;
+                            case "Cont_cadena":
+                                var.setTipo("CHAR");
+                                var.setClase("Constante/Arr");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "CHAR[]");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClase("Arr");
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope("Cont_cadena");
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope("Cont_cadena");
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_cadena", varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_cadena");
+                                }
+                                break;
+                            case "Cont_caracter":
+                                var.setTipo("CHAR");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "CHAR");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope("Cont_caracter");
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope("Cont_caracter");
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_caracter", varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_caracter");
+                                }
+                                break;
+                            case "Cont_entero":
+                                var.setTipo("INT");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "INT");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope("Cont_entero");
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope("Cont_entero");
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, "Cont_entero", varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, "Cont_entero");
+                                }
+                                break;
+                            case "Cont_true":
+                            case "Cont_false":
+                                String topeAux = "";
+                                switch (pila.getLast()) {
+                                    case "Cont_true":
+                                        topeAux = "Cont_true";
+                                        break;
+                                    case "Cont_false":
+                                        topeAux = "Cont_false";
+                                        break;
+                                }
+                                var.setTipo("BOOL");
+                                varAuxSe2 = getConstante(tonk.getFirst().getLexema(),
+                                        tonk.getFirst().getLiena(), "BOOL");
+                                if (!ISARR && !isFunc && !s3) {
+                                    if (INIAS || paraBool || paraFor == 11 || paraFor == 21 || isRet) {
+                                        sE_1.getIds().add(varAuxSe2);
+                                        sE_1.getIds().getLast().setClave(clave);
+                                        sE_1.getIds().getLast().setTope(topeAux);
+                                    }
+                                } else if (!ArryAdd && ISARR && sE_2.getUltimo().isRegla1() && !s3) {
+                                    varAuxSe2.setTope(topeAux);
+                                    sE_2.addItem(varAuxSe2);
+                                } else if (s3) {
+                                    sE_3.getIds().add(varAuxSe2);
+                                }
+                                if (isFunc) {
+                                    regla9(auxFunc, totalPar, amb, topeAux, varAuxSe2);
+                                }
+                                if (isReg) {
+                                    Error19(varAuxSe2, amb, topeAux);
                                 }
                                 break;
                         }
@@ -2189,7 +2197,7 @@ public class Compilador implements ActionListener {
 
     private void regla9(Variable var, int totalPar, LinkedList<Integer> amb, String tope, Variable arg) {
         if (!isErrC() && !FM) {
-            FM= true;
+            FM = true;
             getCuadruplos().add(new Cuadruplos_1());
             getCuadruplos().getLast().setAccion("Call");
             getCuadruplos().getLast().setArg1(var.getId().getFirst());

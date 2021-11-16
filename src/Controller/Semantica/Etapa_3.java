@@ -253,8 +253,8 @@ public class Etapa_3 {
             err.add(e);
             setErrC();
         });
-        Reiniciar();
         Variable func = e1.getIds().getFirst();
+        Reiniciar();
         if (func.isVariant()) {
             setErrC();
             getsE_3().stream().filter(f -> f.getFuncion().equals(res)).forEachOrdered(a -> {
@@ -276,7 +276,7 @@ public class Etapa_3 {
                 }
             });
         }
-        if (res.contains("<+")) {
+        if (res.contains("<+") || res.contains("$")) {
             e1.getIds().getFirst().setTipo("BOOL");
         } else if (res.contains(">+")) {
             e1.getIds().getFirst().setTipo("VOID");
