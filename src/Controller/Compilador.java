@@ -700,6 +700,15 @@ public class Compilador implements ActionListener {
                                                 tonk.getFirst().getLexema(), "Se esperaba un return",
                                                 "Semantica Etapa 2", amb.getLast()));
                                     }
+                                    if (!isErrC()) {
+                                        getCuadruplosCont().get(amb.getLast()).setCall();
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setAccion("Call");
+                                        getCuadruplos().getLast().setArg1("return");
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setArg1(sE_1.getIds().getFirst().getId().getFirst());
+                                        getCuadruplos().getLast().setResultado("Tdef" + funciones.getLast());
+                                    }
                                 } else if (!isRet) {
                                     getSemanticaE_2().add(new Semantica_E_2(
                                             1150, pila.getLast(), tonk.getFirst().getLexema(),
