@@ -1696,7 +1696,7 @@ public class Compilador implements ActionListener {
                                 }
                                 break;
                             case "sw":
-                                swt = false;
+                                swt = false;    
                                 pila.removeLast();
                                 sw = sE_1.getIds().getFirst().getId().getFirst();
                                 sE_1.Reiniciar();
