@@ -259,7 +259,7 @@ public class Compilador implements ActionListener {
         producciones.add(new Producciones("ESTATUTOS", "<< I1 REVISAR id I3 I4"));
         producciones.add(new Producciones("I3", "ARREGLO"));
         producciones.add(new Producciones("I4", ", REVISAR id I3 I4"));
-        producciones.add(new Producciones("ESTATUTOS", "if ( 1010I EXP_PASCAL 1010F ) ESTATUTOS I5"));
+        producciones.add(new Producciones("ESTATUTOS", "if ( 1010I EXP_PASCAL 1010F ) ESTATUTOS I5 finif"));
         producciones.add(new Producciones("I5", "else ESTATUTOS"));
         producciones.add(new Producciones("ESTATUTOS", "{ ESTATUTOS I6 }"));
         producciones.add(new Producciones("I6", "; ESTATUTOS I6"));
@@ -511,6 +511,7 @@ public class Compilador implements ActionListener {
                     boolean isDoble = false;
                     boolean s3 = false;
                     boolean add = false;
+                    boolean ifelse = true;
                     int entradaDePila, entradaDeTokens;
                     int clave = 1010;
                     int valor;
@@ -576,8 +577,20 @@ public class Compilador implements ActionListener {
                                         etiquetas.removeLast();
                                     }
                                     break;
+                                case "finif":
+                                    pila.removeLast();
+                                    if (!isErrC()) {
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                        getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getIni());
+                                        etiquetas.removeLast();
+                                        getCuadruplos().add(new Cuadruplos_1());
+                                    }
+                                    ifelse = false;
+                                    break;
                             }
-                        } while (pila.getLast().equals("finWhile") || pila.getLast().equals("cleanFor"));
+                        } while (pila.getLast().equals("finWhile") 
+                                || pila.getLast().equals("cleanFor")
+                                || pila.getLast().equals("finif"));
                         switch (pila.getLast()) {
                             case "REGISTRO":
                                 pila.removeLast();
@@ -689,7 +702,7 @@ public class Compilador implements ActionListener {
                                 }
                                 ambitosTotales.add(new Ambito(ambitosTotales.size()));
                                 amb.add(ambitosTotales.getLast().getAmbito());
-                                if (!isErrC()){
+                                if (!isErrC()) {
                                     getCuadruplosCont().add(new Cuadruplos_Contadores(amb.getLast()));
                                 }
                                 func.settPar(tS(ambitosTotales.getLast().getAmbito()));
@@ -1024,6 +1037,7 @@ public class Compilador implements ActionListener {
                                     switch (pila.getLast()) {
                                         case "1010F":
                                             getCuadruplosCont().get(amb.getLast()).setIfE();
+                                            getCuadruplosCont().get(amb.getLast()).setJF();
                                             String ifE = "if-E" + getCuadruplosCont().get(amb.getLast()).getIfE() + ":";
                                             getCuadruplos().add(new Cuadruplos_1());
                                             getCuadruplos().getLast().setAccion("JF");
@@ -1654,6 +1668,23 @@ public class Compilador implements ActionListener {
                                     getCuadruplos().getLast().setEtiqueta("endmain");
                                 }
                                 break;
+                            case "else":
+                                if (!isErrC()) {
+                                    ifelse = true;
+                                    getCuadruplosCont().get(amb.getLast()).setIfE();
+                                    getCuadruplosCont().get(amb.getLast()).setJMP();
+                                    String ifE = "if-E" + getCuadruplosCont().get(amb.getLast()).getIfE() + ":";
+                                    String etiquetaAux = etiquetas.getLast().getIni();
+                                    etiquetas.removeLast();
+                                    etiquetas.add(new Etiquetas());
+                                    etiquetas.getLast().setIni(ifE);
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    getCuadruplos().getLast().setAccion("JMP");
+                                    getCuadruplos().getLast().setResultado(ifE);
+                                    getCuadruplos().add(new Cuadruplos_1());
+                                    getCuadruplos().getLast().setEtiqueta(etiquetaAux);
+                                }
+                                break;
                         }
                         switch (pila.getLast()) {
                             case "Cont_real":
@@ -1805,11 +1836,6 @@ public class Compilador implements ActionListener {
                                 if (isReg) {
                                     Error19(varAuxSe2, amb, topeAux);
                                 }
-                                break;
-                            case "I5":
-                                getCuadruplos().add(new Cuadruplos_1());
-                                getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getIni());
-                                etiquetas.removeLast();
                                 break;
                         }
                         //System.out.println(pila.getLast() + " vs " + tonk.getFirst().getSintaxis());
