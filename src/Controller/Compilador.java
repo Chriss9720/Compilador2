@@ -571,6 +571,7 @@ public class Compilador implements ActionListener {
                                         pendienteFor.forEach(p -> {
                                             getCuadruplos().add(new Cuadruplos_1(p));
                                         });
+                                        getCuadruplosCont().get(amb.getLast()).setJMP();
                                         getCuadruplos().add(new Cuadruplos_1());
                                         getCuadruplos().getLast().setAccion("JMP");
                                         getCuadruplos().getLast().setResultado(etiquetas.getLast().getIni());
@@ -578,6 +579,7 @@ public class Compilador implements ActionListener {
                                         getCuadruplos().getLast().setEtiqueta(etiquetas.getLast().getFin());
                                         etiquetas.removeLast();
                                     }
+                                    pendienteFor = new LinkedList();
                                     break;
                                 case "finif":
                                     pila.removeLast();
@@ -1698,6 +1700,7 @@ public class Compilador implements ActionListener {
                             case "sw":
                                 swt = false;    
                                 pila.removeLast();
+                                sE_1.Resolver(false, amb.getLast());
                                 sw = sE_1.getIds().getFirst().getId().getFirst();
                                 sE_1.Reiniciar();
                                 if (!isErrC()) {
@@ -1784,6 +1787,7 @@ public class Compilador implements ActionListener {
                                 break;
                             case "switch":
                                 swt = true;
+                                sE_1.Reiniciar();
                                 break;
                         }
                         switch (pila.getLast()) {

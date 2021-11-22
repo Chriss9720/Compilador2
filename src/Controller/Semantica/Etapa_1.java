@@ -155,13 +155,13 @@ public class Etapa_1 {
             ejecutar(p, err, operadores.get(p), s1);
             p = BuscarOp(oprs);
         }
-        oprs = new String[]{"+", "-", "|", "||"};
+        oprs = new String[]{"<", ">=", "=>", "<=", "=<", "!=", "==", ">"};
         p = BuscarOp(oprs);
         while (p != -1) {
             ejecutar(p, err, operadores.get(p), s1);
             p = BuscarOp(oprs);
         }
-        oprs = new String[]{"<", ">=", "=>", "<=", "=<", "!=", "==", ">"};
+        oprs = new String[]{"+", "-", "|", "||"};
         p = BuscarOp(oprs);
         while (p != -1) {
             ejecutar(p, err, operadores.get(p), s1);
