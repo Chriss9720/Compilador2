@@ -1,9 +1,11 @@
 package Model;
 
 import Controller.GenerarExcel;
+import Vista.Edut;
 import Vista.Pantalla;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 
 /**
  *
@@ -19,7 +21,16 @@ public class Action implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new GenerarExcel(pantalla).ejecutar();
+        if (e.getSource() instanceof JButton) {
+            switch (((JButton) e.getSource()).getName()) {
+                case "edit":
+                    new Edut(pantalla).setVisible(true);
+                    break;
+                case "Gen":
+                    new GenerarExcel(pantalla).ejecutar();
+                    break;
+            }
+        }
     }
 
 }

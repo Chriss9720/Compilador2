@@ -1246,8 +1246,9 @@ public class Compilador implements ActionListener {
                                 break;
                             case "InitF":
                                 totalPar = 0;
+                                int total = Buscar(pila, "FinF");
                                 pila.removeLast();
-                                if (!INIAS && !s3 && paraFor != 11 && paraFor != 21 && !paraBool && !isRet && !Doble) {
+                                if (!INIAS && !s3 && paraFor != 11 && paraFor != 21 && !paraBool && !isRet && !Doble && total != 1) {
                                     if (auxFunc.getClase().contains("funcion")) {
                                         if (auxFunc.getTipo().equals("VOID")) {
                                             getSemanticaE_2().add(new Semantica_E_2(1110, "id",

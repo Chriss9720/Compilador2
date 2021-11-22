@@ -15,12 +15,20 @@ import Model.Semantica_E_3;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -129,9 +137,32 @@ public class Pantalla extends JFrame {
         label.setFont(codigo.getFont());
         label.setForeground(Color.WHITE);
         cod.setBackground(codigo.getBackground());
-        cod.setBounds(60, 10, codigo.getWidth(), 40);
+        cod.setBounds(153, 10, codigo.getWidth() - 205, 40);
         cod.add(label);
 
+        JButton copy = new JButton("Copiar");
+        copy.setFont(codigo.getFont());
+        copy.setBounds(1100, 10, copy.getPreferredSize().width, copy.getPreferredSize().height);
+        copy.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String aPegar = codigo.getText();
+                    StringSelection ss = new StringSelection(aPegar);
+                    Toolkit tool = Toolkit.getDefaultToolkit();
+                    Clipboard clip = tool.getSystemClipboard();
+                    clip.setContents(ss, null);
+                } catch (HeadlessException ex) {
+                    JOptionPane.showMessageDialog(null, "Fallo al copiar", "Fallo", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        JButton edit = new JButton("Editar");
+        edit.setName("edit");
+        edit.setFont(codigo.getFont());
+        edit.setBounds(60, 10, edit.getPreferredSize().width, edit.getPreferredSize().height);
+        
         JPanel tituloTokens = new JPanel();
         JLabel labelToken = new JLabel("Lista de Tokens");
         labelToken.setFont(codigo.getFont());
@@ -185,6 +216,7 @@ public class Pantalla extends JFrame {
         codigo.addKeyListener(new Area(codigo, numeroLinea, panelCodigo, d, getScrollCodigo()));
         ejecutar.addActionListener(new Compilador(this));
         generar.addActionListener(new Action(this));
+        edit.addActionListener(new Action(this));
         cargar.setPreferredSize(new Dimension(cargar.getBounds().width, cargar.getBounds().height));
         cargar.addActionListener(new Cargar(codigo, numeroLinea, panelCodigo, d));
         limpiar.addActionListener(new Limpiar(this, d));
@@ -212,6 +244,8 @@ public class Pantalla extends JFrame {
         panel.add(ejecutar);
         panel.add(generar);
         panel.add(limpiar);
+        panel.add(copy);
+        panel.add(edit);
         panel.add(scrollCodigo);
     }
 
@@ -320,7 +354,7 @@ public class Pantalla extends JFrame {
     public void setErrC() {
         this.errC = true;
     }
-    
+
     public void setErrR() {
         this.errC = false;
     }
